@@ -9,9 +9,21 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@mediapipe/tasks-vision": "^0.10.22-rc.20250304",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.4.2",
+    "@react-three/postprocessing": "^3.0.4",
+    "@studio-freight/lenis": "^1.0.42",
+    "@studio-freight/react-lenis": "^0.0.47",
+    "@types/three": "^0.181.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.23.25",
     "next": "16.0.7",
+    "postprocessing": "^6.38.0",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "react-icons": "^5.5.0",
+    "three": "^0.181.2"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -20,5 +32,16 @@
     "eslint": "^9",
     "eslint-config-next": "16.0.7",
     "typescript": "^5"
+  },
+  "overrides": {
+    "three": "$three",
+    "@studio-freight/react-lenis": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    },
+    "@studio-freight/hamo": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
   }
 }

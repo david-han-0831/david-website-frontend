@@ -1,0 +1,54 @@
+.main {
+    padding-top: var(--header-height);
+    min-height: 100vh;
+    padding-bottom: 4rem;
+}
+
+.header {
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.title {
+    font-family: var(--font-poppins);
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.filters {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.filterBtn {
+    background: none;
+    border: 1px solid var(--glass-border);
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: var(--font-inter);
+}
+
+.filterBtn:hover,
+.activeFilter {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-white);
+    border-color: var(--primary-purple);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}

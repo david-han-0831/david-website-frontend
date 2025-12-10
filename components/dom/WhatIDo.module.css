@@ -1,0 +1,50 @@
+.section {
+    padding: 6rem 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.heading {
+    font-family: var(--font-poppins);
+    font-size: 2.5rem;
+    margin-bottom: 4rem;
+    text-align: center;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+}
+
+.item {
+    border-left: 2px solid rgba(255, 255, 255, 0.1);
+    padding-left: 2rem;
+    transition: border-color 0.3s ease;
+}
+
+.item:hover {
+    border-left-color: var(--primary-purple);
+}
+
+.category {
+    font-size: 1.5rem;
+    color: var(--secondary-blue);
+    margin-bottom: 0.5rem;
+    word-break: keep-all;
+    word-wrap: break-word;
+}
+
+.skills {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: #a5b4fc;
+    margin-bottom: 1rem;
+}
+
+.desc {
+    color: var(--text-dim);
+    line-height: 1.6;
+    word-break: keep-all;
+    word-wrap: break-word;
+}

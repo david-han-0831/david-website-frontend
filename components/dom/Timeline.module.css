@@ -1,0 +1,83 @@
+.container {
+    padding: 4rem 0;
+    position: relative;
+}
+
+.line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(-50%);
+}
+
+.item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 4rem;
+    opacity: 0;
+    /* Animated in via JS/Framer */
+    position: relative;
+}
+
+.itemContent {
+    width: 40%;
+    padding: 2rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.itemContent:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-purple);
+}
+
+.year {
+    font-family: var(--font-mono);
+    color: var(--primary-purple);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.title {
+    font-family: var(--font-poppins);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.description {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Alternate sides */
+.item:nth-child(odd) {
+    flex-direction: row-reverse;
+}
+
+.item:nth-child(odd) .itemContent {
+    text-align: right;
+}
+
+.node {
+    position: absolute;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    background: var(--bg-dark);
+    border: 2px solid var(--secondary-blue);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    box-shadow: 0 0 10px var(--secondary-blue);
+}

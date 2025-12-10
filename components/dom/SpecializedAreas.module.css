@@ -1,0 +1,99 @@
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+.heading {
+    font-family: var(--font-poppins);
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    background: linear-gradient(to right, #fff, #a5b4fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* Force 4 columns on large screens */
+    gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2x2 on tablet */
+    }
+}
+
+@media (max-width: 640px) {
+    .grid {
+        grid-template-columns: 1fr;
+        /* Stack on mobile */
+    }
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 2.5rem;
+    border-radius: 24px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.icon {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: #a5b4fc;
+    /* Tinted icon color */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.title {
+    font-family: var(--font-poppins);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-white);
+    word-break: keep-all;
+    word-wrap: break-word;
+
+    /* Alignment enforcement */
+    min-height: 4rem;
+    /* Enough for 2 lines */
+    display: flex;
+    align-items: center;
+    /* Center vertically if 1 line, or top? Usually top is better for title */
+    align-items: flex-start;
+}
+
+.desc {
+    color: var(--text-dim);
+    line-height: 1.6;
+    word-break: keep-all;
+    word-wrap: break-word;
+    font-size: 1rem;
+
+    /* Alignment enforcement */
+    min-height: 6rem;
+    /* Enough for ~3-4 lines */
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

@@ -1,0 +1,67 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 500px;
+}
+
+.inputGroup {
+    position: relative;
+}
+
+.input,
+.textarea {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: var(--text-white);
+    font-family: var(--font-inter);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+.input:focus,
+.textarea:focus {
+    border-color: var(--primary-purple);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.label {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    color: var(--text-dim);
+    pointer-events: none;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+/* Floating label effect normally requires :placeholder-shown trick or JS 
+   Simplifying for MVP to static label or basic placeholder */
+
+.button {
+    padding: 1rem 2rem;
+    background: var(--accent-gradient);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: transform 0.2s ease;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(106, 17, 203, 0.3);
+}

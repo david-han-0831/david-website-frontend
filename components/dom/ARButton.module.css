@@ -1,0 +1,47 @@
+.arWrapper {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 50;
+}
+
+.arButton {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.arButton:hover {
+    background: var(--primary-purple);
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(106, 17, 203, 0.5);
+}
+
+.tooltip {
+    position: absolute;
+    right: 70px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.arWrapper:hover .tooltip {
+    opacity: 1;
+}

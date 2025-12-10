@@ -1,0 +1,153 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.cardWrapper {
+    /* Container for perspective */
+    width: 100%;
+    height: 100%;
+}
+
+.card {
+    position: relative;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    /* Remove transition for transform to avoid conflict with spring */
+    transition: border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    overflow: hidden;
+    /* Overlay clipping */
+}
+
+/* Spotlight Overlay */
+.spotlight {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.cardWrapper:hover .spotlight {
+    opacity: 1;
+}
+
+/* Optional Border Highlight logic using mask or just overlay. 
+   Here implemented as an overlay for effect */
+.borderHighlight {
+    position: absolute;
+    inset: -1px;
+    /* Slightly larger? No, inset 0 then mask? */
+    /* Let's keeps simple: A background layer */
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/*.cardWrapper:hover .borderHighlight { opacity: 1; }*/
+
+/* ... previous styles ... */
+
+.flowBorder {
+    position: absolute;
+    inset: 0;
+    /* Match card size */
+    border-radius: 16px;
+    padding: 2px;
+    /* Increased padding for visibility */
+    /* Border thickness */
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 10;
+    /* Top level border */
+    opacity: 1;
+    /* Increased opacity */
+}
+
+.beam {
+    position: absolute;
+    inset: -50%;
+    /* Large enough to cover */
+    background: conic-gradient(from 0deg at 50% 50%,
+            transparent 0deg,
+            transparent 70deg,
+            rgba(60, 130, 255, 1) 90deg,
+            /* Brighter blue */
+            transparent 110deg);
+    animation: spin 3s linear infinite;
+    /* Faster spin */
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.content {
+    position: relative;
+    z-index: 20;
+    /* Content on top of everything */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* .card:hover removed to prevent accumulation */
+
+.cardTitle {
+    font-family: var(--font-poppins);
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--text-white);
+    word-break: keep-all;
+    word-wrap: break-word;
+}
+
+.cardDesc {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    word-break: keep-all;
+    word-wrap: break-word;
+    margin-bottom: 1.5rem;
+}
+
+.cardLink {
+    align-self: flex-start;
+    color: #a5b4fc;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: gap 0.2s ease;
+}
+
+.cardLink:hover {
+    gap: 0.8rem;
+    color: var(--primary-purple);
+}

@@ -1,141 +1,168 @@
-.page {
-  --background: #fafafa;
-  --foreground: #fff;
-
-  --text-primary: #000;
-  --text-secondary: #666;
-
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --button-secondary-border: #ebebeb;
-
-  display: flex;
-  min-height: 100vh;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-geist-sans);
-  background-color: var(--background);
-}
-
 .main {
-  display: flex;
+  width: 100vw;
   min-height: 100vh;
+  position: relative;
+  background-color: var(--bg-dark);
+}
+
+.gradientBg {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 800px;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  background-color: var(--foreground);
-  padding: 120px 60px;
+  height: 100vh;
+  background: radial-gradient(circle at 50% 50%, rgba(37, 117, 252, 0.15), transparent 60%),
+    radial-gradient(circle at 10% 20%, rgba(106, 17, 203, 0.1), transparent 50%),
+    radial-gradient(circle at 90% 80%, rgba(106, 17, 203, 0.1), transparent 50%);
+  z-index: 1;
+  /* Behind Hero content (z-index 10) but perhaps behind or mixed with canvas? 
+                 Canvas is z-index 0. This should be behind canvas or integrated?
+                 Actually, canvas is usually opaque or transparent? 
+                 R3F canvas default is transparent. 
+                 So this should be BEHIND the canvas if we want stars on top. 
+                 Let's put z-index 0 here and canvas z-index 1? Or just keep it separate.
+                 Let's try z-index 1 and see. Hero is 10. Canvas is 0. 
+                 Wait, if Canvas is 0, this will cover it if it's 1. 
+                 Let's make this z-index 0 and Canvas z-index 1. */
+  filter: blur(60px);
+  animation: bgPulse 10s ease-in-out infinite alternate;
+  pointer-events: none;
 }
 
-.intro {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  gap: 24px;
+@keyframes bgPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
 }
 
-.intro h1 {
-  max-width: 320px;
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 48px;
-  letter-spacing: -2.4px;
-  text-wrap: balance;
-  color: var(--text-primary);
-}
-
-.intro p {
-  max-width: 440px;
-  font-size: 18px;
-  line-height: 32px;
-  text-wrap: balance;
-  color: var(--text-secondary);
-}
-
-.intro a {
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.ctas {
-  display: flex;
-  flex-direction: row;
+.canvasContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 440px;
-  gap: 16px;
-  font-size: 14px;
+  height: 100vh;
+  z-index: 0;
+  /* Make sure canvas doesn't block scroll if pointer-events needed, 
+     but usually we want interaction. 
+     If content is over it, content needs higher z-index/pointer-events */
 }
 
-.ctas a {
+.hero {
+  position: relative;
+  z-index: 10;
+  height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 128px;
-  border: 1px solid transparent;
-  transition: 0.2s;
+  text-align: center;
+  padding: 0 2rem;
+  pointer-events: none;
+  /* Let clicks pass to canvas if not on text */
+  margin-bottom: 0;
+  /* Hero typically doesn't need margin if full height, but next section might */
+}
+
+.heroContent {
+  pointer-events: auto;
+  max-width: 800px;
+}
+
+.title {
+  font-family: var(--font-poppins);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 700;
+  line-height: 1.1;
+  background: var(--text-white);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  /* Optionally use gradient */
+  background-image: linear-gradient(to right, #fff, #a5b4fc);
+  margin-bottom: 1.5rem;
+}
+
+.slogan {
+  font-family: var(--font-inter);
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin-bottom: 3rem;
+}
+
+.buttons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.primaryButton {
+  padding: 1rem 2.5rem;
+  font-family: var(--font-poppins);
+  font-weight: 600;
+  border-radius: 50px;
+  background: var(--accent-gradient);
+  color: white;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: none;
   cursor: pointer;
-  width: fit-content;
-  font-weight: 500;
 }
 
-a.primary {
-  background: var(--text-primary);
-  color: var(--background);
-  gap: 8px;
+.primaryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(106, 17, 203, 0.4);
 }
 
-a.secondary {
-  border-color: var(--button-secondary-border);
+.secondaryButton {
+  padding: 1rem 2.5rem;
+  font-family: var(--font-poppins);
+  font-weight: 600;
+  border-radius: 50px;
+  background: rgba(165, 180, 252, 0.05);
+  border: 1px solid rgba(165, 180, 252, 0.3);
+  color: #e0e7ff;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
+.secondaryButton:hover {
+  background: rgba(165, 180, 252, 0.15);
+  border-color: rgba(165, 180, 252, 0.5);
+  color: white;
+  box-shadow: 0 0 15px rgba(165, 180, 252, 0.2);
 }
 
-@media (max-width: 600px) {
-  .main {
-    padding: 48px 24px;
-  }
-
-  .intro {
-    gap: 16px;
-  }
-
-  .intro h1 {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.92px;
-  }
+.section {
+  /* Legacy section class, keeping for backwards compat if needed, but redefining */
+  min-height: auto;
+  /* Remove 100vh enforcement */
+  padding: 4rem 2rem;
+  position: relative;
+  z-index: 10;
+  /* background: linear-gradient(to bottom, transparent, var(--bg-dark) 20%); Removed to avoid overlap */
 }
 
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
-  }
+/* New Standard Spacing Classes */
 
-  .page {
-    --background: #000;
-    --foreground: #000;
+.sectionSpacing {
+  margin-bottom: 10rem;
+  /* ~160px */
+}
 
-    --text-primary: #ededed;
-    --text-secondary: #999;
+.sectionSpacingSmall {
+  margin-bottom: 4rem;
+  /* ~64px */
+}
 
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
-  }
+.sectionSpacingLarge {
+  margin-bottom: 14rem;
+  /* ~224px */
 }

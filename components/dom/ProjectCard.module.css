@@ -1,0 +1,69 @@
+.cardWrapper {
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 2rem;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    transform-style: preserve-3d;
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 20px 40px -10px rgba(106, 17, 203, 0.3);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.cardImage {
+    height: 150px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    /* Placeholder for actual image */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    transform: translateZ(20px);
+    /* Parallax depth */
+}
+
+.cardTitle {
+    font-family: var(--font-poppins);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    transform: translateZ(30px);
+}
+
+.cardDesc {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    transform: translateZ(25px);
+}
+
+.tags {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+    transform: translateZ(20px);
+}
+
+.tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    background: rgba(106, 17, 203, 0.2);
+    color: #a5b4fc;
+}
