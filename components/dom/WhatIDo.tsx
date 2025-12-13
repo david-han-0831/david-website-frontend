@@ -31,7 +31,7 @@ export default function WhatIDo() {
 
     return (
         <section className={styles.section}>
-            <h2 className={styles.heading}>{t.whatido.title}</h2>
+            <h1 className={styles.heading}>{t.whatido.title}</h1>
             <div className={styles.grid}>
                 {areas.map((area, i) => (
                     <div key={i} className={styles.item}>

@@ -114,8 +114,8 @@ export const translations = {
             contact: '문의하기',
         },
         hero: {
-            title_1: '기술과 가능성의',
-            title_2: '경계를 설계합니다.',
+            title_1: '기술과 가능성을',
+            title_2: '설계합니다',
             slogan: '기술과 배움을 연결하여, 가능성을 확장합니다.',
             sub_slogan: 'AI · Automation · Web Engineering 기반으로\n학습과 기술의 미래를 정의하는 개발자·교육자',
             btn_portfolio: '포트폴리오 보기',
@@ -172,7 +172,7 @@ export const translations = {
             desc_passion: '끝까지 완수하는 실행력',
         },
         whatido: {
-            title: '주요 업무 (Professional Responsibilities)',
+            title: '주요 업무',
             fullstack: { // Maps to System Arch
                 title: '시스템 아키텍처 & CTO',
                 desc: 'SaaS 아키텍처 설계, 기술 기획, 개발 조직 리딩 및 기술 전략 수립',
@@ -202,7 +202,7 @@ export const translations = {
             tech_items: []
         },
         cta: {
-            title: '함께 지능적인 미래를 만들어갑시다.',
+            title: '지능적인 미래를 만듭니다.',
             desc: '기술과 배움의 경계를 확장하는 프로젝트,\n복잡한 문제를 해결하는 자동화 시스템,\n당신의 가능성을 현실로 만들 협업을 기다립니다.',
             btn: '문의하기 ->',
         }

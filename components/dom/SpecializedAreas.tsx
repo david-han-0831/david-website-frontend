@@ -33,7 +33,7 @@ export default function SpecializedAreas() {
 
     return (
         <div className={styles.container}>
-            <h2 className={styles.heading}>{t.specialized.title}</h2>
+            <h1 className={styles.heading}>{t.specialized.title}</h1>
             <div className={styles.grid}>
                 {areas.map((area, i) => (
                     <div key={i} className={styles.card}>

@@ -1,13 +1,14 @@
 .container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
+    /* Increased from 1200px */
     margin: 0 auto;
-    padding: 4rem 2rem;
+    padding: 4rem 0;
 }
 
 .heading {
     font-family: var(--font-poppins);
-    font-size: 2.5rem;
+    font-size: 4rem;
     text-align: center;
     margin-bottom: 3rem;
     background: linear-gradient(to right, #fff, #a5b4fc);
@@ -19,10 +20,13 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     /* Force 4 columns on large screens */
-    gap: 1.5rem;
+    gap: 2rem;
+    /* Increased gap */
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1280px) {
+
+    /* Adjusted breakpoint */
     .grid {
         grid-template-columns: repeat(2, 1fr);
         /* 2x2 on tablet */

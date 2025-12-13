@@ -105,9 +105,9 @@ export default function Home() {
 
       {/* Highlights Section */}
       <MotionSection className={`${styles.section} ${styles.sectionSpacingLarge}`}>
-        <h2 style={{ textAlign: 'center', fontSize: '2rem', marginBottom: '3rem', fontFamily: 'var(--font-poppins)' }}>
+        <h1 style={{ textAlign: 'center', fontSize: '4rem', marginBottom: '3rem', fontFamily: 'var(--font-poppins)' }}>
           {t.highlights.title}
-        </h2>
+        </h1>
         <HighlightCards />
       </MotionSection>
 
