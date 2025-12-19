@@ -5,7 +5,7 @@ import { useFrame } from '@react-three/fiber'
 import { Points, PointMaterial } from '@react-three/drei'
 
 export default function StarField(props: any) {
-    const ref = useRef<any>()
+    const ref = useRef<any>(null)
 
     const sphere = useState(() => {
         const count = 5000
