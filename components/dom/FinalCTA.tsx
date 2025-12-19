@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import ContactButton from './ContactButton'
 import styles from './FinalCTA.module.css'
 import { useLanguage } from '@/contexts/LanguageContext'
 
@@ -14,9 +14,7 @@ export default function FinalCTA() {
                 <p className={styles.desc} style={{ whiteSpace: 'pre-line' }}>
                     {t.cta.desc}
                 </p>
-                <Link href="/contact" className={styles.button}>
-                    {t.cta.btn}
-                </Link>
+                <ContactButton />
             </div>
         </section>
     )

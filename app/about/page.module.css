@@ -2,32 +2,22 @@
     padding-top: var(--header-height);
     min-height: 100vh;
     padding-bottom: 4rem;
+    overflow-x: hidden;
+    /* 가로 스크롤 방지 */
 }
 
-.header {
-    padding: 4rem 2rem;
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.title {
-    font-family: var(--font-poppins);
-    font-size: 3rem;
-    margin-bottom: 1.5rem;
-    background: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.intro {
-    font-size: 1.1rem;
-    color: var(--text-dim);
-    line-height: 1.8;
-}
-
+/* Timeline 섹션을 위한 래퍼 */
 .section {
-    max-width: 1000px;
+    width: 100%;
     margin: 0 auto;
-    padding: 2rem;
+}
+
+@media (max-width: 768px) {
+    .main {
+        padding-bottom: 2rem;
+    }
+
+    .section {
+        padding: 0 1rem;
+    }
 }

@@ -1,12 +1,38 @@
 .container {
-    padding: 4rem 0;
     position: relative;
+    max-width: 1400px;
+    margin: 4rem auto;
+    padding: 2rem;
+    color: var(--foreground);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.quote {
+    font-size: 1.2rem;
+    color: #888;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+
+.subQuote {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.5;
+    background: linear-gradient(to right, #fff, #999);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .line {
     position: absolute;
     left: 50%;
-    top: 0;
+    top: 15rem;
+    /* 헤더 아래에서 시작 */
     bottom: 0;
     width: 2px;
     background: rgba(255, 255, 255, 0.1);
@@ -14,70 +40,127 @@
 }
 
 .item {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 4rem;
-    opacity: 0;
-    /* Animated in via JS/Framer */
     position: relative;
+    width: 50%;
+    margin-bottom: 4rem;
+    cursor: default;
+}
+
+/* 짝수 아이템: 오른쪽 */
+.item:nth-child(odd) {
+    left: 50%;
+    padding-left: 3rem;
+    text-align: left;
+}
+
+/* 홀수 아이템: 왼쪽 */
+.item:nth-child(even) {
+    left: 0;
+    padding-right: 3rem;
+    text-align: right;
+}
+
+.itemLeft {
+    left: 0;
+    padding-right: 3rem;
+    text-align: right;
+}
+
+.itemRight {
+    left: 50%;
+    padding-left: 3rem;
+    text-align: left;
+}
+
+.node {
+    position: absolute;
+    top: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #000;
+    border: 2px solid #fff;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.itemLeft .node {
+    right: -8px;
+}
+
+.itemRight .node {
+    left: -8px;
+}
+
+/* Node Hover Effect */
+.item:hover .node {
+    transform: scale(1.5);
+    background: #fff;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
 }
 
 .itemContent {
-    width: 40%;
-    padding: 2rem;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.5rem;
     border-radius: 12px;
-    position: relative;
-    z-index: 2;
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
 }
 
+/* Card Hover Effect */
 .itemContent:hover {
     transform: translateY(-5px);
-    border-color: var(--primary-purple);
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .year {
-    font-family: var(--font-mono);
-    color: var(--primary-purple);
-    font-size: 1.2rem;
+    font-size: 0.9rem;
+    color: #4cd137;
+    font-weight: 700;
     margin-bottom: 0.5rem;
     display: block;
 }
 
 .title {
-    font-family: var(--font-poppins);
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #fff;
 }
 
 .description {
-    color: var(--text-dim);
-    font-size: 0.95rem;
+    font-size: 1.1rem;
+    color: #aaa;
     line-height: 1.6;
+    word-break: keep-all;
+    /* Prevent awkward Korean word breaks */
 }
 
-/* Alternate sides */
-.item:nth-child(odd) {
-    flex-direction: row-reverse;
-}
+@media (max-width: 768px) {
+    .line {
+        left: 20px;
+    }
 
-.item:nth-child(odd) .itemContent {
-    text-align: right;
-}
+    .item {
+        width: 100%;
+        left: 0 !important;
+        padding-left: 50px !important;
+        padding-right: 20px !important;
+        text-align: left !important;
+    }
 
-.node {
-    position: absolute;
-    left: 50%;
-    width: 16px;
-    height: 16px;
-    background: var(--bg-dark);
-    border: 2px solid var(--secondary-blue);
-    border-radius: 50%;
-    transform: translateX(-50%);
-    z-index: 5;
-    box-shadow: 0 0 10px var(--secondary-blue);
+    .node {
+        left: 12px !important;
+        right: auto !important;
+    }
+
+    .header {
+        margin-bottom: 3rem;
+    }
+
+    .subQuote {
+        font-size: 1.2rem;
+    }
 }

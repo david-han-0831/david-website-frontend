@@ -26,19 +26,3 @@
     line-height: 1.8;
     margin-bottom: 3rem;
 }
-
-.button {
-    display: inline-block;
-    padding: 1.2rem 3rem;
-    background: var(--text-white);
-    color: #000;
-    font-weight: 700;
-    border-radius: 50px;
-    font-size: 1.1rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
-}

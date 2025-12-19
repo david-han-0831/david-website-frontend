@@ -1,0 +1,110 @@
+.section {
+    padding: 15rem 0;
+    /* 긴 호흡을 위해 여백 대폭 증가 */
+    max-width: 800px;
+    margin: 0 auto;
+    color: var(--foreground);
+    position: relative;
+    text-align: center;
+}
+
+.introTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 10rem;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    opacity: 0.5;
+    /* Initial opacity, controlled by Framer Motion */
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 8rem;
+    /* 문장 간 간격을 매우 넓게 */
+    position: relative;
+}
+
+.sentenceWrapper {
+    /* 각 문장이 화면의 주인공이 되도록 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 20vh;
+}
+
+.sentence {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ccc;
+    line-height: 1.4;
+    word-break: keep-all;
+    transition: color 0.5s ease;
+}
+
+/* 활성화된 문장은 더 밝게 */
+.sentenceActive {
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.climaxWrapper {
+    margin-top: 15rem;
+    /* 클라이맥스 전 긴 호흡 */
+    padding: 5rem 0;
+    position: relative;
+}
+
+/* 클라이맥스 텍스트 */
+.climaxText {
+    font-size: 3.5rem;
+    /* 압도적인 크기 */
+    font-weight: 800;
+    line-height: 1.2;
+    background: linear-gradient(to top, #888, #fff);
+    /* 아래에서 위로 밝아지는 느낌 */
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    word-break: keep-all;
+}
+
+.climaxSub {
+    margin-top: 2rem;
+    font-size: 1.1rem;
+    color: #666;
+    font-weight: 400;
+}
+
+/* 배경 장식 (미세한 빛) */
+.glow {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+@media (max-width: 768px) {
+    .section {
+        padding: 10rem 1.5rem;
+    }
+
+    .list {
+        gap: 6rem;
+    }
+
+    .sentence {
+        font-size: 1.8rem;
+    }
+
+    .climaxText {
+        font-size: 2.5rem;
+    }
+}

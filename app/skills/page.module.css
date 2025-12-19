@@ -1,48 +1,389 @@
+/* Main Container */
 .main {
-    width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
+    background-color: #050510;
+    color: #fff;
     position: relative;
-    overflow: hidden;
-    /* Full screen 3D experience */
+    overflow-x: hidden;
 }
 
-.overlay {
+/* --- Hero Text Section (Spotlight Grid) --- */
+.heroTextSection {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: #050510;
+    /* Deep black-blue base */
+    z-index: 20;
+    overflow: hidden;
+}
+
+/* Grid Background */
+.heroBackground {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
+    /* Grid Pattern */
+    background-size: 50px 50px;
+    background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    z-index: 1;
+    mask-image: radial-gradient(circle at center, transparent 0%, black 100%);
+    /* Fade edges */
+}
+
+/* The Spotlight Overlay */
+/* We will control '--x' and '--y' from JS mouse events */
+.spotlightOverlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            rgba(29, 78, 216, 0.15),
+            /* Blue glow center */
+            transparent 40%);
     pointer-events: none;
+    /* Let clicks pass through */
+}
+
+/* Foreground Content */
+.heroContent {
+    position: relative;
     z-index: 10;
+    text-align: center;
+    padding: 3rem 4rem;
+    /* Removed border and kept minimal background for readability without boxing it in */
+    background: rgba(5, 5, 10, 0.0);
+    /* Transparent or very subtle */
+    backdrop-filter: blur(0px);
+    /* Removed blur box feel */
+    border: none;
+    /* Removed border as requested */
+}
+
+.heroTitle {
+    font-family: var(--font-poppins, sans-serif);
+    font-size: 4rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    text-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+}
+
+.heroSubtitle {
+    font-size: 1.6rem;
+    color: #cbd5e1;
+    /* Slate-300 for high readability */
+    font-weight: 300;
+    line-height: 1.6;
+}
+
+.highlightText {
+    color: #60a5fa;
+    /* Blue-400 accent */
+    font-weight: 600;
+    position: relative;
+    display: inline-block;
+    text-shadow: 0 0 20px rgba(96, 165, 250, 0.4);
+}
+
+.highlightText::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: #6dd5ed;
+    opacity: 0.5;
+}
+
+.scrollIndicator {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.4);
+    z-index: 10;
+}
+
+.scrollLine {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), transparent);
+}
+
+/* --- Content Container (Fixed Layout) --- */
+.contentContainer {
+    position: relative;
+    z-index: 10;
+    max-width: 1200px;
+    /* Fixed width for consistency */
+    margin: 0 auto;
     padding: 6rem 2rem;
+    background: linear-gradient(to bottom, transparent, #050510 10%);
 }
 
-.header {
-    pointer-events: auto;
-    align-self: flex-start;
+.section {
+    margin-bottom: 8rem;
 }
 
-.title {
-    font-family: var(--font-poppins);
-    font-size: 3rem;
-    background: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 0.5rem;
+.sectionTitle {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
-.subtitle {
-    color: var(--text-dim);
-    font-size: 1.1rem;
+.sectionTitle::after {
+    content: '';
+    height: 1px;
+    flex-grow: 1;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
 }
 
-.canvasContainer {
+/* --- Core Stack Grid --- */
+.coreGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2rem;
+}
+
+.coreCard {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.coreCard:hover {
+    transform: translateY(-5px);
+    border-color: rgba(109, 213, 237, 0.3);
+    /* Accent color */
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.coreCardTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #6dd5ed;
+    /* Accent */
+    margin-bottom: 1rem;
+}
+
+.coreCardText {
+    font-size: 0.95rem;
+    color: #aeafb9;
+    line-height: 1.6;
+    word-break: keep-all;
+    /* Prevents mid-word breaks for Korean */
+    white-space: pre-line;
+    /* Respects manual \n in translations */
+}
+
+/* --- Tech Category Cards --- */
+.categoryGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.categoryGroup {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.categoryGroup:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.categoryTitle {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #eee;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.techRow {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.techHeader {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #888;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+}
+
+.techTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+/* New Tech Badge Style */
+.techBadge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    color: #ddd;
+    padding: 0.5rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.techBadge:hover {
+    background: rgba(109, 213, 237, 0.1);
+    color: #6dd5ed;
+    border-color: rgba(109, 213, 237, 0.3);
+    transform: translateY(-2px);
+}
+
+.techIcon {
+    font-size: 1rem;
+}
+
+/* --- Usage Scenarios --- */
+.scenarioGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.scenarioCard {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.scenarioCard::before {
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 3px;
     height: 100%;
-    z-index: 0;
+    background: linear-gradient(to bottom, #6dd5ed, #2193b0);
+    opacity: 0.7;
+}
+
+.scenarioTitle {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 1.5rem;
+}
+
+.scenarioStack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.stackItem {
+    font-size: 0.8rem;
+    color: #aaa;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+}
+
+/* --- Trust Section --- */
+.trustCard {
+    background: rgba(109, 213, 237, 0.05);
+    border: 1px solid rgba(109, 213, 237, 0.2);
+    border-radius: 16px;
+    padding: 3rem;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.patentBadge {
+    display: inline-block;
+    background: #6dd5ed;
+    color: #000;
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.trustTitle {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.trustText {
+    color: #bbb;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    white-space: pre-line;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .heroTitle {
+        font-size: 2.5rem;
+    }
+
+    .categoryGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .contentContainer {
+        padding: 4rem 1.5rem;
+    }
+
+    .scenarioGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .trustCard {
+        padding: 2rem 1.5rem;
+    }
 }

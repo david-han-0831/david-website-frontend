@@ -84,7 +84,7 @@ export default function SkillConstellation() {
         <>
             <ambientLight intensity={0.5} />
             <pointLight position={[10, 10, 10]} intensity={1} />
-            <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.5} />
+            <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.1} />
 
             <Float floatIntensity={0.5} rotationIntensity={0.5}>
                 <group ref={group}>
