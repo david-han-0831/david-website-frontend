@@ -518,21 +518,29 @@ export const translations = {
             },
             scenarios: {
                 title: 'Usage Scenarios',
-                chatbot: {
-                    title: 'B2B AI Chatbot',
-                    desc: 'High-performance API server for enterprise AI solutions with scalable infrastructure.'
+                pos: {
+                    title: 'Global POS & Billing API',
+                    desc: 'Abstracting complex local tax regulations into a single API,\nreducing settlement errors to 0% for global stores.'
                 },
-                automation: {
-                    title: 'Course Automation',
-                    desc: 'Automating student management and content distribution workflows.'
+                chatbot: {
+                    title: 'Enterprise AI Chatbot',
+                    desc: 'Patent-based hybrid bot that understands context from enterprise data\nand self-coaches on incorrect answers.'
+                },
+                labeling: {
+                    title: 'AI Data Labeling Tool',
+                    desc: 'High-efficiency web workflow for loading massive datasets\nand validating AI-labeled results without installation.'
+                },
+                edu: {
+                    title: 'Automated Education System',
+                    desc: 'Automating 100% of repetitive grading and feedback tasks,\nallowing educators to focus solely on teaching quality.'
                 },
                 web: {
-                    title: 'Interactive Web',
-                    desc: 'Immersive 3D web experiences with optimized performance and SEO.'
+                    title: 'Immersive 3D Web',
+                    desc: 'Interactive 3D web experiences using React and Three.js.\nOptimized frontend development considering performance and SEO.'
                 },
-                app: {
-                    title: 'Cross-Platform App',
-                    desc: 'Rapid MVP development for both iOS and Android with real-time database sync.'
+                mobile: {
+                    title: 'Cross-Platform MVP',
+                    desc: 'Rapid iOS/Android app launch using Flutter and Firebase\nwith real-time data synchronization.'
                 }
             },
             trust: {
