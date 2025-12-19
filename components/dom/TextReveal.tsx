@@ -49,14 +49,14 @@ export default function TextReveal({ text, className, delay = 0 }: TextRevealPro
     return (
         <motion.div
             className={className}
-            variants={container}
+            variants={container as any}
             initial="hidden"
             animate="visible"
             key={text}
             style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25em', justifyContent: 'center' }} // Added justifyContent center for Hero title
         >
             {words.map((word, index) => (
-                <motion.span variants={child} key={index}>
+                <motion.span variants={child as any} key={index}>
                     {word}
                 </motion.span>
             ))}
