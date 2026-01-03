@@ -376,7 +376,7 @@ export default function TeachingPage() {
                             { key: 'basics', icon: FaGraduationCap }
                         ].map((domain, i) => {
                             const domainData = t.teaching_page.domains[domain.key as keyof typeof t.teaching_page.domains]
-                            if (!domainData || typeof domainData === 'string') return null
+                            if (!domainData || typeof domainData === 'string' || !('title' in domainData)) return null
                             return (
                                 <motion.div
                                     key={i}
