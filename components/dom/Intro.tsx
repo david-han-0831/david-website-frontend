@@ -22,7 +22,7 @@ export default function Intro() {
     const smoothMousePosRef = useRef({ x: 0, y: 0 })
     const targetMousePosRef = useRef({ x: 0, y: 0 })
     const nodesRef = useRef<Node[]>([])
-    const animationFrameRef = useRef<number>()
+    const animationFrameRef = useRef<number | undefined>(undefined)
 
     // 애니메이션 설정: 순차적 등장을 위한 variants
     const container: Variants = {

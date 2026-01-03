@@ -5,7 +5,13 @@ import { motion, useInView, Variants } from 'framer-motion'
 import { useLanguage } from '@/contexts/LanguageContext'
 import styles from './Timeline.module.css'
 
-function TimelineItem({ item, index }: { item: typeof history[0], index: number }) {
+interface TimelineItemType {
+    year: string;
+    step: string;
+    desc: string;
+}
+
+function TimelineItem({ item, index }: { item: TimelineItemType, index: number }) {
     const ref = useRef(null)
     const isInView = useInView(ref, { once: true, margin: "-100px" })
 

@@ -1018,7 +1018,12 @@ export const translations = {
             all: 'Alle',
             loading: 'Weitere Projekte werden geladen...',
             allLoaded: 'Alle Projekte geladen',
-            back_to_list: 'Zurück zur Liste'
+            back_to_list: 'Zurück zur Liste',
+            scroll_to_explore: 'SCROLLEN ZUM ERKUNDEN',
+            projects: 'Projekte',
+            categories: 'Kategorien',
+            years: 'Jahre',
+            inventor: 'Erfinder:'
         },
         contact_page: {
             hero: {
@@ -1054,6 +1059,21 @@ export const translations = {
                 success_message: 'Vielen Dank für Ihre Nachricht. Ich werde mich bald bei Ihnen melden!',
                 error_message: 'Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut oder kontaktieren Sie mich direkt per E-Mail.'
             }
+        },
+        project_detail_page: {
+            not_found: 'Projekt nicht gefunden',
+            back_to_projects: '← Zurück zu Projekten',
+            problem_context: 'Problem & Kontext',
+            context: 'Kontext',
+            requirements: 'Anforderungen',
+            approach_architecture: 'Ansatz & Architektur',
+            strategy: 'Strategie',
+            my_role: 'Meine Rolle',
+            tech_stack: 'Tech Stack',
+            outcome_learnings: 'Ergebnis & Lernen',
+            outcome: 'Ergebnis',
+            learnings: 'Lernen',
+            nda_notice: 'Dieses Projekt wurde aufgrund einer NDA nur teilweise offengelegt. Es konzentriert sich auf Struktur und Ansatz.'
         },
         teaching_page: {
             hero: {

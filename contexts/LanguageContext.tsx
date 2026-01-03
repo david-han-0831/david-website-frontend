@@ -5,7 +5,7 @@ import { translations, Locale } from '@/translations'
 
 interface LanguageContextType {
     locale: Locale
-    t: typeof translations['en']
+    t: typeof translations[Locale]
     setLocale: (locale: Locale) => void
 }
 
