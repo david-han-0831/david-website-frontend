@@ -23,7 +23,7 @@ export default function TeachingPage() {
     const { t } = useLanguage()
     const smoothMousePosRef = useRef({ x: 0, y: 0 })
     const targetMousePosRef = useRef({ x: 0, y: 0 })
-    const animationFrameRef = useRef<number>()
+    const animationFrameRef = useRef<number | undefined>(undefined)
 
     const { scrollYProgress } = useScroll({
         target: containerRef,
