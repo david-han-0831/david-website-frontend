@@ -2,6 +2,8 @@
 
 import styles from './Footer.module.css'
 import Link from 'next/link'
+import { FaGithub, FaLinkedin, FaEnvelope, FaInstagram } from 'react-icons/fa'
+import { SiThreads } from 'react-icons/si'
 
 export default function Footer() {
     return (
@@ -33,11 +35,36 @@ export default function Footer() {
                 <div className={styles.column}>
                     <h4 className={styles.title}>Connect</h4>
                     <ul className={styles.links}>
-                        <li><a href="mailto:hdy20201004@gmail.com">hdy20201004@gmail.com</a></li>
-                        <li><a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-                        <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-                        <li><a href="https://threads.net" target="_blank" rel="noopener noreferrer">Threads</a></li>
-                        <li><a href="#" target="_blank">Notion Portfolio</a></li>
+                        <li>
+                            <a href="mailto:hdy20201004@gmail.com">
+                                <FaEnvelope className={styles.icon} />
+                                <span>hdy20201004@gmail.com</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/david-han-0831" target="_blank" rel="noopener noreferrer">
+                                <FaGithub className={styles.icon} />
+                                <span>GitHub</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.linkedin.com/in/davidhan88" target="_blank" rel="noopener noreferrer">
+                                <FaLinkedin className={styles.icon} />
+                                <span>LinkedIn</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://threads.net" target="_blank" rel="noopener noreferrer">
+                                <SiThreads className={styles.icon} />
+                                <span>Threads</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank" rel="noopener noreferrer">
+                                <FaInstagram className={styles.icon} />
+                                <span>Instagram</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
