@@ -235,15 +235,15 @@ export default function SkillsPage() {
                     className={styles.heroContent}
                     style={{ y, opacity }}
                 >
-                    <h2 className={styles.heroTitle}>Technical Skills</h2>
+                    <h2 className={styles.heroTitle}>{t.skills_page.hero.title}</h2>
                     <p className={styles.heroSubtitle}>
-                        문제 해결을 위한<br />
-                        <span className={styles.highlightText}>최적의 기술을 선택합니다</span>
+                        {t.skills_page.hero.subtitle_1}<br />
+                        <span className={styles.highlightText}>{t.skills_page.hero.subtitle_2}</span>
                     </p>
                 </motion.div>
 
                 <div className={styles.scrollIndicator}>
-                    <span>SCROLL TO EXPLORE</span>
+                    <span>{t.skills_page.hero.scroll_to_explore}</span>
                     <div className={styles.scrollLine}></div>
                 </div>
             </section>
@@ -423,13 +423,18 @@ export default function SkillsPage() {
 
                 {/* 4. Trust & Patents */}
                 <section className={styles.section}>
-                    <div className={styles.trustCard}>
-                        <span className={styles.patentBadge}>{t.skills_page.trust.badge}</span>
-                        <h3 className={styles.trustTitle}>{t.skills_page.trust.title}</h3>
-                        <p className={styles.trustText}>
-                            {t.skills_page.trust.desc}
-                        </p>
-                    </div>
+                    {t.skills_page.trust.patents?.map((patent, i) => (
+                        <div key={i} className={styles.trustCard}>
+                            <span className={styles.patentBadge}>{t.skills_page.trust.badge}</span>
+                            <h3 className={styles.trustTitle}>{patent.title}</h3>
+                            <p className={styles.trustText}>
+                                {patent.number} ({patent.date})<br />
+                                {t.skills_page.trust.inventor} {patent.inventors}<br />
+                                <br />
+                                {patent.desc}
+                            </p>
+                        </div>
+                    ))}
                 </section>
             </div>
         </main>

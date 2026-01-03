@@ -31,6 +31,7 @@
 html {
   height: 100%;
   width: 100%;
+  background: var(--bg-dark);
   scroll-snap-type: y proximity;
   /* Soft snap */
   scroll-padding-top: 100px;
@@ -61,7 +62,8 @@ html.lenis body {
 body {
   width: 100%;
   color: var(--text-white);
-  background: var(--bg-gradient);
+  background: var(--bg-gradient) !important;
+  background-color: var(--bg-dark) !important;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -9,6 +9,32 @@
     max-width: 1000px;
     margin: 0 auto;
     padding: 0 2rem;
+    position: relative;
+}
+
+/* Top Back Button */
+.topBackBtn {
+    padding: 2rem 0 1rem;
+    margin-bottom: 2rem;
+}
+
+.topBackBtn .backBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.topBackBtn .backBtn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 /* 1. Hero Section */
@@ -143,12 +169,27 @@
 }
 
 .techTag {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     padding: 0.5rem 1rem;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     color: rgba(255, 255, 255, 0.8);
     font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.techTag:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.techIcon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
 }
 
 /* Back Navigation */
@@ -173,6 +214,39 @@
     color: #fff;
 }
 
+/* Floating Back Button */
+.floatingBackBtn {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    pointer-events: auto;
+}
+
+.floatingBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.floatingBtn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+}
+
 @media (max-width: 768px) {
     .title {
         font-size: 2.5rem;
@@ -186,5 +260,18 @@
     .label {
         font-size: 0.9rem;
         color: var(--primary-purple, #6a11cb);
+    }
+
+    .floatingBackBtn {
+        bottom: 1rem;
+        left: 1rem;
+        right: 1rem;
+        transform: none;
+        width: auto;
+    }
+
+    .floatingBtn {
+        width: 100%;
+        justify-content: center;
     }
 }

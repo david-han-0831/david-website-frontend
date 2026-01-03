@@ -1,103 +1,30 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { FaLaptopCode, FaServer, FaLayerGroup, FaRobot, FaCogs, FaGraduationCap } from 'react-icons/fa'
 import { FiArrowRight, FiDownload, FiMail } from 'react-icons/fi'
+import { useLanguage } from '@/contexts/LanguageContext'
 import styles from './page.module.css'
+
+// Wave effect doesn't need interface
 
 // 3D removed in favor of 2D Flow Diagram
 // const Scene = dynamic(() => import('@/components/canvas/Scene'), { ssr: false })
 // const LearningMap = dynamic(() => import('@/components/canvas/LearningMap'), { ssr: false })
 
-// --- Data ---
-const flowSteps = [
-    { id: 'basics', title: 'Programming Fundamentals', desc: 'Code Logic & Syntax', icon: FaGraduationCap },
-    { id: 'engineering', title: 'Frontend / Backend', desc: 'Web Engineering Core', icon: FaLaptopCode },
-    { id: 'project', title: 'Full Stack Project', desc: 'Integrated Service Build', icon: FaLayerGroup },
-    { id: 'ai', title: 'AI Integration', desc: 'LLM & Generative AI', icon: FaRobot },
-    { id: 'automation', title: 'Automation', desc: 'Workflow Optimization', icon: FaCogs },
-]
-
-const summaryStats = [
-    { label: '총 강의 경력', value: '3년+', sub: 'Since 2023' },
-    { label: '강의 대상', value: '다양', sub: '대학 · 기업 · 관공서 · 개인' },
-    { label: '주요 분야', value: '3+', sub: 'Web · AI · Automation' },
-    { label: '운영 방식', value: '실습', sub: '프로젝트 중심 커리큘럼' },
-]
-
-const domains = [
-    {
-        title: 'Frontend Engineering',
-        desc: '사용자 경험을 설계하는 프론트엔드 개발',
-        content: 'HTML/CSS/JS, React, Next.js, UI 구현',
-        target: '비전공자, 대학생, 취준생',
-        result: '포트폴리오용 웹 서비스',
-        icon: FaLaptopCode,
-    },
-    {
-        title: 'Backend Engineering',
-        desc: '서비스의 구조와 흐름을 만드는 백엔드 개발',
-        content: 'FastAPI, Spring Boot, REST API, DB 설계',
-        target: '백엔드 취준생, 실무 전환자',
-        result: 'API 서버 및 DB 구조',
-        icon: FaServer,
-    },
-    {
-        title: 'Full Stack Project',
-        desc: '프론트엔드와 백엔드를 연결하는 실전 프로젝트',
-        content: 'React/Next.js + FastAPI, Supabase/Firebase',
-        target: '취업 준비생, 부트캠프 수강생',
-        result: '배포된 풀스택 웹 서비스',
-        icon: FaLayerGroup,
-    },
-    {
-        title: 'AI & Generative AI',
-        desc: '생성형 AI를 실무에 연결하는 방법',
-        content: 'ChatGPT, GPT API, GPTs, Agent',
-        target: '기업 재직자, 기획자, 개발자',
-        result: 'AI 기반 자동화 시나리오',
-        icon: FaRobot,
-    },
-    {
-        title: 'Automation & Workflow',
-        desc: '반복 업무를 줄이는 자동화 설계',
-        content: 'Notion API, Google Sheets, Make, Slack',
-        target: '기업·공공기관 실무자',
-        result: '조직 맞춤 자동화 흐름',
-        icon: FaCogs,
-    },
-    {
-        title: 'Programming Basics',
-        desc: '개발을 시작하는 사람을 위한 기초와 진로',
-        content: 'Python/Java 기초, 문제 해결 사고',
-        target: '학생, 비전공 성인, 입문자',
-        result: '기초 프로젝트 + 로드맵',
-        icon: FaGraduationCap,
-    },
-]
-
-const experience = [
-    {
-        year: '2025',
-        items: [
-            '동남권 ICT 취·창업 특강 (AI·AWS 부트캠프)',
-            '서울과학기술대학교 파이썬 집중 강의',
-            '대기업·공공기관 GPT 업무 자동화 특강',
-        ]
-    },
-    {
-        year: '2023–Current',
-        items: [
-            '프리랜서 맞춤 과외 (1:1 / 2:1)',
-            '스타트업 기술 코칭 및 자문',
-        ]
-    }
-]
+// Flow steps will be defined with translations inside component
 
 export default function TeachingPage() {
     const containerRef = useRef(null)
+    const heroRef = useRef<HTMLElement>(null)
+    const canvasRef = useRef<HTMLCanvasElement>(null)
+    const { t, currentLanguage } = useLanguage()
+    const smoothMousePosRef = useRef({ x: 0, y: 0 })
+    const targetMousePosRef = useRef({ x: 0, y: 0 })
+    const animationFrameRef = useRef<number>()
+
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end end"]
@@ -106,31 +33,271 @@ export default function TeachingPage() {
     const y = useTransform(scrollYProgress, [0, 0.2], [0, 200])
     const opacity = useTransform(scrollYProgress, [0, 0.1], [1, 0])
 
+    // Mouse Spotlight Effect
+    const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+        if (!heroRef.current) return
+        const { left, top } = heroRef.current.getBoundingClientRect()
+        const x = e.clientX - left
+        const y = e.clientY - top
+        targetMousePosRef.current = { x, y }
+    }
+
+    // Initialize star field effect
+    useEffect(() => {
+        if (!canvasRef.current || !heroRef.current) return
+
+        const canvas = canvasRef.current
+        const container = heroRef.current
+        const ctx = canvas.getContext('2d')
+        if (!ctx) return
+
+        const resizeCanvas = () => {
+            const rect = container.getBoundingClientRect()
+            canvas.width = rect.width
+            canvas.height = rect.height
+        }
+
+        resizeCanvas()
+        window.addEventListener('resize', resizeCanvas)
+
+        // Star interface
+        interface Star {
+            x: number
+            y: number
+            z: number // depth (0 = far, 1 = near)
+            prevX: number
+            prevY: number
+            color: string // star color
+        }
+
+        // Star colors palette
+        const starColors = [
+            { r: 96, g: 165, b: 250 },   // Blue
+            { r: 109, g: 213, b: 237 },  // Cyan
+            { r: 139, g: 92, b: 246 },   // Purple
+            { r: 59, g: 130, b: 246 },   // Blue-500
+            { r: 147, g: 197, b: 253 },  // Blue-300
+            { r: 167, g: 139, b: 250 },  // Purple-400
+            { r: 251, g: 191, b: 36 },   // Yellow-400
+            { r: 250, g: 204, b: 21 },   // Yellow-500
+            { r: 252, g: 211, b: 77 },   // Yellow-300
+            { r: 239, g: 68, b: 68 },   // Red-500
+            { r: 248, g: 113, b: 113 }, // Red-400
+            { r: 251, g: 146, b: 60 },  // Orange-400
+        ]
+
+        // Create stars
+        const starCount = 200
+        const stars: Star[] = []
+        for (let i = 0; i < starCount; i++) {
+            const colorIndex = Math.floor(Math.random() * starColors.length)
+            const color = starColors[colorIndex]
+            stars.push({
+                x: (Math.random() - 0.5) * 2,
+                y: (Math.random() - 0.5) * 2,
+                z: Math.random(),
+                prevX: 0,
+                prevY: 0,
+                color: `rgba(${color.r}, ${color.g}, ${color.b}, 1)`
+            })
+        }
+
+        let time = 0
+        const speed = 0.0005
+
+        // Function to reset a star
+        const resetStar = (star: Star) => {
+            star.z = 0.01 + Math.random() * 0.1 // Start from very far away
+            star.x = (Math.random() - 0.5) * 2
+            star.y = (Math.random() - 0.5) * 2
+            star.prevX = star.x
+            star.prevY = star.y
+            const colorIndex = Math.floor(Math.random() * starColors.length)
+            const color = starColors[colorIndex]
+            star.color = `rgba(${color.r}, ${color.g}, ${color.b}, 1)`
+        }
+
+        // Animation loop
+        const animate = () => {
+            ctx.fillStyle = 'rgba(5, 5, 16, 0.1)'
+            ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+            // Update CSS variables for spotlight (no mouse interaction with stars)
+            container.style.setProperty('--mouse-x', `${smoothMousePosRef.current.x}px`)
+            container.style.setProperty('--mouse-y', `${smoothMousePosRef.current.y}px`)
+
+            time += speed
+
+            // Update and draw stars
+            stars.forEach(star => {
+                // Store previous position for trails (before updating)
+                const prevZ = star.z
+                const prevK = prevZ > 0.01 ? 128 / prevZ : 128 / 0.01
+                const prevX = star.prevX * prevK + canvas.width / 2
+                const prevY = star.prevY * prevK + canvas.height / 2
+
+                // Move star forward (z increases)
+                star.z += speed * (0.5 + star.z * 0.5)
+
+                // Calculate 2D position with perspective
+                const k = 128 / star.z
+                const x = star.x * k + canvas.width / 2
+                const y = star.y * k + canvas.height / 2
+
+                // Check if star needs to be reset
+                const needsReset = star.z >= 1 || 
+                                 x < -300 || x > canvas.width + 300 || 
+                                 y < -300 || y > canvas.height + 300
+
+                if (needsReset) {
+                    resetStar(star)
+                    // Update previous position for next frame
+                    star.prevX = star.x
+                    star.prevY = star.y
+                    // Don't draw trail or star this frame after reset
+                    return
+                }
+
+                // Calculate size and opacity based on depth
+                const size = Math.max(0.5, (1 - star.z) * 2)
+                const opacity = 0.5 + star.z * 0.5
+
+                // Draw star trail
+                if (prevZ > 0.01 && star.z > 0.1 && 
+                    Math.abs(prevX - x) < canvas.width * 2 && 
+                    Math.abs(prevY - y) < canvas.height * 2) {
+                    // Extract color from star.color
+                    const colorMatch = star.color.match(/rgba\((\d+),\s*(\d+),\s*(\d+)/)
+                    if (colorMatch) {
+                        const [, r, g, b] = colorMatch
+                        ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${opacity * 0.3})`
+                    } else {
+                        ctx.strokeStyle = `rgba(96, 165, 250, ${opacity * 0.3})`
+                    }
+                    ctx.lineWidth = size * 0.5
+                    ctx.beginPath()
+                    ctx.moveTo(prevX, prevY)
+                    ctx.lineTo(x, y)
+                    ctx.stroke()
+                }
+
+                // Draw star with its color
+                const colorMatch = star.color.match(/rgba\((\d+),\s*(\d+),\s*(\d+)/)
+                if (colorMatch) {
+                    const [, r, g, b] = colorMatch
+                    ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${opacity})`
+                } else {
+                    ctx.fillStyle = `rgba(96, 165, 250, ${opacity})`
+                }
+                ctx.beginPath()
+                ctx.arc(x, y, size, 0, Math.PI * 2)
+                ctx.fill()
+
+                // Glow effect for brighter stars
+                if (star.z > 0.7) {
+                    const colorMatch = star.color.match(/rgba\((\d+),\s*(\d+),\s*(\d+)/)
+                    if (colorMatch) {
+                        const [, r, g, b] = colorMatch
+                        ctx.shadowBlur = 15
+                        ctx.shadowColor = `rgba(${r}, ${g}, ${b}, 0.8)`
+                    } else {
+                        ctx.shadowBlur = 15
+                        ctx.shadowColor = 'rgba(96, 165, 250, 0.8)'
+                    }
+                    ctx.fill()
+                    ctx.shadowBlur = 0
+                }
+
+                // Update previous position for next frame
+                star.prevX = star.x
+                star.prevY = star.y
+            })
+
+            animationFrameRef.current = requestAnimationFrame(animate)
+        }
+
+        animate()
+
+        return () => {
+            window.removeEventListener('resize', resizeCanvas)
+            if (animationFrameRef.current) {
+                cancelAnimationFrame(animationFrameRef.current)
+            }
+        }
+    }, [])
+
+    // Flow steps with translations
+    const flowSteps = [
+        { 
+            id: 'basics', 
+            title: t?.teaching_page?.flow?.steps?.basics?.title || 'Programming Fundamentals', 
+            desc: t?.teaching_page?.flow?.steps?.basics?.desc || 'Code Logic & Syntax', 
+            icon: FaGraduationCap 
+        },
+        { 
+            id: 'engineering', 
+            title: t?.teaching_page?.flow?.steps?.engineering?.title || 'Frontend / Backend', 
+            desc: t?.teaching_page?.flow?.steps?.engineering?.desc || 'Web Engineering Core', 
+            icon: FaLaptopCode 
+        },
+        { 
+            id: 'project', 
+            title: t?.teaching_page?.flow?.steps?.project?.title || 'Full Stack Project', 
+            desc: t?.teaching_page?.flow?.steps?.project?.desc || 'Integrated Service Build', 
+            icon: FaLayerGroup 
+        },
+        { 
+            id: 'ai', 
+            title: t?.teaching_page?.flow?.steps?.ai?.title || 'AI Integration', 
+            desc: t?.teaching_page?.flow?.steps?.ai?.desc || 'LLM & Generative AI', 
+            icon: FaRobot 
+        },
+        { 
+            id: 'automation', 
+            title: t?.teaching_page?.flow?.steps?.automation?.title || 'Automation', 
+            desc: t?.teaching_page?.flow?.steps?.automation?.desc || 'Workflow Optimization', 
+            icon: FaCogs 
+        },
+    ]
+
     return (
         <main className={styles.main} ref={containerRef}>
             {/* ① Hero Text Section (Clean, Typographic) */}
-            <section className={styles.heroTextSection}>
+            <section 
+                className={styles.heroTextSection}
+                ref={heroRef}
+                onMouseMove={handleMouseMove}
+            >
+                {/* Canvas Particles */}
+                <canvas ref={canvasRef} className={styles.canvas} />
+
+                {/* Grid Background */}
+                <div className={styles.heroBackground}></div>
+
+                {/* Spotlight Overlay */}
+                <div className={styles.spotlightOverlay}></div>
+
                 <motion.div
                     className={styles.heroContent}
                     style={{ y, opacity }}
                 >
-                    <h1 className={styles.heroTitle}>Teaching Journey</h1>
+                    <h1 className={styles.heroTitle}>{t?.teaching_page?.hero?.title || 'Teaching Journey'}</h1>
                     <p className={styles.heroSubtitle}>
-                        기술을 가르치고<br />
-                        <span className={styles.highlightText}>사고를 설계합니다</span>
+                        {t?.teaching_page?.hero?.subtitle_1 || 'Teaching technology and'}<br />
+                        <span className={styles.highlightText}>{t?.teaching_page?.hero?.subtitle_2 || 'designing thinking'}</span>
                     </p>
-                    <div className={styles.scrollIndicator}>
-                        <span>SCROLL TO EXPLORE</span>
-                        <div className={styles.scrollLine}></div>
-                    </div>
                 </motion.div>
             </section>
 
             {/* ①-2 Learning Flow Diagram (Replaces 3D Map) */}
             <section className={styles.flowSection}>
                 <div className={styles.flowHeader}>
-                    <h2 className={styles.flowTitle}>Curriculum Flow</h2>
-                    <p className={styles.flowDesc}>기초부터 실무 자동화까지 이어지는 체계적 로드맵</p>
+                    <h2 className={styles.flowTitle}>
+                        {t?.teaching_page?.flow?.title || 'Curriculum Flow'}
+                    </h2>
+                    <p className={styles.flowDesc}>
+                        {t?.teaching_page?.flow?.desc || 'A systematic roadmap from basics to practical automation'}
+                    </p>
                 </div>
                 <div className={styles.flowContainer}>
                     {/* Vertical Line */}
@@ -154,7 +321,7 @@ export default function TeachingPage() {
                             transition={{ delay: i * 0.2, duration: 0.5 }}
                             viewport={{ margin: "-50px" }}
                         >
-                            <div className={styles.stepMarker}>
+                            <div className={styles.stepMarker} data-step={i + 1}>
                                 <step.icon className={styles.stepIcon} />
                             </div>
                             <div className={styles.stepContent}>
@@ -170,7 +337,12 @@ export default function TeachingPage() {
                 {/* ② Teaching Summary */}
                 <section className={styles.section} id="summary">
                     <div className={styles.summaryGrid}>
-                        {summaryStats.map((stat, i) => (
+                        {t?.teaching_page?.summary && [
+                            t.teaching_page.summary.years,
+                            t.teaching_page.summary.target,
+                            t.teaching_page.summary.fields,
+                            t.teaching_page.summary.method
+                        ].map((stat, i) => (
                             <motion.div
                                 key={i}
                                 className={styles.summaryCard}
@@ -190,55 +362,66 @@ export default function TeachingPage() {
                 {/* ③ Teaching Domains */}
                 <section className={styles.section} id="domains">
                     <header className={styles.sectionHeader}>
-                        <h2 className={styles.sectionTitle}>Teaching Domains</h2>
-                        <p className={styles.sectionDesc}>실무와 교육을 연결하는 6가지 강의 영역</p>
+                        <h2 className={styles.sectionTitle}>{t?.teaching_page?.domains?.title || 'Teaching Domains'}</h2>
+                        <p className={styles.sectionDesc}>{t?.teaching_page?.domains?.desc || '6 lecture areas connecting practice and education'}</p>
                     </header>
 
                     <div className={styles.grid3x2}>
-                        {domains.map((domain, i) => (
-                            <motion.div
-                                key={i}
-                                className={styles.domainCard}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: i * 0.05, duration: 0.5 }}
-                                viewport={{ once: true }}
-                                whileHover={{ y: -5, backgroundColor: 'rgba(255,255,255,0.08)' }}
-                            >
-                                <div className={styles.cardIcon}>
-                                    <domain.icon />
-                                </div>
-                                <h3 className={styles.cardTitle}>{domain.title}</h3>
-                                <p className={styles.cardDesc}>{domain.desc}</p>
+                        {t?.teaching_page?.domains && [
+                            { key: 'frontend', icon: FaLaptopCode },
+                            { key: 'backend', icon: FaServer },
+                            { key: 'fullstack', icon: FaLayerGroup },
+                            { key: 'ai', icon: FaRobot },
+                            { key: 'automation', icon: FaCogs },
+                            { key: 'basics', icon: FaGraduationCap }
+                        ].map((domain, i) => {
+                            const domainData = t.teaching_page.domains[domain.key as keyof typeof t.teaching_page.domains]
+                            if (!domainData || typeof domainData === 'string') return null
+                            return (
+                                <motion.div
+                                    key={i}
+                                    className={styles.domainCard}
+                                    initial={{ opacity: 0, y: 30 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: i * 0.05, duration: 0.5 }}
+                                    viewport={{ once: true }}
+                                    whileHover={{ y: -5, backgroundColor: 'rgba(255,255,255,0.08)' }}
+                                >
+                                    <div className={styles.cardIcon}>
+                                        <domain.icon />
+                                    </div>
+                                    <h3 className={styles.cardTitle}>{domainData.title}</h3>
+                                    <p className={styles.cardDesc}>{domainData.desc}</p>
 
-                                <div className={styles.cardMeta}>
-                                    <div className={styles.metaRow}>
-                                        <span className={styles.metaLabel}>내용</span>
-                                        <span className={styles.metaValue}>{domain.content}</span>
+                                    <div className={styles.cardMeta}>
+                                        <div className={styles.metaRow}>
+                                            <span className={styles.metaLabel}>{t.teaching_page.domains.meta?.content || 'Content'}</span>
+                                            <span className={styles.metaValue}>{domainData.content}</span>
+                                        </div>
+                                        <div className={styles.metaRow}>
+                                            <span className={styles.metaLabel}>{t.teaching_page.domains.meta?.target || 'Target'}</span>
+                                            <span className={styles.metaValue}>{domainData.target}</span>
+                                        </div>
+                                        <div className={styles.metaRow}>
+                                            <span className={styles.metaLabel}>{t.teaching_page.domains.meta?.result || 'Result'}</span>
+                                            <span className={styles.metaValue}>{domainData.result}</span>
+                                        </div>
                                     </div>
-                                    <div className={styles.metaRow}>
-                                        <span className={styles.metaLabel}>대상</span>
-                                        <span className={styles.metaValue}>{domain.target}</span>
-                                    </div>
-                                    <div className={styles.metaRow}>
-                                        <span className={styles.metaLabel}>결과</span>
-                                        <span className={styles.metaValue}>{domain.result}</span>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
+                                </motion.div>
+                            )
+                        })}
                     </div>
                 </section>
 
                 {/* ④ Teaching Experience */}
                 <section className={styles.section} id="experience">
                     <header className={styles.sectionHeader}>
-                        <h2 className={styles.sectionTitle}>Experience</h2>
-                        <p className={styles.sectionDesc}>현장에서 증명한 교육 실적</p>
+                        <h2 className={styles.sectionTitle}>{t?.teaching_page?.experience?.title || 'Experience'}</h2>
+                        <p className={styles.sectionDesc}>{t?.teaching_page?.experience?.desc || 'Proven educational achievements in the field'}</p>
                     </header>
 
                     <div className={styles.timeline}>
-                        {experience.map((exp, i) => (
+                        {t?.teaching_page?.experience?.items && Object.entries(t.teaching_page.experience.items).map(([year, items], i) => (
                             <motion.div
                                 key={i}
                                 className={styles.timelineItem}
@@ -247,10 +430,10 @@ export default function TeachingPage() {
                                 transition={{ delay: i * 0.2 }}
                                 viewport={{ once: true }}
                             >
-                                <div className={styles.yearCol}>{exp.year}</div>
+                                <div className={styles.yearCol}>{year === '2023-current' ? '2023–Current' : year}</div>
                                 <div className={styles.contentCol}>
                                     <ul className={styles.expList}>
-                                        {exp.items.map((item, j) => (
+                                        {Array.isArray(items) && items.map((item, j) => (
                                             <li key={j}>{item}</li>
                                         ))}
                                     </ul>
@@ -268,16 +451,17 @@ export default function TeachingPage() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                     >
-                        <h3 className={styles.subTitle}>Teaching Style</h3>
-                        <p className={styles.philosophy}>
-                            이론보다 <strong>실습과 결과물</strong>을 지향합니다.<br />
-                            단순 지식 전달이 아닌, <br />
-                            스스로 문제를 해결하는 <strong>사고의 설계</strong>를 돕습니다.
-                        </p>
+                        <h3 className={styles.subTitle}>{t?.teaching_page?.style?.title || 'Teaching Style'}</h3>
+                        <p 
+                            className={styles.philosophy}
+                            dangerouslySetInnerHTML={{ 
+                                __html: t?.teaching_page?.style?.philosophy || 'We focus on <strong>practice and results</strong> rather than theory.' 
+                            }}
+                        />
                         <ul className={styles.featureList}>
-                            <li>프로젝트 → 발표 → 피드백 루프</li>
-                            <li>Notion 기반 체계적 학습 관리</li>
-                            <li>현업 자동화 사례 기반 실습</li>
+                            {t?.teaching_page?.style?.features?.map((feature, i) => (
+                                <li key={i}>{feature}</li>
+                            ))}
                         </ul>
                     </motion.div>
 
@@ -288,22 +472,21 @@ export default function TeachingPage() {
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
                     >
-                        <h3 className={styles.subTitle}>Operation & Tools</h3>
+                        <h3 className={styles.subTitle}>{t?.teaching_page?.operation?.title || 'Operation & Tools'}</h3>
                         <div className={styles.toolsGroup}>
-                            <h4>수업 형태</h4>
+                            <h4>{t?.teaching_page?.operation?.format?.label || 'Class Format'}</h4>
                             <div className={styles.tags}>
-                                <span>온라인(Zoom)</span>
-                                <span>오프라인 출강</span>
-                                <span>하이브리드</span>
+                                {t?.teaching_page?.operation?.format?.items?.map((item, i) => (
+                                    <span key={i}>{item}</span>
+                                ))}
                             </div>
                         </div>
                         <div className={styles.toolsGroup}>
-                            <h4>협업 도구</h4>
+                            <h4>{t?.teaching_page?.operation?.tools?.label || 'Collaboration Tools'}</h4>
                             <div className={styles.tags}>
-                                <span>Notion</span>
-                                <span>GitHub</span>
-                                <span>VSCode</span>
-                                <span>Slack</span>
+                                {t?.teaching_page?.operation?.tools?.items?.map((item, i) => (
+                                    <span key={i}>{item}</span>
+                                ))}
                             </div>
                         </div>
                     </motion.div>
@@ -317,16 +500,12 @@ export default function TeachingPage() {
                         whileInView={{ scale: 1, opacity: 1 }}
                         viewport={{ once: true }}
                     >
-                        <h2 className={styles.ctaTitle}>Start Your Journey</h2>
-                        <p className={styles.ctaText}>출강, 특강, 맞춤 커리큘럼이 필요하신가요?</p>
+                        <h2 className={styles.ctaTitle}>{t?.teaching_page?.cta?.title || 'Start Your Journey'}</h2>
+                        <p className={styles.ctaText}>{t?.teaching_page?.cta?.text || 'Need on-site lectures, special lectures, or custom curriculum?'}</p>
                         <div className={styles.ctaButtons}>
-                            <a href="mailto:contact@example.com" className={styles.primaryBtn}>
+                            <a href="/contact" className={styles.primaryBtn}>
                                 <FiMail style={{ marginRight: '8px' }} />
-                                기업·기관 출강 문의
-                            </a>
-                            <a href="mailto:contact@example.com" className={styles.secondaryBtn}>
-                                <FiArrowRight style={{ marginRight: '8px' }} />
-                                개인 과외 문의
+                                {t?.teaching_page?.cta?.btn || 'Inquiry'}
                             </a>
                         </div>
                     </motion.div>

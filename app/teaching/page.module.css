@@ -18,10 +18,49 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    background: radial-gradient(circle at center, #1a1a2e 0%, #050510 100%);
-    /* Clean dark background */
+    background: #050510;
     z-index: 20;
-    /* Above visual section initially if needed, or just stacking */
+    overflow: hidden;
+}
+
+/* Canvas Particles */
+.canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Grid Background */
+.heroBackground {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-size: 50px 50px;
+    background-image:
+        linear-gradient(to right, rgba(96, 165, 250, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(96, 165, 250, 0.06) 1px, transparent 1px);
+    z-index: 2;
+    mask-image: radial-gradient(circle at center, transparent 0%, black 100%);
+    opacity: 0.5;
+}
+
+/* Spotlight Overlay */
+.spotlightOverlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            rgba(29, 78, 216, 0.12),
+            transparent 40%);
+    pointer-events: none;
+    transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* --- Section 1-2: Learning Flow Diagram --- */
@@ -33,11 +72,38 @@
     align-items: center;
     position: relative;
     z-index: 10;
+    overflow: hidden;
+}
+
+/* Grid Background Pattern */
+.flowSection::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(to right, rgba(96, 165, 250, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(96, 165, 250, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Radial Gradient Background */
+.flowSection::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(96, 165, 250, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
 }
 
 .flowHeader {
     text-align: center;
     margin-bottom: 4rem;
+    position: relative;
+    z-index: 2;
 }
 
 .flowTitle {
@@ -56,61 +122,160 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+    gap: 4.5rem;
     max-width: 600px;
     width: 100%;
+    margin: 0 auto;
+    z-index: 2;
 }
 
 .flowLine {
     position: absolute;
-    left: 2rem;
+    left: 10rem;
     /* Aligned with icon center */
     top: 1rem;
     bottom: 0;
-    width: 2px;
+    width: 3px;
     background: rgba(255, 255, 255, 0.1);
     transform: translateX(-50%);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+/* Animated gradient flow on line */
+.flowLine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(96, 165, 250, 0.3) 20%,
+        rgba(109, 213, 237, 0.5) 50%,
+        rgba(96, 165, 250, 0.3) 80%,
+        transparent 100%
+    );
+    animation: flowGradient 3s ease-in-out infinite;
+    opacity: 0.6;
+}
+
+@keyframes flowGradient {
+    0%, 100% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    50% {
+        transform: translateY(100%);
+        opacity: 0.8;
+    }
 }
 
 .flowLineFill {
     width: 100%;
-    background: linear-gradient(to bottom, #6dd5ed, #2193b0);
+    background: linear-gradient(to bottom, #60a5fa, #3b82f6, #60a5fa);
     transform-origin: top;
+    box-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
 }
 
 .flowStep {
     display: flex;
     align-items: flex-start;
-    gap: 2rem;
+    gap: 3rem;
     position: relative;
     z-index: 2;
+    padding-left: 10rem;
 }
 
 .stepMarker {
     width: 4rem;
     height: 4rem;
     border-radius: 50%;
-    background: #0b0b1e;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, #0b0b1e, #1a1a2e);
+    border: 2px solid rgba(96, 165, 250, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     transition: all 0.3s ease;
+    position: relative;
+    z-index: 3;
+    margin-left: -2rem;
+    box-shadow: 0 0 20px rgba(96, 165, 250, 0.2);
+}
+
+
+/* Pulse animation for icon */
+.stepMarker::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid rgba(96, 165, 250, 0.4);
+    animation: pulseRing 2s ease-in-out infinite;
+    z-index: -1;
+}
+
+@keyframes pulseRing {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
 }
 
 .flowStep:hover .stepMarker {
-    border-color: #6dd5ed;
-    box-shadow: 0 0 15px rgba(109, 213, 237, 0.3);
+    border-color: #60a5fa;
+    box-shadow: 0 0 30px rgba(96, 165, 250, 0.6);
+    background: linear-gradient(135deg, rgba(96, 165, 250, 0.15), rgba(59, 130, 246, 0.1));
+    transform: scale(1.1);
+}
+
+.flowStep:hover .stepMarker::after {
+    animation-duration: 1s;
+    border-color: rgba(96, 165, 250, 0.8);
 }
 
 .stepIcon {
     font-size: 1.5rem;
+    color: #60a5fa;
+    filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.6));
+    transition: all 0.3s ease;
+}
+
+.flowStep:hover .stepIcon {
     color: #6dd5ed;
+    filter: drop-shadow(0 0 12px rgba(109, 213, 237, 0.8));
+    transform: scale(1.1) rotate(5deg);
 }
 
 .stepContent {
     padding-top: 0.5rem;
+    max-width: 400px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Subtle background glow on hover */
+.flowStep:hover .stepContent {
+    padding-left: 0.5rem;
+}
+
+.flowStep:hover .stepContent::before {
+    content: '';
+    position: absolute;
+    left: -1rem;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, #60a5fa, #6dd5ed);
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
 }
 
 .stepTitle {
@@ -129,7 +294,13 @@
     position: relative;
     z-index: 10;
     text-align: center;
-    padding: 2rem;
+    padding: 0;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .heroTitle {
@@ -137,25 +308,38 @@
     font-size: 4rem;
     font-weight: 700;
     letter-spacing: -0.02em;
-    background: linear-gradient(to right, #fff, #a5a5b5);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 1rem;
-    pointer-events: auto;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    text-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
 }
 
 .heroSubtitle {
-    font-size: 1.8rem;
-    color: var(--text-dim, #ccc);
+    font-size: 1.6rem;
+    color: #cbd5e1;
     font-weight: 300;
-    line-height: 1.4;
-    pointer-events: auto;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
 }
 
 .highlightText {
-    color: #fff;
+    color: #60a5fa;
     font-weight: 600;
+    position: relative;
+    display: inline-block;
+    text-shadow: 0 0 20px rgba(96, 165, 250, 0.4);
+}
+
+.highlightText::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: #6dd5ed;
+    opacity: 0.5;
 }
 
 .scrollIndicator {
@@ -169,8 +353,8 @@
     gap: 0.5rem;
     font-size: 0.8rem;
     letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.5);
-    pointer-events: auto;
+    color: rgba(255, 255, 255, 0.4);
+    z-index: 10;
 }
 
 .scrollLine {
@@ -229,12 +413,10 @@
     display: block;
     font-size: 2.5rem;
     font-weight: 700;
-    color: #4b6cb7;
-    /* Accent color fallback */
-    background: linear-gradient(135deg, #6dd5ed, #2193b0);
-    background-clip: text;
+    background: linear-gradient(to right, #fff, #60a5fa);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
     margin-bottom: 0.5rem;
 }
 
@@ -280,7 +462,7 @@
 .cardIcon {
     font-size: 2rem;
     margin-bottom: 1.5rem;
-    color: #6dd5ed;
+    color: #60a5fa;
 }
 
 .cardTitle {
@@ -341,14 +523,14 @@
     width: 1rem;
     height: 1rem;
     background: #050510;
-    border: 2px solid #6dd5ed;
+    border: 2px solid #60a5fa;
     border-radius: 50%;
 }
 
 .yearCol {
     font-size: 1.2rem;
     font-weight: 700;
-    color: #6dd5ed;
+    color: #60a5fa;
     margin-bottom: 0.5rem;
 }
 
@@ -402,9 +584,8 @@
 }
 
 .philosophy strong {
-    color: #fff;
+    color: #60a5fa;
     font-weight: 600;
-    color: #6dd5ed;
 }
 
 .featureList {
@@ -468,7 +649,7 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, #6dd5ed, transparent);
+    background: linear-gradient(90deg, transparent, #60a5fa, transparent);
 }
 
 .ctaTitle {
@@ -489,31 +670,23 @@
     gap: 1.5rem;
 }
 
-.primaryBtn,
-.secondaryBtn {
+.primaryBtn {
     display: inline-flex;
     align-items: center;
-    padding: 1rem 2rem;
+    padding: 1rem 2.5rem;
     border-radius: 50px;
     font-weight: 600;
     text-decoration: none;
-    transition: transform 0.2s;
-}
-
-.primaryBtn {
+    transition: all 0.3s ease;
     background: #fff;
     color: #000;
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
 }
 
-.secondaryBtn {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.primaryBtn:hover,
-.secondaryBtn:hover {
+.primaryBtn:hover {
     transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+    background: #f0f0f0;
 }
 
 .footerSpacing {
@@ -541,10 +714,6 @@
         gap: 3rem;
     }
 
-    .ctaButtons {
-        flex-direction: column;
-    }
-
     .summaryGrid {
         grid-template-columns: repeat(2, 1fr);
         padding: 1.5rem;
@@ -554,8 +723,7 @@
         padding: 3rem 1.5rem;
     }
 
-    .primaryBtn,
-    .secondaryBtn {
+    .primaryBtn {
         width: 100%;
         justify-content: center;
     }
@@ -572,21 +740,45 @@
     }
 
     .flowStep {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-        align-items: center;
+        flex-direction: row;
+        gap: 2.5rem;
+        align-items: flex-start;
+    }
+
+    .flowContainer {
+        gap: 4rem;
     }
 
     .stepMarker {
         width: 3rem;
         height: 3rem;
         font-size: 0.9rem;
+        position: relative;
+        z-index: 3;
     }
 
     .flowLine {
-        left: 50%;
+        left: 3rem;
         top: 2rem;
+        transform: translateX(-50%);
+        width: 2px;
+    }
+
+    .flowStep {
+        padding-left: 3rem;
+    }
+
+    .stepMarker {
+        margin-left: -3rem;
+        width: 3rem;
+        height: 3rem;
+    }
+
+
+    .flowContainer {
+        max-width: 100%;
+        padding: 0 1rem;
+        gap: 4rem;
     }
 
     .flowTitle {

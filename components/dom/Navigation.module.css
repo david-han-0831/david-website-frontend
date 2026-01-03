@@ -21,6 +21,31 @@
     font-size: 1.5rem;
     color: var(--text-white);
     letter-spacing: -0.02em;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    display: inline-block;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+    color: var(--primary-purple, #6a11cb);
+}
+
+.logo::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--primary-purple, #6a11cb), #a5b4fc);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 2px;
+}
+
+.logo:hover::after {
+    width: 100%;
 }
 
 .links {
@@ -32,15 +57,43 @@
     font-family: var(--font-inter);
     font-size: 0.95rem;
     color: var(--text-dim);
-    transition: color 0.3s ease;
+    position: relative;
+    padding: 0.5rem 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-block;
+}
+
+.link::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--primary-purple, #6a11cb), #a5b4fc);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 2px;
 }
 
 .link:hover {
     color: var(--text-white);
+    transform: translateY(-2px);
 }
 
-.active {
-    color: var(--primary-purple);
+.link:hover::before {
+    width: 100%;
+}
+
+.link.active {
+    color: #a78bfa; /* 더 밝은 보라색 */
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(167, 139, 250, 0.5); /* Glow 효과 */
+}
+
+.link.active::before {
+    width: 100%;
+    background: linear-gradient(to right, #a78bfa, #c4b5fd); /* 더 밝은 그라데이션 */
+    box-shadow: 0 0 8px rgba(167, 139, 250, 0.6); /* 언더라인에 glow */
 }
 
 /* Mobile Hamburger */
@@ -52,6 +105,15 @@
     border: none;
     cursor: pointer;
     z-index: 1001;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hamburger:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+    color: var(--primary-purple, #6a11cb);
 }
 
 /* Mobile Overlay */
@@ -90,12 +152,46 @@
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--text-dim);
-    transition: color 0.3s ease;
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 8px;
+    display: inline-block;
 }
 
-.mobileLink:hover,
-.mobileLink.active {
+.mobileLink::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    background: rgba(106, 17, 203, 0.1);
+    border-radius: 8px;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: -1;
+}
+
+.mobileLink:hover {
     color: var(--primary-purple);
+    transform: translateX(8px) scale(1.05);
+}
+
+.mobileLink:hover::before {
+    width: 100%;
+}
+
+.mobileLink.active {
+    color: #a78bfa; /* 더 밝은 보라색 */
+    background: rgba(167, 139, 250, 0.2); /* 더 진한 배경 */
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(167, 139, 250, 0.5); /* Glow 효과 */
+    box-shadow: 0 0 15px rgba(167, 139, 250, 0.3); /* 외곽 glow */
+}
+
+.mobileLink.active::before {
+    width: 100%;
+    background: rgba(167, 139, 250, 0.2);
 }
 
 @media (max-width: 768px) {

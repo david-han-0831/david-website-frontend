@@ -1,41 +1,165 @@
+/* Main Container */
 .main {
     min-height: 100vh;
-    padding-top: calc(var(--header-height, 80px) + 6rem);
-    padding-bottom: 6rem;
-
+    background-color: #050510;
     color: #fff;
+    position: relative;
+    overflow-x: hidden;
 }
 
-.container {
-    max-width: 1400px;
-    /* Wider container for cards */
-    margin: 0 auto;
-    padding: 0 2rem;
+/* Hero Section */
+.heroTextSection {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: #050510;
+    z-index: 20;
+    overflow: hidden;
 }
 
-.header {
-    margin-bottom: 4rem;
-    text-align: left;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 2rem;
+/* Grid Background */
+.heroBackground {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-size: 50px 50px;
+    background-image:
+        linear-gradient(to right, rgba(96, 165, 250, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(96, 165, 250, 0.08) 1px, transparent 1px);
+    z-index: 1;
+    mask-image: radial-gradient(circle at center, transparent 0%, black 100%);
+    opacity: 0.6;
 }
 
-.title {
-    font-family: var(--font-display, sans-serif);
+/* Spotlight Overlay */
+.spotlightOverlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            rgba(29, 78, 216, 0.15),
+            transparent 40%);
+    pointer-events: none;
+    transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.heroContent {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 3rem 4rem;
+    width: 100%;
+    max-width: 900px;
+}
+
+.heroTitle {
+    font-family: var(--font-poppins, sans-serif);
     font-size: 4rem;
     font-weight: 700;
-    margin: 0 0 1rem 0;
     letter-spacing: -0.02em;
-    background: linear-gradient(to right, #fff, #aaa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    text-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
 }
 
-.description {
-    font-size: 1.2rem;
-    color: var(--text-secondary, #888);
-    max-width: 600px;
-    line-height: 1.5;
+.heroSubtitle {
+    font-size: 1.6rem;
+    color: #cbd5e1;
+    font-weight: 300;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.scrollIndicator {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+}
+
+.scrollLine {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), transparent);
+}
+
+/* Project Stats */
+.projectStats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 3rem;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+}
+
+.statItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.statNumber {
+    font-family: var(--font-poppins, sans-serif);
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(to right, #fff, #a5b4fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.statLabel {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.statDivider {
+    width: 1px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Content Section */
+.contentSection {
+    position: relative;
+    z-index: 10;
+    background: #050510;
+}
+
+.contentContainer {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+}
+
+.projectGridWrapper {
+    width: 100%;
+    margin-top: 4rem;
+    position: relative;
 }
 
 .projectGrid {
@@ -43,6 +167,7 @@
     grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
     gap: 2rem;
     width: 100%;
+    position: relative;
 }
 
 .emptyState {
@@ -67,25 +192,92 @@
     background: rgba(255, 255, 255, 0.1);
 }
 
+/* Infinite Scroll Styles */
+.observerTarget {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.loadingIndicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+}
+
+.loadingSpinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loadingText {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 0.05em;
+}
+
+.allLoadedIndicator {
+    text-align: center;
+    padding: 3rem 0;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+
 @media (max-width: 768px) {
-    .title {
+    .heroTitle {
         font-size: 2.5rem;
+    }
+
+    .heroSubtitle {
+        font-size: 1rem;
+    }
+
+    .heroContent {
+        padding: 2rem 1.5rem;
+    }
+
+    .projectStats {
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    .statDivider {
+        width: 40px;
+        height: 1px;
+    }
+
+    .statNumber {
+        font-size: 1.5rem;
+    }
+
+    .contentContainer {
+        padding: 4rem 1.5rem;
     }
 
     .projectGrid {
         grid-template-columns: 1fr;
     }
 
-    .container {
-        padding: 0 1rem;
-    }
-
-    .header {
-        margin-bottom: 2rem;
-        padding-bottom: 1.5rem;
-    }
-
-    .description {
-        font-size: 1rem;
+    .projectGridWrapper {
+        margin-top: 2rem;
     }
 }

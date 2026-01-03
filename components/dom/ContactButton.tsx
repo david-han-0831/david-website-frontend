@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import styles from './ContactButton.module.css'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 interface ContactButtonProps {
     text?: string
@@ -10,13 +11,16 @@ interface ContactButtonProps {
 }
 
 export default function ContactButton({
-    text = "Contact / Work With Me",
+    text,
     href = "/contact",
     className
 }: ContactButtonProps) {
+    const { t } = useLanguage()
+    const buttonText = text || t.cta.contact_btn
+
     return (
         <Link href={href} className={`${styles.button} ${className || ''}`}>
-            {text}
+            {buttonText}
         </Link>
     )
 }

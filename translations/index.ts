@@ -99,24 +99,257 @@ export const translations = {
             tech_items: []
         },
         cta: {
-            title: 'Let’s Build Something Intelligent Together.',
+            title: "Let's Build Something Intelligent Together.",
             desc: 'Projects extending boundaries of tech and learning.\nWaiting for collaboration to expand your possibilities.',
             btn: 'Contact Me ->',
+            contact_btn: 'Contact',
         },
         project_page: {
             title: 'Projects',
-            subtitle: 'Selected works and experiments from 2021-2025.',
+            subtitle: 'Selected works and experiments from 2015-{currentYear}.',
             role: 'Role',
             nda: 'NDA (Partial)',
             empty: 'No projects match the selected filters.',
             reset: 'Reset Filters',
             tech_stack: 'Tech Stack:',
-            all: 'All'
+            year: 'Year:',
+            all: 'All',
+            loading: 'Loading more projects...',
+            allLoaded: 'All projects loaded',
+            back_to_list: 'Back to List',
+            scroll_to_explore: 'SCROLL TO EXPLORE',
+            projects: 'Projects',
+            categories: 'Categories',
+            years: 'Years',
+            inventor: 'Inventor:'
+        },
+        contact_page: {
+            hero: {
+                title: 'Get In Touch',
+                subtitle_1: 'Let\'s discuss your project',
+                subtitle_2: 'and explore possibilities together',
+                scroll_to_explore: 'SCROLL TO EXPLORE'
+            },
+            info: {
+                title: 'Let\'s Connect',
+                email_label: 'Email',
+                social_label: 'Socials',
+                email: 'hdy20201004@gmail.com',
+                github: 'GitHub',
+                linkedin: 'LinkedIn'
+            },
+            form: {
+                name_placeholder: 'Name',
+                company_placeholder: 'Company / Organization (Optional)',
+                email_placeholder: 'Email',
+                phone_placeholder: 'Phone Number (Optional)',
+                inquiry_type_label: 'Inquiry Type',
+                inquiry_type_options: {
+                    general: 'General Inquiry',
+                    teaching: 'Teaching / Lecture Request',
+                    collaboration: 'Project Collaboration',
+                    other: 'Other'
+                },
+                message_placeholder: 'Message',
+                send_button: 'Send Message',
+                sending: 'Sending...',
+                sent: 'Message Sent!',
+                success_message: 'Thank you for your message. I\'ll get back to you soon!',
+                error_message: 'Failed to send message. Please try again or contact directly via email.'
+            }
+        },
+        project_detail_page: {
+            not_found: 'Project not found',
+            back_to_projects: '← Back to Projects',
+            problem_context: 'Problem & Context',
+            context: 'Context',
+            requirements: 'Requirements',
+            approach_architecture: 'Approach & Architecture',
+            strategy: 'Strategy',
+            my_role: 'My Role',
+            tech_stack: 'Tech Stack',
+            outcome_learnings: 'Outcome & Learnings',
+            outcome: 'Outcome',
+            learnings: 'Learnings',
+            nda_notice: 'This project has been partially disclosed due to NDA. It is organized focusing on structure and approach.'
+        },
+        about_page: {
+            intro: {
+                title_1: 'Building structures with technology,',
+                title_2: 'connecting with knowledge',
+                desc_1: 'I am a developer and educator,',
+                desc_2: 'who has been structuring and automating complex problems.',
+                desc_3: 'I value creating code, designing systems,',
+                desc_4: 'and sharing that process with people.'
+            },
+            perspective: {
+                title: 'HOW I WORK',
+                step_1: 'Understanding problems first',
+                step_1_highlight: ['problems', 'understanding'],
+                step_2: 'Transforming complexity into structure',
+                step_2_highlight: ['complexity', 'structure'],
+                step_3: 'Reducing repetition through automation',
+                step_3_highlight: ['repetition', 'automation'],
+                climax: 'Spending remaining time on people and creation',
+                climax_highlight: ['people', 'creation'],
+                climax_sub: 'This is why I work with technology.'
+            },
+            timeline: {
+                quote_1: '"What was done" is not as important as',
+                quote_2: '"What was focused on during that period"',
+                sub_quote_1: 'Roles have changed over time,',
+                sub_quote_2: 'but the attitude of thinking about structure has always been the same.',
+                year_2025: 'Expansion & Integration',
+                desc_2025: 'Designing interactive portfolios and digital experiences combining 3D, AR, and automation',
+                year_2023: 'Education & Structuring',
+                desc_2023: 'Conducting advanced web·AI education, designing enterprise system architecture',
+                year_2020: 'System-Centered Development',
+                desc_2020: 'Focusing on automation workflows and backend structures to reduce repetitive tasks',
+                year_2015: 'Beginning & Exploration',
+                desc_2015: 'Discovering the joy of problem-solving through code and algorithms'
+            },
+            closing: {
+                text_1: 'If you have topics you\'d like to discuss together,',
+                text_2: 'you\'re always welcome'
+            }
+        },
+        teaching_page: {
+            hero: {
+                title: 'Teaching Journey',
+                subtitle_1: 'Teaching technology and',
+                subtitle_2: 'designing thinking',
+                scroll: 'Scroll to Explore'
+            },
+            flow: {
+                title: 'Curriculum Flow',
+                desc: 'A systematic roadmap from basics to practical automation',
+                steps: {
+                    basics: {
+                        title: 'Programming Fundamentals',
+                        desc: 'Code Logic & Syntax'
+                    },
+                    engineering: {
+                        title: 'Frontend / Backend',
+                        desc: 'Web Engineering Core'
+                    },
+                    project: {
+                        title: 'Full Stack Project',
+                        desc: 'Integrated Service Build'
+                    },
+                    ai: {
+                        title: 'AI Integration',
+                        desc: 'LLM & Generative AI'
+                    },
+                    automation: {
+                        title: 'Automation',
+                        desc: 'Workflow Optimization'
+                    }
+                }
+            },
+            summary: {
+                years: { label: 'Total Teaching Experience', value: '3+ Years', sub: 'Since 2023' },
+                target: { label: 'Teaching Audience', value: 'Diverse', sub: 'Universities · Companies · Public · Individuals' },
+                fields: { label: 'Main Fields', value: '3+', sub: 'Web · AI · Automation' },
+                method: { label: 'Operation Method', value: 'Practice', sub: 'Project-based Curriculum' }
+            },
+            domains: {
+                title: 'Teaching Domains',
+                desc: '6 lecture areas connecting practice and education',
+                frontend: {
+                    title: 'Frontend Engineering',
+                    desc: 'Frontend development that designs user experience',
+                    content: 'HTML/CSS/JS, React, Next.js, UI Implementation',
+                    target: 'Non-majors, University Students, Job Seekers',
+                    result: 'Web Service for Portfolio'
+                },
+                backend: {
+                    title: 'Backend Engineering',
+                    desc: 'Backend development that creates service structure and flow',
+                    content: 'FastAPI, Spring Boot, REST API, DB Design',
+                    target: 'Backend Job Seekers, Career Changers',
+                    result: 'API Server & DB Structure'
+                },
+                fullstack: {
+                    title: 'Full Stack Project',
+                    desc: 'Practical project connecting frontend and backend',
+                    content: 'React/Next.js + FastAPI, Supabase/Firebase',
+                    target: 'Job Seekers, Bootcamp Students',
+                    result: 'Deployed Full Stack Web Service'
+                },
+                ai: {
+                    title: 'AI & Generative AI',
+                    desc: 'Connecting generative AI to practice',
+                    content: 'ChatGPT, GPT API, GPTs, Agent',
+                    target: 'Corporate Employees, Planners, Developers',
+                    result: 'AI-based Automation Scenarios'
+                },
+                automation: {
+                    title: 'Automation & Workflow',
+                    desc: 'Automation design to reduce repetitive tasks',
+                    content: 'Notion API, Google Sheets, Make, Slack',
+                    target: 'Corporate & Public Sector Practitioners',
+                    result: 'Organization-customized Automation Flow'
+                },
+                basics: {
+                    title: 'Programming Basics',
+                    desc: 'Basics and career path for those starting development',
+                    content: 'Python/Java Basics, Problem-solving Thinking',
+                    target: 'Students, Non-major Adults, Beginners',
+                    result: 'Basic Project + Roadmap'
+                },
+                meta: {
+                    content: 'Content',
+                    target: 'Target',
+                    result: 'Result'
+                }
+            },
+            experience: {
+                title: 'Experience',
+                desc: 'Proven educational achievements in the field',
+                items: {
+                    '2025': [
+                        'Southeast ICT Startup Special Lecture (AI·AWS Bootcamp)',
+                        'Seoul National University of Science and Technology Python Intensive Course',
+                        'Large Enterprise & Public Sector GPT Work Automation Special Lecture'
+                    ],
+                    '2023-current': [
+                        'Freelance Custom Tutoring (1:1 / 2:1)',
+                        'Startup Technical Coaching & Consulting'
+                    ]
+                }
+            },
+            style: {
+                title: 'Teaching Style',
+                philosophy: 'We focus on <strong>practice and results</strong> rather than theory.<br />Not just knowledge transfer,<br />but helping to design <strong>thinking</strong> that solves problems independently.',
+                features: [
+                    'Project → Presentation → Feedback Loop',
+                    'Systematic Learning Management based on Notion',
+                    'Practice based on Real-world Automation Cases'
+                ]
+            },
+            operation: {
+                title: 'Operation & Tools',
+                format: {
+                    label: 'Class Format',
+                    items: ['Online (Zoom)', 'Offline On-site', 'Hybrid']
+                },
+                tools: {
+                    label: 'Collaboration Tools',
+                    items: ['Notion', 'GitHub', 'VSCode', 'Slack']
+                }
+            },
+            cta: {
+                title: 'Start Your Journey',
+                text: 'Need on-site lectures, special lectures, or custom curriculum?',
+                btn: 'Inquiry'
+            }
         },
         skills_page: {
             hero: {
-                title: 'Skills Universe',
-                subtitle: 'Wide spectrum of technologies bridged for problem solving.\nNot just a list, but a proven ecosystem.'
+                title: 'Technical Skills',
+                subtitle_1: 'Selecting optimal technologies',
+                subtitle_2: 'for problem solving',
+                scroll_to_explore: 'SCROLL TO EXPLORE'
             },
             core: {
                 title: 'Core Competencies',
@@ -179,8 +412,23 @@ export const translations = {
             },
             trust: {
                 badge: 'PATENT PENDING',
-                title: 'B2B Chat Solution Architecture',
-                desc: 'Patent-2023-0130063\nCustomized AI chatbot solution for B2B customer support.\nIncludes collecting consultation data, automated post-processing, synonym handling, and error retraining modules.'
+                inventor: 'Inventor:',
+                patents: [
+                    {
+                        title: 'B2B Chat Solution Architecture',
+                        number: 'Patent-2023-0130063',
+                        date: '2023.09.27',
+                        inventors: 'Han Dongyun',
+                        desc: 'Customized AI chatbot solution for B2B customer support.\nIncludes collecting consultation data, automated post-processing, synonym handling, and error retraining modules.'
+                    },
+                    {
+                        title: 'Dried Laver Grade Determination Device',
+                        number: '10-2025-0216295',
+                        date: '2025.12.31',
+                        inventors: 'Kwon Kiho, Han Dongyun',
+                        desc: 'A device that automatically grades dried laver quality through deep learning-based image analysis.\nCombines image preprocessing modules that correct deviations according to shooting environments with machine learning models to quantitatively evaluate multiple quality indicators (gloss, color, foreign matter, wrinkles, clumping, texture) and enable consistent grade calculation.'
+                    }
+                ]
             }
         }
     },
@@ -285,21 +533,254 @@ export const translations = {
             title: '지능적인 미래를 만듭니다.',
             desc: '기술과 배움의 경계를 확장하는 프로젝트,\n복잡한 문제를 해결하는 자동화 시스템,\n당신의 가능성을 현실로 만들 협업을 기다립니다.',
             btn: '문의하기 ->',
+            contact_btn: '문의하기',
         },
         project_page: {
             title: '프로젝트',
-            subtitle: '2021-2025년의 주요 프로젝트 및 실험작들.',
+            subtitle: '2015-{currentYear}년의 주요 프로젝트 및 실험작들.',
             role: '역할',
             nda: 'NDA (일부)',
             empty: '선택한 필터와 일치하는 프로젝트가 없습니다.',
             reset: '필터 초기화',
             tech_stack: '기술 스택:',
-            all: '전체'
+            year: '연도:',
+            all: '전체',
+            loading: '더 많은 프로젝트 로딩 중...',
+            allLoaded: '모든 프로젝트가 로드되었습니다',
+            back_to_list: '목록으로 돌아가기',
+            scroll_to_explore: '스크롤하여 탐색하기',
+            projects: '프로젝트',
+            categories: '카테고리',
+            years: '연도',
+            inventor: '발명자:'
+        },
+        contact_page: {
+            hero: {
+                title: '문의하기',
+                subtitle_1: '프로젝트를 함께 논의하고',
+                subtitle_2: '가능성을 탐색해보세요',
+                scroll_to_explore: 'SCROLL TO EXPLORE'
+            },
+            info: {
+                title: '연락처',
+                email_label: '이메일',
+                social_label: '소셜',
+                email: 'hdy20201004@gmail.com',
+                github: 'GitHub',
+                linkedin: 'LinkedIn'
+            },
+            form: {
+                name_placeholder: '이름',
+                company_placeholder: '회사 / 조직 (선택사항)',
+                email_placeholder: '이메일',
+                phone_placeholder: '연락처 (선택사항)',
+                inquiry_type_label: '문의 유형',
+                inquiry_type_options: {
+                    general: '일반 문의',
+                    teaching: '강의 / 출강 문의',
+                    collaboration: '프로젝트 협업',
+                    other: '기타'
+                },
+                message_placeholder: '메시지',
+                send_button: '메시지 보내기',
+                sending: '전송 중...',
+                sent: '메시지 전송 완료!',
+                success_message: '메시지를 보내주셔서 감사합니다. 곧 답변드리겠습니다!',
+                error_message: '메시지 전송에 실패했습니다. 다시 시도하거나 이메일로 직접 연락해주세요.'
+            }
+        },
+        project_detail_page: {
+            not_found: '프로젝트를 찾을 수 없습니다',
+            back_to_projects: '← 프로젝트 목록으로',
+            problem_context: '문제 & 배경',
+            context: '배경',
+            requirements: '요구사항',
+            approach_architecture: '접근 방식 & 아키텍처',
+            strategy: '전략',
+            my_role: '내 역할',
+            tech_stack: '기술 스택',
+            outcome_learnings: '결과 & 학습',
+            outcome: '결과',
+            learnings: '학습',
+            nda_notice: '본 프로젝트는 NDA로 인해 일부 정보만 공개되었습니다. 구조와 접근 방식 중심으로 정리되어 있습니다.'
+        },
+        about_page: {
+            intro: {
+                title_1: '기술로 구조를 만들고,',
+                title_2: '지식으로 연결합니다',
+                desc_1: '저는 개발자이자 교육자이며,',
+                desc_2: '복잡한 문제를 구조화하고 자동화하는 일을 해왔습니다.',
+                desc_3: '코드를 만들고, 시스템을 설계하며,',
+                desc_4: '그 과정을 사람들과 나누는 것을 중요하게 생각합니다.'
+            },
+            perspective: {
+                title: 'HOW I WORK',
+                step_1: '문제를 먼저 이해합니다',
+                step_1_highlight: ['문제', '이해'],
+                step_2: '복잡함을 구조로 바꿉니다',
+                step_2_highlight: ['복잡함', '구조'],
+                step_3: '반복은 자동화로 줄입니다',
+                step_3_highlight: ['반복', '자동화'],
+                climax: '남은 시간은 사람과 창작에 씁니다',
+                climax_highlight: ['사람', '창작'],
+                climax_sub: '이것이 제가 기술을 다루는 이유입니다.'
+            },
+            timeline: {
+                quote_1: '"무엇을 했는가"가 아니라',
+                quote_2: '"그 시기에 무엇에 집중했는가"',
+                sub_quote_1: '시간이 흐르며 역할은 바뀌었지만,',
+                sub_quote_2: '구조를 고민하는 태도는 늘 같았습니다.',
+                year_2025: '확장과 통합',
+                desc_2025: '3D, AR, 자동화를 결합한 인터랙티브 포트폴리오와 디지털 경험을 설계',
+                year_2023: '교육과 구조화',
+                desc_2023: '고급 웹·AI 교육 진행, 엔터프라이즈 시스템 아키텍처 설계',
+                year_2020: '시스템 중심 개발',
+                desc_2020: '반복 업무를 줄이기 위한 자동화 워크플로우와 백엔드 구조 집중',
+                year_2015: '시작과 탐구',
+                desc_2015: '코드와 알고리즘을 통해 문제 해결의 즐거움을 발견'
+            },
+            closing: {
+                text_1: '함께 이야기해볼 주제가 있다면,',
+                text_2: '언제든 환영합니다'
+            }
+        },
+        teaching_page: {
+            hero: {
+                title: '강의 여정',
+                subtitle_1: '기술을 가르치고',
+                subtitle_2: '사고를 설계합니다',
+                scroll: '스크롤하여 탐색하기'
+            },
+            flow: {
+                title: '커리큘럼 플로우',
+                desc: '기초부터 실무 자동화까지 이어지는 체계적 로드맵',
+                steps: {
+                    basics: {
+                        title: '프로그래밍 기초',
+                        desc: '코드 로직 & 문법'
+                    },
+                    engineering: {
+                        title: '프론트엔드 / 백엔드',
+                        desc: '웹 엔지니어링 핵심'
+                    },
+                    project: {
+                        title: '풀스택 프로젝트',
+                        desc: '통합 서비스 구축'
+                    },
+                    ai: {
+                        title: 'AI 통합',
+                        desc: 'LLM & 생성형 AI'
+                    },
+                    automation: {
+                        title: '자동화',
+                        desc: '워크플로우 최적화'
+                    }
+                }
+            },
+            summary: {
+                years: { label: '총 강의 경력', value: '3년+', sub: 'Since 2023' },
+                target: { label: '강의 대상', value: '다양', sub: '대학 · 기업 · 관공서 · 개인' },
+                fields: { label: '주요 분야', value: '3+', sub: 'Web · AI · Automation' },
+                method: { label: '운영 방식', value: '실습', sub: '프로젝트 중심 커리큘럼' }
+            },
+            domains: {
+                title: '강의 영역',
+                desc: '실무와 교육을 연결하는 6가지 강의 영역',
+                frontend: {
+                    title: '프론트엔드 엔지니어링',
+                    desc: '사용자 경험을 설계하는 프론트엔드 개발',
+                    content: 'HTML/CSS/JS, React, Next.js, UI 구현',
+                    target: '비전공자, 대학생, 취준생',
+                    result: '포트폴리오용 웹 서비스'
+                },
+                backend: {
+                    title: '백엔드 엔지니어링',
+                    desc: '서비스의 구조와 흐름을 만드는 백엔드 개발',
+                    content: 'FastAPI, Spring Boot, REST API, DB 설계',
+                    target: '백엔드 취준생, 실무 전환자',
+                    result: 'API 서버 및 DB 구조'
+                },
+                fullstack: {
+                    title: '풀스택 프로젝트',
+                    desc: '프론트엔드와 백엔드를 연결하는 실전 프로젝트',
+                    content: 'React/Next.js + FastAPI, Supabase/Firebase',
+                    target: '취업 준비생, 부트캠프 수강생',
+                    result: '배포된 풀스택 웹 서비스'
+                },
+                ai: {
+                    title: 'AI & 생성형 AI',
+                    desc: '생성형 AI를 실무에 연결하는 방법',
+                    content: 'ChatGPT, GPT API, GPTs, Agent',
+                    target: '기업 재직자, 기획자, 개발자',
+                    result: 'AI 기반 자동화 시나리오'
+                },
+                automation: {
+                    title: '자동화 & 워크플로우',
+                    desc: '반복 업무를 줄이는 자동화 설계',
+                    content: 'Notion API, Google Sheets, Make, Slack',
+                    target: '기업·공공기관 실무자',
+                    result: '조직 맞춤 자동화 흐름'
+                },
+                basics: {
+                    title: '프로그래밍 기초',
+                    desc: '개발을 시작하는 사람을 위한 기초와 진로',
+                    content: 'Python/Java 기초, 문제 해결 사고',
+                    target: '학생, 비전공 성인, 입문자',
+                    result: '기초 프로젝트 + 로드맵'
+                },
+                meta: {
+                    content: '내용',
+                    target: '대상',
+                    result: '결과'
+                }
+            },
+            experience: {
+                title: 'Experience',
+                desc: '현장에서 증명한 교육 실적',
+                items: {
+                    '2025': [
+                        '동남권 ICT 취·창업 특강 (AI·AWS 부트캠프)',
+                        '서울과학기술대학교 파이썬 집중 강의',
+                        '대기업·공공기관 GPT 업무 자동화 특강'
+                    ],
+                    '2023-current': [
+                        '프리랜서 맞춤 과외 (1:1 / 2:1)',
+                        '스타트업 기술 코칭 및 자문'
+                    ]
+                }
+            },
+            style: {
+                title: '강의 스타일',
+                philosophy: '이론보다 <strong>실습과 결과물</strong>을 지향합니다.<br />단순 지식 전달이 아닌,<br />스스로 문제를 해결하는 <strong>사고의 설계</strong>를 돕습니다.',
+                features: [
+                    '프로젝트 → 발표 → 피드백 루프',
+                    'Notion 기반 체계적 학습 관리',
+                    '현업 자동화 사례 기반 실습'
+                ]
+            },
+            operation: {
+                title: '운영 방식 & 도구',
+                format: {
+                    label: '수업 형태',
+                    items: ['온라인(Zoom)', '오프라인 출강', '하이브리드']
+                },
+                tools: {
+                    label: '협업 도구',
+                    items: ['Notion', 'GitHub', 'VSCode', 'Slack']
+                }
+            },
+            cta: {
+                title: '여정을 시작하세요',
+                text: '출강, 특강, 맞춤 커리큘럼이 필요하신가요?',
+                btn: '강의 문의하기'
+            }
         },
         skills_page: {
             hero: {
-                title: 'Skills Universe',
-                subtitle: '문제 해결을 위해 연결된 광범위한 기술 스펙트럼.\n단순한 나열이 아닌, 검증된 에코시스템입니다.'
+                title: '기술 스택',
+                subtitle_1: '문제 해결을 위한',
+                subtitle_2: '최적의 기술을 선택합니다',
+                scroll_to_explore: 'SCROLL TO EXPLORE'
             },
             core: {
                 title: '핵심 역량',
@@ -362,8 +843,23 @@ export const translations = {
             },
             trust: {
                 badge: '특허 출원',
-                title: '맞춤형 AI챗봇 배포를 위한 B2B 채팅 솔루션',
-                desc: '출원번호 특허-2023-0130063 (2023.09.27)\n기업 고객 응대를 위한 맞춤형 AI 챗봇 솔루션.\n상담내용 수집, 후처리 자동화, 동의어 처리, 오류 재학습 모듈 포함.'
+                inventor: '발명자:',
+                patents: [
+                    {
+                        title: '맞춤형 AI챗봇 배포를 위한 B2B 채팅 솔루션',
+                        number: '특허-2023-0130063',
+                        date: '2023.09.27',
+                        inventors: '한동윤',
+                        desc: '기업 고객 응대를 위한 맞춤형 AI 챗봇 솔루션.\n상담내용 수집, 후처리 자동화, 동의어 처리, 오류 재학습 모듈 포함.'
+                    },
+                    {
+                        title: '건조 김 등급 결정 장치',
+                        number: '10-2025-0216295',
+                        date: '2025.12.31',
+                        inventors: '권기호, 한동윤',
+                        desc: '딥러닝 기반 이미지 분석을 통해 건조 김의 품질을 자동으로 등급화하는 장치.\n촬영 환경에 따른 편차를 보정하는 이미지 전처리 모듈과 기계학습 모델을 결합하여 윤기, 색태, 이물, 주름, 뭉침, 골태 등 복수의 품질 지표를 정량적으로 평가하고 일관된 등급 산출을 가능하게 하는 기술.'
+                    }
+                ]
             }
         }
     },
@@ -384,6 +880,46 @@ export const translations = {
             btn_portfolio: 'Portfolio Übersicht',
             btn_build: 'Was ich entwickle',
             btn_teaching: 'Lehr-Framework',
+        },
+        about_page: {
+            intro: {
+                title_1: 'Strukturen mit Technologie bauen,',
+                title_2: 'mit Wissen verbinden',
+                desc_1: 'Ich bin Entwickler und Pädagoge,',
+                desc_2: 'der komplexe Probleme strukturiert und automatisiert hat.',
+                desc_3: 'Ich schätze es, Code zu erstellen, Systeme zu entwerfen,',
+                desc_4: 'und diesen Prozess mit Menschen zu teilen.'
+            },
+            perspective: {
+                title: 'WIE ICH ARBEITE',
+                step_1: 'Probleme zuerst verstehen',
+                step_1_highlight: ['Probleme', 'Verstehen'],
+                step_2: 'Komplexität in Struktur verwandeln',
+                step_2_highlight: ['Komplexität', 'Struktur'],
+                step_3: 'Wiederholung durch Automatisierung reduzieren',
+                step_3_highlight: ['Wiederholung', 'Automatisierung'],
+                climax: 'Verbleibende Zeit für Menschen und Kreativität verwenden',
+                climax_highlight: ['Menschen', 'Kreativität'],
+                climax_sub: 'Deshalb arbeite ich mit Technologie.'
+            },
+            timeline: {
+                quote_1: '"Was getan wurde" ist nicht so wichtig wie',
+                quote_2: '"Worauf sich in dieser Zeit konzentriert wurde"',
+                sub_quote_1: 'Rollen haben sich im Laufe der Zeit geändert,',
+                sub_quote_2: 'aber die Einstellung, über Struktur nachzudenken, war immer gleich.',
+                year_2025: 'Expansion & Integration',
+                desc_2025: 'Entwerfen interaktiver Portfolios und digitaler Erfahrungen, die 3D, AR und Automatisierung kombinieren',
+                year_2023: 'Bildung & Strukturierung',
+                desc_2023: 'Durchführung fortgeschrittener Web·KI-Bildung, Entwerfen von Enterprise-Systemarchitekturen',
+                year_2020: 'Systemzentrierte Entwicklung',
+                desc_2020: 'Fokus auf Automatisierungs-Workflows und Backend-Strukturen zur Reduzierung repetitiver Aufgaben',
+                year_2015: 'Anfang & Erkundung',
+                desc_2015: 'Die Freude an der Problemlösung durch Code und Algorithmen entdecken'
+            },
+            closing: {
+                text_1: 'Wenn Sie Themen haben, die Sie gemeinsam besprechen möchten,',
+                text_2: 'sind Sie jederzeit willkommen'
+            }
         },
         highlights: {
             title: 'Highlights',
@@ -468,43 +1004,216 @@ export const translations = {
             title: 'Lassen Sie uns gemeinsam etwas Intelligentes bauen.',
             desc: 'Projekte, die die Grenzen von Technologie und Lernen überschreiten.\nIch warte auf eine Zusammenarbeit, um Ihre Möglichkeiten zu erweitern.',
             btn: 'Kontaktieren Sie mich ->',
+            contact_btn: 'Kontakt',
         },
         project_page: {
             title: 'Projekte',
-            subtitle: 'Ausgewählte Arbeiten und Experimente von 2021-2025.',
+            subtitle: 'Ausgewählte Arbeiten und Experimente von 2015-{currentYear}.',
             role: 'Rolle',
             nda: 'NDA (Teilweise)',
             empty: 'Keine Projekte entsprechen den ausgewählten Filtern.',
             reset: 'Filter zurücksetzen',
             tech_stack: 'Tech Stack:',
-            all: 'Alle'
+            year: 'Jahr:',
+            all: 'Alle',
+            loading: 'Weitere Projekte werden geladen...',
+            allLoaded: 'Alle Projekte geladen',
+            back_to_list: 'Zurück zur Liste'
+        },
+        contact_page: {
+            hero: {
+                title: 'Kontakt aufnehmen',
+                subtitle_1: 'Lassen Sie uns Ihr Projekt besprechen',
+                subtitle_2: 'und Möglichkeiten gemeinsam erkunden',
+                scroll_to_explore: 'SCROLLEN ZUM ERKUNDEN'
+            },
+            info: {
+                title: 'Kontakt',
+                email_label: 'E-Mail',
+                social_label: 'Soziale Medien',
+                email: 'hdy20201004@gmail.com',
+                github: 'GitHub',
+                linkedin: 'LinkedIn'
+            },
+            form: {
+                name_placeholder: 'Name',
+                company_placeholder: 'Firma / Organisation (Optional)',
+                email_placeholder: 'E-Mail',
+                phone_placeholder: 'Telefonnummer (Optional)',
+                inquiry_type_label: 'Anfrageart',
+                inquiry_type_options: {
+                    general: 'Allgemeine Anfrage',
+                    teaching: 'Lehre / Vortragsanfrage',
+                    collaboration: 'Projektzusammenarbeit',
+                    other: 'Sonstiges'
+                },
+                message_placeholder: 'Nachricht',
+                send_button: 'Nachricht senden',
+                sending: 'Wird gesendet...',
+                sent: 'Nachricht gesendet!',
+                success_message: 'Vielen Dank für Ihre Nachricht. Ich werde mich bald bei Ihnen melden!',
+                error_message: 'Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut oder kontaktieren Sie mich direkt per E-Mail.'
+            }
+        },
+        teaching_page: {
+            hero: {
+                title: 'Lehrreise',
+                subtitle_1: 'Technologie lehren und',
+                subtitle_2: 'Denken gestalten',
+                scroll: 'Scrollen zum Erkunden'
+            },
+            flow: {
+                title: 'Lehrplan-Ablauf',
+                desc: 'Systematische Roadmap von Grundlagen bis zur praktischen Automatisierung',
+                steps: {
+                    basics: {
+                        title: 'Programmiergrundlagen',
+                        desc: 'Code-Logik & Syntax'
+                    },
+                    engineering: {
+                        title: 'Frontend / Backend',
+                        desc: 'Web-Engineering-Kern'
+                    },
+                    project: {
+                        title: 'Full Stack Projekt',
+                        desc: 'Integrierter Service-Aufbau'
+                    },
+                    ai: {
+                        title: 'KI-Integration',
+                        desc: 'LLM & Generative KI'
+                    },
+                    automation: {
+                        title: 'Automatisierung',
+                        desc: 'Workflow-Optimierung'
+                    }
+                }
+            },
+            summary: {
+                years: { label: 'Gesamte Lehrerfahrung', value: '3+ Jahre', sub: 'Seit 2023' },
+                target: { label: 'Zielgruppe', value: 'Vielfältig', sub: 'Universitäten · Unternehmen · Öffentlich · Einzelpersonen' },
+                fields: { label: 'Hauptbereiche', value: '3+', sub: 'Web · KI · Automatisierung' },
+                method: { label: 'Betriebsmethode', value: 'Praxis', sub: 'Projektbasiertes Curriculum' }
+            },
+            domains: {
+                title: 'Lehrbereiche',
+                desc: '6 Vorlesungsbereiche, die Praxis und Bildung verbinden',
+                frontend: {
+                    title: 'Frontend-Engineering',
+                    desc: 'Frontend-Entwicklung, die Benutzererfahrung gestaltet',
+                    content: 'HTML/CSS/JS, React, Next.js, UI-Implementierung',
+                    target: 'Nicht-Fachleute, Universitätsstudenten, Jobsuchende',
+                    result: 'Web-Service für Portfolio'
+                },
+                backend: {
+                    title: 'Backend-Engineering',
+                    desc: 'Backend-Entwicklung, die Servicestruktur und -fluss erstellt',
+                    content: 'FastAPI, Spring Boot, REST API, DB-Design',
+                    target: 'Backend-Jobsuchende, Karrierewechsler',
+                    result: 'API-Server & DB-Struktur'
+                },
+                fullstack: {
+                    title: 'Full-Stack-Projekt',
+                    desc: 'Praktisches Projekt, das Frontend und Backend verbindet',
+                    content: 'React/Next.js + FastAPI, Supabase/Firebase',
+                    target: 'Jobsuchende, Bootcamp-Studenten',
+                    result: 'Bereitgestellter Full Stack Web-Service'
+                },
+                ai: {
+                    title: 'KI & Generative KI',
+                    desc: 'Generative KI mit der Praxis verbinden',
+                    content: 'ChatGPT, GPT API, GPTs, Agent',
+                    target: 'Unternehmensmitarbeiter, Planer, Entwickler',
+                    result: 'KI-basierte Automatisierungsszenarien'
+                },
+                automation: {
+                    title: 'Automatisierung & Workflow',
+                    desc: 'Automatisierungsdesign zur Reduzierung wiederholender Aufgaben',
+                    content: 'Notion API, Google Sheets, Make, Slack',
+                    target: 'Unternehmens- und öffentliche Praktiker',
+                    result: 'Organisationsspezifischer Automatisierungsfluss'
+                },
+                basics: {
+                    title: 'Programmiergrundlagen',
+                    desc: 'Grundlagen und Karriereweg für Entwicklungsanfänger',
+                    content: 'Python/Java Grundlagen, Problemlösungsdenken',
+                    target: 'Studenten, Nicht-Fachleute Erwachsene, Anfänger',
+                    result: 'Grundprojekt + Roadmap'
+                },
+                meta: {
+                    content: 'Inhalt',
+                    target: 'Ziel',
+                    result: 'Ergebnis'
+                }
+            },
+            experience: {
+                title: 'Erfahrung',
+                desc: 'Bewährte Bildungserfolge im Feld',
+                items: {
+                    '2025': [
+                        'Südost-ICT-Startup-Spezialvorlesung (KI·AWS Bootcamp)',
+                        'Seoul National University of Science and Technology Python Intensivkurs',
+                        'Großunternehmen & öffentlicher Sektor GPT-Arbeitsautomatisierung Spezialvorlesung'
+                    ],
+                    '2023-current': [
+                        'Freelance maßgeschneiderte Nachhilfe (1:1 / 2:1)',
+                        'Startup-Technik-Coaching & Beratung'
+                    ]
+                }
+            },
+            style: {
+                title: 'Lehrstil',
+                philosophy: 'Wir konzentrieren uns auf <strong>Praxis und Ergebnisse</strong> statt Theorie.<br />Nicht nur Wissensvermittlung,<br />sondern Hilfe beim Gestalten von <strong>Denken</strong>, das Probleme selbstständig löst.',
+                features: [
+                    'Projekt → Präsentation → Feedback-Schleife',
+                    'Systematisches Lernmanagement basierend auf Notion',
+                    'Praxis basierend auf realen Automatisierungsfällen'
+                ]
+            },
+            operation: {
+                title: 'Betrieb & Tools',
+                format: {
+                    label: 'Kursformat',
+                    items: ['Online (Zoom)', 'Offline Vor-Ort', 'Hybrid']
+                },
+                tools: {
+                    label: 'Kollaborationstools',
+                    items: ['Notion', 'GitHub', 'VSCode', 'Slack']
+                }
+            },
+            cta: {
+                title: 'Beginnen Sie Ihre Reise',
+                text: 'Benötigen Sie Vor-Ort-Vorlesungen, Spezialvorlesungen oder maßgeschneiderte Curricula?',
+                btn: 'Anfrage stellen'
+            }
         },
         skills_page: {
             hero: {
-                title: 'Skills Universe',
-                subtitle: 'Wide spectrum of technologies bridged for problem solving.\nNot just a list, but a proven ecosystem.'
+                title: 'Technische Fähigkeiten',
+                subtitle_1: 'Auswahl optimaler Technologien',
+                subtitle_2: 'für Problemlösung',
+                scroll_to_explore: 'SCROLLEN ZUM ERKUNDEN'
             },
             core: {
-                title: 'Core Competencies',
+                title: 'Kernkompetenzen',
                 problem_solving: {
-                    title: 'Problem Solving',
-                    desc: 'From planning to deployment & operation. Full-cycle implementation capability.'
+                    title: 'Problemlösung',
+                    desc: 'Von der Planung bis zur Bereitstellung und zum Betrieb. Vollständige Implementierungsfähigkeit.'
                 },
                 architecture: {
-                    title: 'Architecture',
-                    desc: 'Integrated design across Frontend, Backend, AI, and Infrastructure.'
+                    title: 'Architektur',
+                    desc: 'Integriertes Design über Frontend, Backend, KI und Infrastruktur.'
                 },
                 scalability: {
-                    title: 'Scalability',
-                    desc: 'Experience expanding from MVP to service-level scale.'
+                    title: 'Skalierbarkeit',
+                    desc: 'Erfahrung bei der Erweiterung von MVP auf Service-Ebene.'
                 },
                 education: {
-                    title: 'Education',
-                    desc: 'Practical-based teaching and documentation skills.'
+                    title: 'Bildung',
+                    desc: 'Praxisorientiertes Lehren und Dokumentationsfähigkeiten.'
                 }
             },
             stack: {
-                title: 'Technical Stack',
+                title: 'Technischer Stack',
                 language: { title: 'Sprache', row1: 'Sprachen', row2: 'Fokus', focus_desc: 'Wartung, Skalierbarkeit, Automatisierung' },
                 frontend: { title: 'Frontend', row1: 'Frameworks', row2: 'Tools & Creative' },
                 backend: { title: 'Backend', row1: 'Server', row2: 'Konzepte & Serverless' },
@@ -517,7 +1226,7 @@ export const translations = {
                 tools: { title: 'Entwicklungstools', row1: 'Tools' }
             },
             scenarios: {
-                title: 'Usage Scenarios',
+                title: 'Anwendungsszenarien',
                 pos: {
                     title: 'Global POS & Billing API',
                     desc: 'Abstracting complex local tax regulations into a single API,\nreducing settlement errors to 0% for global stores.'
@@ -545,8 +1254,23 @@ export const translations = {
             },
             trust: {
                 badge: 'PATENT PENDING',
-                title: 'B2B Chat Solution Architecture',
-                desc: 'Patent-2023-0130063\nMaßgeschneiderte KI-Chatbot-Lösung für den B2B-Kundensupport.\nBeinhaltet Module für Datenerfassung, Nachbearbeitung, Synonymverarbeitung und Fehlertraining.'
+                inventor: 'Erfinder:',
+                patents: [
+                    {
+                        title: 'B2B Chat Solution Architecture',
+                        number: 'Patent-2023-0130063',
+                        date: '2023.09.27',
+                        inventors: 'Han Dongyun',
+                        desc: 'Maßgeschneiderte KI-Chatbot-Lösung für den B2B-Kundensupport.\nBeinhaltet Module für Datenerfassung, Nachbearbeitung, Synonymverarbeitung und Fehlertraining.'
+                    },
+                    {
+                        title: 'Gerät zur Bestimmung der Trockenalgengrade',
+                        number: '10-2025-0216295',
+                        date: '2025.12.31',
+                        inventors: 'Kwon Kiho, Han Dongyun',
+                        desc: 'Ein Gerät, das die Qualität von getrockneten Algen automatisch durch Deep-Learning-basierte Bildanalyse einstuft.\nKombiniert Bildvorverarbeitungsmodule, die Abweichungen je nach Aufnahmeumgebung korrigieren, mit maschinellen Lernmodellen, um mehrere Qualitätsindikatoren (Glanz, Farbe, Fremdkörper, Falten, Klumpen, Textur) quantitativ zu bewerten und eine konsistente Einstufung zu ermöglichen.'
+                    }
+                ]
             }
         }
     }

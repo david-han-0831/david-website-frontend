@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import styles from './page.module.css'
 import HighlightCards from '@/components/dom/HighlightCards'
-import ARButton from '@/components/dom/ARButton'
+// import ARButton from '@/components/dom/ARButton' // Hidden - AR feature not implemented yet
 import SpecializedAreas from '@/components/dom/SpecializedAreas'
 import ExperienceSnapshot from '@/components/dom/ExperienceSnapshot'
 import WhatIDo from '@/components/dom/WhatIDo'
@@ -77,18 +77,18 @@ export default function Home() {
           </div>
 
           <div className={styles.buttons}>
-            <Link href="/portfolio-overview" className={styles.primaryButton}>
+            <Link href="/projects" className={styles.primaryButton}>
               {t.hero.btn_portfolio}
             </Link>
-            <Link href="/what-i-build" className={styles.secondaryButton}>
+            <Link href="/skills" className={styles.secondaryButton}>
               {t.hero.btn_build}
             </Link>
-            <Link href="/teaching-framework" className={styles.secondaryButton}>
+            <Link href="/teaching" className={styles.secondaryButton}>
               {t.hero.btn_teaching}
             </Link>
           </div>
         </div>
-        <ARButton />
+        {/* <ARButton /> Hidden - AR feature not implemented yet */}
       </div>
 
       <MotionSection className={styles.sectionSpacing}>

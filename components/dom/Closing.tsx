@@ -1,11 +1,14 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useLanguage } from '@/contexts/LanguageContext'
 // Link import removed as it is inside ContactButton now
 import ContactButton from './ContactButton'
 import styles from './Closing.module.css'
 
 export default function Closing() {
+    const { t } = useLanguage()
+    
     return (
         <section className={styles.section}>
             <motion.p
@@ -15,8 +18,8 @@ export default function Closing() {
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
             >
-                함께 이야기해볼 주제가 있다면,<br />
-                언제든 환영합니다
+                {t?.about_page?.closing?.text_1 || '함께 이야기해볼 주제가 있다면,'}<br />
+                {t?.about_page?.closing?.text_2 || '언제든 환영합니다'}
             </motion.p>
 
             <motion.div

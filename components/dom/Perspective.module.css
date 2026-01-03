@@ -44,6 +44,52 @@
     transition: color 0.5s ease;
 }
 
+/* 강조 단어 스타일 */
+.highlight {
+    color: #60a5fa; /* Blue-400 */
+    font-weight: 800;
+    position: relative;
+    display: inline-block;
+    text-shadow: 0 0 20px rgba(96, 165, 250, 0.5);
+    background: linear-gradient(to right, #60a5fa, #6dd5ed);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: highlightPulse 2s ease-in-out infinite;
+}
+
+@keyframes highlightPulse {
+    0%, 100% {
+        filter: brightness(1);
+        transform: scale(1);
+    }
+    50% {
+        filter: brightness(1.2);
+        transform: scale(1.02);
+    }
+}
+
+/* 클라이맥스 텍스트 내 강조 - 더 은은하게 */
+.climaxText .highlight {
+    background: linear-gradient(to right, #a5b4fc, #6dd5ed);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 15px rgba(109, 213, 237, 0.3);
+    animation: climaxHighlight 3s ease-in-out infinite;
+}
+
+@keyframes climaxHighlight {
+    0%, 100% {
+        filter: brightness(1);
+        transform: scale(1);
+    }
+    50% {
+        filter: brightness(1.1);
+        transform: scale(1.01);
+    }
+}
+
 /* 활성화된 문장은 더 밝게 */
 .sentenceActive {
     color: #fff;

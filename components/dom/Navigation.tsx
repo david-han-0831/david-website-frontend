@@ -26,7 +26,7 @@ export default function Navigation() {
     return (
         <nav className={styles.nav}>
             <Link href="/" className={styles.logo} onClick={() => setIsMenuOpen(false)}>
-                HDY
+                David
             </Link>
 
             {/* Desktop Links */}
