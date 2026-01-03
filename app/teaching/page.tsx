@@ -20,7 +20,7 @@ export default function TeachingPage() {
     const containerRef = useRef(null)
     const heroRef = useRef<HTMLElement>(null)
     const canvasRef = useRef<HTMLCanvasElement>(null)
-    const { t, currentLanguage } = useLanguage()
+    const { t } = useLanguage()
     const smoothMousePosRef = useRef({ x: 0, y: 0 })
     const targetMousePosRef = useRef({ x: 0, y: 0 })
     const animationFrameRef = useRef<number>()
