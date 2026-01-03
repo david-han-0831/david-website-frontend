@@ -306,8 +306,8 @@ export default function ProjectDetailPage() {
                     <h2 className={styles.sectionTitle}>{t?.project_detail_page?.tech_stack || 'Tech Stack'}</h2>
                     <div className={styles.techGrid}>
                         {project.techStack.map((tech) => {
-                            const Icon = iconMap[tech] || FaCode;
-                            const brandColor = brandColors[tech] || '#ccc';
+                            const Icon = (iconMap as any)[tech] || FaCode;
+                            const brandColor = (brandColors as any)[tech] || '#ccc';
                             return (
                                 <span key={tech} className={styles.techTag}>
                                     <Icon className={styles.techIcon} style={{ color: brandColor }} />
