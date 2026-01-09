@@ -3,11 +3,12 @@ import styles from './HighlightCards.module.css'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { motion, useMotionTemplate, useMotionValue, useSpring } from 'framer-motion'
 import { MouseEvent } from 'react'
+import { trackCardClick } from '@/lib/utils/gtm'
 
 const ROTATION_RANGE = 20; // Deg
 const HALF_ROTATION_RANGE = 20 / 2;
 
-function InteractiveCard({ title, desc, link, linkText }: { title: string, desc: string, link: string, linkText: string }) {
+function InteractiveCard({ title, desc, link, linkText, locale }: { title: string, desc: string, link: string, linkText: string, locale: string }) {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
 
@@ -66,7 +67,11 @@ function InteractiveCard({ title, desc, link, linkText }: { title: string, desc:
                         <h3 className={styles.cardTitle}>{title}</h3>
                         <p className={styles.cardDesc}>{desc}</p>
                     </div>
-                    <Link href={link} className={styles.cardLink}>
+                    <Link 
+                        href={link} 
+                        className={styles.cardLink}
+                        onClick={() => trackCardClick(title, link, locale)}
+                    >
                         {linkText} <span>→</span>
                     </Link>
                 </div>
@@ -76,7 +81,7 @@ function InteractiveCard({ title, desc, link, linkText }: { title: string, desc:
 }
 
 export default function HighlightCards() {
-    const { t } = useLanguage()
+    const { t, locale } = useLanguage()
 
     const highlights = [
         {
@@ -102,7 +107,7 @@ export default function HighlightCards() {
     return (
         <div className={styles.grid}>
             {highlights.map((item, i) => (
-                <InteractiveCard key={i} {...item} />
+                <InteractiveCard key={i} {...item} locale={locale} />
             ))}
         </div>
     )

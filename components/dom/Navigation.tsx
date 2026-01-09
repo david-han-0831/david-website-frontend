@@ -7,11 +7,12 @@ import clsx from 'clsx'
 import { useLanguage } from '@/contexts/LanguageContext'
 import LanguageSwitcher from './LanguageSwitcher'
 import { useState } from 'react'
+import { trackLinkClick } from '@/lib/utils/gtm'
 import { HiMenu, HiX } from 'react-icons/hi'
 
 export default function Navigation() {
     const pathname = usePathname()
-    const { t } = useLanguage()
+    const { t, locale } = useLanguage()
 
     const navItems = [
         { name: t.nav.about, path: '/about' },
@@ -36,6 +37,7 @@ export default function Navigation() {
                         key={item.path}
                         href={item.path}
                         className={clsx(styles.link, pathname === item.path && styles.active)}
+                        onClick={() => trackLinkClick(item.name, 'navigation', item.path, locale)}
                     >
                         {item.name}
                     </Link>
@@ -55,7 +57,10 @@ export default function Navigation() {
                             key={item.path}
                             href={item.path}
                             className={clsx(styles.mobileLink, pathname === item.path && styles.active)}
-                            onClick={() => setIsMenuOpen(false)}
+                            onClick={() => {
+                                setIsMenuOpen(false)
+                                trackLinkClick(item.name, 'navigation', item.path, locale)
+                            }}
                         >
                             {item.name}
                         </Link>

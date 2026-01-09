@@ -17,6 +17,7 @@ import SkillFlow from '@/components/dom/SkillFlow'
 import MotionSection from '@/components/dom/MotionSection'
 
 import { useLanguage } from '@/contexts/LanguageContext'
+import { trackButtonClick } from '@/lib/utils/gtm'
 
 // Dynamic import for 3D components to avoid hydration mismatch and improve perf
 const Scene = dynamic(() => import('@/components/canvas/Scene'), { ssr: false })
@@ -28,7 +29,7 @@ const FloatingIcons = dynamic(() => import('@/components/canvas/FloatingIcons'),
 // Fog removed based on feedback
 
 export default function Home() {
-  const { t } = useLanguage()
+  const { t, locale } = useLanguage()
 
   return (
     <main className={styles.main}>
@@ -77,13 +78,25 @@ export default function Home() {
           </div>
 
           <div className={styles.buttons}>
-            <Link href="/projects" className={styles.primaryButton}>
+            <Link 
+              href="/projects" 
+              className={styles.primaryButton}
+              onClick={() => trackButtonClick('portfolio', 'hero', '/projects', locale)}
+            >
               {t.hero.btn_portfolio}
             </Link>
-            <Link href="/skills" className={styles.secondaryButton}>
+            <Link 
+              href="/skills" 
+              className={styles.secondaryButton}
+              onClick={() => trackButtonClick('skills', 'hero', '/skills', locale)}
+            >
               {t.hero.btn_build}
             </Link>
-            <Link href="/teaching" className={styles.secondaryButton}>
+            <Link 
+              href="/teaching" 
+              className={styles.secondaryButton}
+              onClick={() => trackButtonClick('teaching', 'hero', '/teaching', locale)}
+            >
               {t.hero.btn_teaching}
             </Link>
           </div>
