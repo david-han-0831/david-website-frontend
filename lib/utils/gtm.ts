@@ -1,7 +1,5 @@
 'use client'
 
-import { sendGTMEvent } from '@next/third-parties/google'
-
 /**
  * GTM 이벤트 추적 타입 정의
  */
@@ -17,7 +15,17 @@ export interface GTMEventParams {
 }
 
 /**
+ * GTM dataLayer 타입 선언
+ */
+declare global {
+  interface Window {
+    dataLayer: Array<Record<string, any>>
+  }
+}
+
+/**
  * GTM 이벤트를 전송하는 유틸리티 함수
+ * dataLayer에 직접 push하여 모든 커스텀 파라미터를 전달합니다.
  * 
  * @param params - GTM 이벤트 파라미터
  * 
@@ -27,7 +35,8 @@ export interface GTMEventParams {
  *   event: 'button_click',
  *   button_name: 'portfolio',
  *   button_location: 'hero',
- *   destination: '/projects'
+ *   destination: '/projects',
+ *   language: 'ko'
  * })
  * ```
  */
@@ -38,7 +47,27 @@ export function trackGTMEvent(params: GTMEventParams): void {
       return
     }
 
-    sendGTMEvent(params)
+    // dataLayer가 초기화되지 않았다면 초기화
+    if (!window.dataLayer) {
+      window.dataLayer = []
+    }
+
+    // undefined 값 제거하여 깔끔한 객체 생성
+    const cleanParams: Record<string, any> = {}
+    Object.keys(params).forEach((key) => {
+      const value = params[key]
+      if (value !== undefined && value !== null) {
+        cleanParams[key] = value
+      }
+    })
+
+    // dataLayer에 직접 push
+    window.dataLayer.push(cleanParams)
+
+    // 개발 환경에서 디버깅용 로그
+    if (process.env.NODE_ENV === 'development') {
+      console.log('GTM Event pushed:', cleanParams)
+    }
   } catch (error) {
     // 프로덕션에서 에러가 발생해도 앱이 중단되지 않도록
     if (process.env.NODE_ENV === 'development') {
