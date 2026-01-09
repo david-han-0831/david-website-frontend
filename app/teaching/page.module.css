@@ -73,6 +73,8 @@
     position: relative;
     z-index: 10;
     overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Grid Background Pattern */
@@ -104,6 +106,9 @@
     margin-bottom: 4rem;
     position: relative;
     z-index: 2;
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
 }
 
 .flowTitle {
@@ -127,6 +132,7 @@
     width: 100%;
     margin: 0 auto;
     z-index: 2;
+    box-sizing: border-box;
 }
 
 .flowLine {
@@ -134,7 +140,8 @@
     left: 10rem;
     /* Aligned with icon center */
     top: 1rem;
-    bottom: 0;
+    bottom: 2rem;
+    /* Stop at last marker center */
     width: 3px;
     background: rgba(255, 255, 255, 0.1);
     transform: translateX(-50%);
@@ -175,6 +182,8 @@
 
 .flowLineFill {
     width: 100%;
+    height: 100%;
+    max-height: 100%;
     background: linear-gradient(to bottom, #60a5fa, #3b82f6, #60a5fa);
     transform-origin: top;
     box-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
@@ -187,6 +196,10 @@
     position: relative;
     z-index: 2;
     padding-left: 10rem;
+}
+
+.flowStep:last-child {
+    margin-bottom: 0;
 }
 
 .stepMarker {
@@ -232,8 +245,6 @@
 .flowStep:hover .stepMarker {
     border-color: #60a5fa;
     box-shadow: 0 0 30px rgba(96, 165, 250, 0.6);
-    background: linear-gradient(135deg, rgba(96, 165, 250, 0.15), rgba(59, 130, 246, 0.1));
-    transform: scale(1.1);
 }
 
 .flowStep:hover .stepMarker::after {
@@ -248,12 +259,6 @@
     transition: all 0.3s ease;
 }
 
-.flowStep:hover .stepIcon {
-    color: #6dd5ed;
-    filter: drop-shadow(0 0 12px rgba(109, 213, 237, 0.8));
-    transform: scale(1.1) rotate(5deg);
-}
-
 .stepContent {
     padding-top: 0.5rem;
     max-width: 400px;
@@ -261,22 +266,7 @@
     transition: all 0.3s ease;
 }
 
-/* Subtle background glow on hover */
-.flowStep:hover .stepContent {
-    padding-left: 0.5rem;
-}
-
-.flowStep:hover .stepContent::before {
-    content: '';
-    position: absolute;
-    left: -1rem;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background: linear-gradient(to bottom, #60a5fa, #6dd5ed);
-    border-radius: 2px;
-    box-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
-}
+/* Removed hover line effect that overlapped with flowLine */
 
 .stepTitle {
     font-size: 1.3rem;
@@ -737,16 +727,43 @@
 
     .flowSection {
         padding: 4rem 1.5rem;
+        width: 100%;
+        box-sizing: border-box;
+        position: relative;
+        overflow: visible;
+    }
+
+    .flowContainer {
+        max-width: 100%;
+        width: calc(100% - 2rem);
+        padding: 0;
+        margin: 0 auto;
+        margin-left: auto;
+        margin-right: 1rem;
+        gap: 3rem;
+        box-sizing: border-box;
+    }
+
+    .flowLine {
+        left: 1.5rem;
+        top: 1rem;
+        bottom: 1.5rem;
+        /* Stop at last marker center on mobile */
+        transform: translateX(-50%);
+        width: 2px;
     }
 
     .flowStep {
         flex-direction: row;
-        gap: 2.5rem;
+        gap: 1.5rem;
         align-items: flex-start;
+        padding-left: 0;
+        width: 100%;
+        box-sizing: border-box;
     }
 
-    .flowContainer {
-        gap: 4rem;
+    .flowStep:last-child {
+        margin-bottom: 0;
     }
 
     .stepMarker {
@@ -755,33 +772,103 @@
         font-size: 0.9rem;
         position: relative;
         z-index: 3;
+        margin-left: 0;
+        flex-shrink: 0;
     }
 
-    .flowLine {
-        left: 3rem;
-        top: 2rem;
-        transform: translateX(-50%);
-        width: 2px;
+    .stepIcon {
+        font-size: 1.2rem;
     }
 
-    .flowStep {
-        padding-left: 3rem;
+    .stepContent {
+        flex: 1;
+        padding-top: 0.5rem;
     }
 
-    .stepMarker {
-        margin-left: -3rem;
-        width: 3rem;
-        height: 3rem;
+    .stepTitle {
+        font-size: 1.1rem;
     }
 
-
-    .flowContainer {
-        max-width: 100%;
-        padding: 0 1rem;
-        gap: 4rem;
+    .stepDesc {
+        font-size: 0.85rem;
     }
 
     .flowTitle {
         font-size: 1.5rem;
+    }
+
+    .flowDesc {
+        font-size: 0.9rem;
+    }
+
+    .flowHeader {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 1rem;
+        box-sizing: border-box;
+    }
+}
+
+@media (max-width: 480px) {
+    .flowSection {
+        padding: 3rem 1rem;
+        width: 100%;
+        box-sizing: border-box;
+        overflow: visible;
+    }
+
+    .flowContainer {
+        width: 100%;
+        padding: 0;
+        margin: 0 auto;
+        margin-left: 15rem;
+        margin-right: 0.5rem;
+        gap: 2.5rem;
+        box-sizing: border-box;
+    }
+
+    .flowLine {
+        left: 1.25rem;
+        bottom: 1.25rem;
+        /* Stop at last marker center on small mobile */
+        width: 1.5px;
+    }
+
+    .flowStep {
+        gap: 1rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .stepMarker {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .stepIcon {
+        font-size: 1rem;
+    }
+
+    .stepTitle {
+        font-size: 1rem;
+    }
+
+    .stepDesc {
+        font-size: 0.8rem;
+    }
+
+    .flowTitle {
+        font-size: 1.3rem;
+    }
+
+    .flowDesc {
+        font-size: 0.85rem;
+    }
+
+    .flowHeader {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 0.5rem;
+        box-sizing: border-box;
     }
 }
