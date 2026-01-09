@@ -6,6 +6,7 @@ import Navigation from '@/components/dom/Navigation'
 import Footer from '@/components/dom/Footer'
 import { GoogleTagManager } from '@next/third-parties/google'
 import MicrosoftClarity from '@/components/analytics/MicrosoftClarity'
+import PostHogProviderWrapper from '@/components/analytics/PostHog'
 import StructuredData from '@/components/seo/StructuredData'
 
 const inter = Inter({
@@ -87,6 +88,8 @@ export default function RootLayout({
 }) {
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID
   const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID
+  const posthogApiKey = process.env.NEXT_PUBLIC_POSTHOG_KEY
+  const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com'
 
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable} ${jetbrainsMono.variable}`}>
@@ -99,13 +102,15 @@ export default function RootLayout({
         {/* Google Tag Manager - Next.js 공식 컴포넌트 (자동으로 head와 body에 최적화 배치) */}
         {gtmId && <GoogleTagManager gtmId={gtmId} />}
         {clarityId && <MicrosoftClarity clarityId={clarityId} />}
-        <LanguageProvider>
-          <SmoothScroll>
-            <Navigation />
-            {children}
-            <Footer />
-          </SmoothScroll>
-        </LanguageProvider>
+        <PostHogProviderWrapper apiKey={posthogApiKey || ''} apiHost={posthogHost}>
+          <LanguageProvider>
+            <SmoothScroll>
+              <Navigation />
+              {children}
+              <Footer />
+            </SmoothScroll>
+          </LanguageProvider>
+        </PostHogProviderWrapper>
       </body>
     </html>
   )
