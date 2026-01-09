@@ -45,13 +45,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: '/',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com',
     siteName: 'Han Dongyun Portfolio',
     title: 'Han Dongyun | Interactive Portfolio',
     description: 'Interactive Portfolio Platform of Han Dongyun - Developer & Educator',
     images: [
       {
-        url: '/og-image.jpg',
+        url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com'}/og-image.jpg`,
         width: 1200,
         height: 630,
         alt: 'Han Dongyun Portfolio',
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Han Dongyun | Interactive Portfolio',
     description: 'Interactive Portfolio Platform of Han Dongyun - Developer & Educator',
-    images: ['/og-image.jpg'],
+    images: [`${process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com'}/og-image.jpg`],
   },
   robots: {
     index: true,

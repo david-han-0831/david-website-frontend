@@ -38,7 +38,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: project.heroImage
         ? [
             {
-              url: project.heroImage,
+              url: project.heroImage.startsWith('http') 
+                ? project.heroImage 
+                : `${baseUrl}${project.heroImage}`,
               width: 1200,
               height: 630,
               alt: project.title,
@@ -58,7 +60,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${project.title} | Han Dongyun`,
       description: project.summary,
       images: project.heroImage
-        ? [project.heroImage]
+        ? [
+            project.heroImage.startsWith('http') 
+              ? project.heroImage 
+              : `${baseUrl}${project.heroImage}`
+          ]
         : [`${baseUrl}/og-image.jpg`],
     },
     alternates: {

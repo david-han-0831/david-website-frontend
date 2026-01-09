@@ -57,11 +57,12 @@ export function trackGTMEvent(params: GTMEventParams): void {
     // dataLayer에 직접 push
     dataLayer.push(cleanParams)
 
-    // 항상 콘솔에 로그 출력 (프로덕션에서도 디버깅 가능하도록)
-    console.log('[GTM] Event pushed to dataLayer:', cleanParams)
-    console.log('[GTM] Current dataLayer:', dataLayer)
+    // 개발 환경에서만 디버깅 로그 출력
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[GTM] Event pushed to dataLayer:', cleanParams)
+    }
   } catch (error) {
-    // 에러 발생 시 콘솔에 출력
+    // 에러 발생 시 콘솔에 출력 (프로덕션에서도 에러는 로깅)
     console.error('[GTM] Event tracking error:', error, params)
   }
 }

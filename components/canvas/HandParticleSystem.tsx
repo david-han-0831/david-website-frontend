@@ -197,7 +197,6 @@ export default function HandParticleSystem({ template = 'fireworks', color = '#0
             const result = handLandmarker.detectForVideo(videoRef.current, startTimeMs)
 
             if (result.landmarks && result.landmarks.length > 0) {
-                if (!handPresent) console.log("Hand Detected!", result.landmarks)
                 setHandPresent(true)
                 // Calculate tension from first hand
                 const landmarks = result.landmarks[0]
