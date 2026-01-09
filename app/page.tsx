@@ -81,21 +81,31 @@ export default function Home() {
             <Link 
               href="/projects" 
               className={styles.primaryButton}
-              onClick={() => trackButtonClick('portfolio', 'hero', '/projects', locale)}
+              onClick={(e) => {
+                trackButtonClick('portfolio', 'hero', '/projects', locale)
+                // 이벤트가 제대로 전파되도록 약간의 지연 추가
+                setTimeout(() => {
+                  // 페이지 전환은 Link가 자동으로 처리
+                }, 0)
+              }}
             >
               {t.hero.btn_portfolio}
             </Link>
             <Link 
               href="/skills" 
               className={styles.secondaryButton}
-              onClick={() => trackButtonClick('skills', 'hero', '/skills', locale)}
+              onClick={(e) => {
+                trackButtonClick('skills', 'hero', '/skills', locale)
+              }}
             >
               {t.hero.btn_build}
             </Link>
             <Link 
               href="/teaching" 
               className={styles.secondaryButton}
-              onClick={() => trackButtonClick('teaching', 'hero', '/teaching', locale)}
+              onClick={(e) => {
+                trackButtonClick('teaching', 'hero', '/teaching', locale)
+              }}
             >
               {t.hero.btn_teaching}
             </Link>

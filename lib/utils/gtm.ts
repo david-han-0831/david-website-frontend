@@ -38,13 +38,12 @@ export function trackGTMEvent(params: GTMEventParams): void {
       return
     }
 
-    // dataLayer 타입 단언 (이미 @next/third-parties/google에서 선언됨)
-    const dataLayer = (window as any).dataLayer as Array<Record<string, any>>
-
-    // dataLayer가 초기화되지 않았다면 초기화
-    if (!dataLayer) {
+    // dataLayer 초기화 확인 및 생성
+    if (!(window as any).dataLayer) {
       ;(window as any).dataLayer = []
     }
+
+    const dataLayer = (window as any).dataLayer as Array<Record<string, any>>
 
     // undefined 값 제거하여 깔끔한 객체 생성
     const cleanParams: Record<string, any> = {}
@@ -58,15 +57,12 @@ export function trackGTMEvent(params: GTMEventParams): void {
     // dataLayer에 직접 push
     dataLayer.push(cleanParams)
 
-    // 개발 환경에서 디버깅용 로그
-    if (process.env.NODE_ENV === 'development') {
-      console.log('GTM Event pushed:', cleanParams)
-    }
+    // 항상 콘솔에 로그 출력 (프로덕션에서도 디버깅 가능하도록)
+    console.log('[GTM] Event pushed to dataLayer:', cleanParams)
+    console.log('[GTM] Current dataLayer:', dataLayer)
   } catch (error) {
-    // 프로덕션에서 에러가 발생해도 앱이 중단되지 않도록
-    if (process.env.NODE_ENV === 'development') {
-      console.error('GTM Event tracking error:', error)
-    }
+    // 에러 발생 시 콘솔에 출력
+    console.error('[GTM] Event tracking error:', error, params)
   }
 }
 
