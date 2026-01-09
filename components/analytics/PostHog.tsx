@@ -1,7 +1,7 @@
 'use client'
 
 import { PostHogProvider } from 'posthog-js/react'
-import { useEffect } from 'react'
+import { useEffect, Suspense } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 
 interface PostHogProviderWrapperProps {
@@ -46,7 +46,9 @@ export default function PostHogProviderWrapper({
         debug: process.env.NODE_ENV === 'development',
       }}
     >
-      <PostHogPageView>{children}</PostHogPageView>
+      <Suspense fallback={<>{children}</>}>
+        <PostHogPageView>{children}</PostHogPageView>
+      </Suspense>
     </PostHogProvider>
   )
 }
