@@ -89,7 +89,7 @@ export default function RootLayout({
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID
   const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID
   const posthogApiKey = process.env.NEXT_PUBLIC_POSTHOG_KEY
-  const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com'
+  const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST
 
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable} ${jetbrainsMono.variable}`}>
@@ -102,7 +102,17 @@ export default function RootLayout({
         {/* Google Tag Manager - Next.js 공식 컴포넌트 (자동으로 head와 body에 최적화 배치) */}
         {gtmId && <GoogleTagManager gtmId={gtmId} />}
         {clarityId && <MicrosoftClarity clarityId={clarityId} />}
-        <PostHogProviderWrapper apiKey={posthogApiKey || ''} apiHost={posthogHost}>
+        {posthogApiKey && posthogHost ? (
+          <PostHogProviderWrapper apiKey={posthogApiKey} apiHost={posthogHost}>
+            <LanguageProvider>
+              <SmoothScroll>
+                <Navigation />
+                {children}
+                <Footer />
+              </SmoothScroll>
+            </LanguageProvider>
+          </PostHogProviderWrapper>
+        ) : (
           <LanguageProvider>
             <SmoothScroll>
               <Navigation />
@@ -110,7 +120,7 @@ export default function RootLayout({
               <Footer />
             </SmoothScroll>
           </LanguageProvider>
-        </PostHogProviderWrapper>
+        )}
       </body>
     </html>
   )
