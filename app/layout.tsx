@@ -86,7 +86,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID
-  const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID
+  const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID || 'uyofik2rn3'
 
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable} ${jetbrainsMono.variable}`}>
