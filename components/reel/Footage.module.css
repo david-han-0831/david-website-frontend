@@ -14,6 +14,11 @@
     display: block;
 }
 
+/* One grade for every clip: desaturated and warm, so stock footage never fights the accent */
+video.media {
+    filter: grayscale(1) sepia(0.28) contrast(1.15) brightness(0.85);
+}
+
 /* Film grain + vignette so generated and real footage sit in the same grade */
 .grain {
     position: absolute;
