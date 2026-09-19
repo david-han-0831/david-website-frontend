@@ -1,0 +1,95 @@
+.showreel {
+    position: relative;
+    height: 280vh;
+    margin-top: clamp(96px, 13vw, 200px);
+}
+
+.pin {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+}
+
+.anchor {
+    position: absolute;
+    inset: 30% 0;
+}
+
+/* HeroStrip: one lead clip with a column of two beside it */
+.screen {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr);
+    grid-template-rows: 1fr 1fr;
+    gap: 3px;
+    background: #0a0908;
+    will-change: transform;
+}
+
+.main,
+.side {
+    position: relative;
+    overflow: hidden;
+}
+
+.main {
+    grid-row: 1 / -1;
+}
+
+.caption {
+    position: absolute;
+    z-index: 2;
+    left: var(--gutter);
+    right: var(--gutter);
+    bottom: clamp(32px, 7vh, 80px);
+    display: grid;
+    gap: 12px;
+    pointer-events: none;
+}
+
+.kicker {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.title {
+    font-size: clamp(2.25rem, 7vw, 7.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    word-break: keep-all;
+    color: var(--ink);
+    text-shadow: 0 0 60px rgba(10, 9, 8, 0.8);
+}
+
+.note {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+}
+
+@media (max-width: 760px) {
+    .showreel {
+        height: 220vh;
+    }
+
+    .screen {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 2fr 1fr;
+    }
+
+    .main {
+        grid-row: auto;
+        grid-column: 1 / -1;
+    }
+}

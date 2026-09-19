@@ -44,6 +44,24 @@ export const translations = {
                     { title: 'Curriculum design', place: 'Tailored per cohort' },
                 ],
             },
+            showreel: {
+                title: 'Thirty seconds of what I do.',
+                note: 'Stock footage for now. The cut made from my own demos replaces it.',
+            },
+            lab: {
+                title: 'Put your hand up. The logo follows.',
+                desc: 'Hand tracking runs in your browser with MediaPipe, the same stack behind my shooting-form analysis project. Pinch to resize it.',
+                start: 'Turn on camera',
+                stop: 'Turn off camera',
+                loading: 'Loading the model…',
+                privacy: 'Video never leaves your device. Nothing is recorded or uploaded.',
+                hint_hand: 'Move your index finger. Pinch to scale.',
+                hint_mouse: 'No camera? Move your pointer instead.',
+                error: 'Couldn\'t start the camera. Check the browser permission and try again.',
+            },
+            patents: {
+                title: 'Two patents, filed from real projects.',
+            },
             end: {
                 title: 'Build something.\nOr teach someone.',
                 project: 'Start a project',
@@ -523,6 +541,24 @@ export const translations = {
                     { title: '커리큘럼 설계', place: '대상별 맞춤' },
                 ],
             },
+            showreel: {
+                title: '30초로 보는, 제가 하는 일.',
+                note: '지금은 스톡 영상입니다. 직접 만든 데모로 편집한 컷으로 교체됩니다.',
+            },
+            lab: {
+                title: '손을 들어보세요. 로고가 따라옵니다.',
+                desc: '핸드 트래킹이 브라우저 안에서 MediaPipe로 돌아갑니다. 농구 슛폼 분석 프로젝트에 쓴 것과 같은 기술입니다. 엄지와 검지를 모으면 크기가 바뀝니다.',
+                start: '카메라 켜기',
+                stop: '카메라 끄기',
+                loading: '모델 불러오는 중…',
+                privacy: '영상은 기기 밖으로 나가지 않습니다. 녹화도 업로드도 하지 않습니다.',
+                hint_hand: '검지를 움직여 보세요. 집으면 크기가 바뀝니다.',
+                hint_mouse: '카메라가 없다면 마우스를 움직여 보세요.',
+                error: '카메라를 시작하지 못했습니다. 브라우저 권한을 확인하고 다시 시도하세요.',
+            },
+            patents: {
+                title: '실제 프로젝트에서 나온 특허 2건.',
+            },
             end: {
                 title: '같이 만들거나,\n같이 가르치거나.',
                 project: '프로젝트 문의',
@@ -1001,6 +1037,24 @@ export const translations = {
                     { title: 'Bootcamp-Mentoring', place: 'Projektbasiert' },
                     { title: 'Curriculum-Design', place: 'Pro Zielgruppe' },
                 ],
+            },
+            showreel: {
+                title: 'Dreißig Sekunden über meine Arbeit.',
+                note: 'Vorerst Stockmaterial. Der Schnitt aus eigenen Demos ersetzt es.',
+            },
+            lab: {
+                title: 'Hand heben. Das Logo folgt.',
+                desc: 'Das Handtracking läuft mit MediaPipe direkt im Browser, derselbe Stack wie in meinem Projekt zur Wurfanalyse. Mit Daumen und Zeigefinger skalieren.',
+                start: 'Kamera einschalten',
+                stop: 'Kamera ausschalten',
+                loading: 'Modell wird geladen…',
+                privacy: 'Das Video verlässt dein Gerät nicht. Nichts wird aufgezeichnet oder hochgeladen.',
+                hint_hand: 'Zeigefinger bewegen. Zum Skalieren kneifen.',
+                hint_mouse: 'Keine Kamera? Beweg stattdessen den Mauszeiger.',
+                error: 'Die Kamera ließ sich nicht starten. Prüfe die Browser-Berechtigung und versuch es erneut.',
+            },
+            patents: {
+                title: 'Zwei Patente aus echten Projekten.',
             },
             end: {
                 title: 'Etwas bauen.\nOder jemanden lehren.',

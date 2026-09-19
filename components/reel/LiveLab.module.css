@@ -1,0 +1,145 @@
+.lab {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: clamp(24px, 4vw, 72px);
+    align-items: center;
+    padding: clamp(96px, 13vw, 200px) var(--gutter) 0;
+}
+
+.kicker {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.kicker em {
+    font-style: normal;
+    color: var(--accent);
+    margin-right: 0.5em;
+}
+
+.title {
+    margin-top: 20px;
+    font-size: clamp(2rem, 4.6vw, 4.75rem);
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    word-break: keep-all;
+}
+
+.desc {
+    margin-top: 20px;
+    max-width: 34em;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    word-break: keep-all;
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 32px;
+    padding: 16px 24px;
+    font: inherit;
+    font-weight: 600;
+    color: var(--bg);
+    background: var(--ink);
+    border: 1px solid var(--ink);
+    cursor: pointer;
+    transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.button:hover:not(:disabled) {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--ink);
+}
+
+.button:disabled {
+    cursor: progress;
+    opacity: 0.6;
+}
+
+.dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.dot[data-live] {
+    background: var(--accent);
+    animation: rec 1.2s steps(2, jump-none) infinite;
+}
+
+@keyframes rec {
+    50% {
+        opacity: 0.2;
+    }
+}
+
+.privacy,
+.status {
+    margin-top: 16px;
+    max-width: 34em;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+.status {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+}
+
+.arena {
+    position: relative;
+    aspect-ratio: 1;
+    max-height: 78vh;
+    width: 100%;
+    border: 1px solid var(--line);
+}
+
+.anchor {
+    position: absolute;
+    inset: 18%;
+}
+
+/* viewfinder tick */
+.corner {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 28px;
+    height: 28px;
+    border-top: 2px solid var(--accent);
+    border-left: 2px solid var(--accent);
+}
+
+.preview {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    width: min(34%, 200px);
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transform: scaleX(-1);
+    filter: grayscale(1) contrast(1.1);
+    border: 1px solid var(--line);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.preview[data-live] {
+    opacity: 1;
+}
+
+@media (max-width: 860px) {
+    .lab {
+        grid-template-columns: 1fr;
+    }
+}

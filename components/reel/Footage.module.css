@@ -2,7 +2,8 @@
     position: absolute;
     inset: 0;
     overflow: hidden;
-    background: var(--surface);
+    /* a screen is dark whatever the page tone is */
+    background: #141210;
 }
 
 .media {

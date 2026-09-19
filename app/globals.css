@@ -5,6 +5,7 @@
   --ink: #ece7de;
   --muted: #8c867b;
   --line: rgba(236, 231, 222, 0.14);
+  --ink-soft: rgba(236, 231, 222, 0.75);
   --accent: #ff5b2e;
 
   /* Type */
@@ -31,6 +32,41 @@
 
   /* Spacing */
   --header-height: 72px;
+}
+
+/* The redesigned pages opt into the light stage; untouched pages keep the dark tokens above */
+html:has(main[data-reel]) {
+  --bg: #f6f4ef;
+  --surface: #ebe8e1;
+  --ink: #0b0a09;
+  --ink-soft: rgba(11, 10, 9, 0.72);
+  --muted: #6f6a61;
+  --line: rgba(11, 10, 9, 0.14);
+  color-scheme: light;
+}
+
+/* Sections that flood the stage with a dark or accent colour flip their own ink */
+[data-tone='dark'] {
+  --ink: #ece7de;
+  --ink-soft: rgba(236, 231, 222, 0.75);
+  --muted: #8c867b;
+  --line: rgba(236, 231, 222, 0.14);
+}
+
+[data-tone='accent'] {
+  --ink: #0b0a09;
+  --ink-soft: rgba(11, 10, 9, 0.78);
+  --muted: rgba(11, 10, 9, 0.6);
+  --line: rgba(11, 10, 9, 0.25);
+  --accent: #0b0a09;
+}
+
+html[data-tone='dark'] {
+  --nav-ink: #ece7de;
+}
+
+html[data-tone='accent'] {
+  --nav-ink: #0b0a09;
 }
 
 * {
@@ -70,7 +106,7 @@ html.lenis body {
 
 body {
   width: 100%;
-  color: var(--text-white);
+  color: var(--ink);
   background: var(--bg);
   font-family: var(--font-body);
   min-height: 100vh;
@@ -95,7 +131,7 @@ a {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(236, 231, 222, 0.22);
+  background: var(--muted);
   border-radius: 0;
   border: 2px solid var(--bg-dark);
   /* Panic padding */

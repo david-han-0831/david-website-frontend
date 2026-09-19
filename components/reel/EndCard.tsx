@@ -1,9 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import Footage from './Footage'
 import Reveal from './Reveal'
-import { REEL_CLIPS } from '@/data/reel'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { trackButtonClick } from '@/lib/utils/gtm'
 import styles from './reel.module.css'
@@ -13,8 +11,7 @@ export default function EndCard() {
     const copy = t.reel.end
 
     return (
-        <Reveal as="section" className={styles.end}>
-            <Footage variant="flow" src={REEL_CLIPS.end} className={styles.endFootage} />
+        <Reveal as="section" className={styles.end} bg="#ff5b2e" tone="accent">
             <div className={styles.endInner}>
                 <p className={styles.kicker}>End of reel</p>
                 <h2 className={styles.endTitle}>{copy.title}</h2>
@@ -35,6 +32,7 @@ export default function EndCard() {
                     </Link>
                 </div>
             </div>
+            <div className={styles.endAnchor} data-stage-anchor aria-hidden="true" />
         </Reveal>
     )
 }

@@ -1,0 +1,5 @@
+/* Sits above the fixed stage; sections stay transparent so the backdrop colour shows through */
+.main {
+  position: relative;
+  z-index: 1;
+}

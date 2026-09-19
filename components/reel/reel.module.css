@@ -1,3 +1,12 @@
+/* Footage tiles stay dark "screens" on the light stage, so whatever sits on them keeps light ink */
+.columnLink,
+.buildFrame,
+.mosaicWrap {
+    --ink: #ece7de;
+    --muted: #a39d92;
+    color: var(--ink);
+}
+
 .section {
     padding: clamp(96px, 13vw, 200px) var(--gutter) 0;
 }
@@ -261,7 +270,7 @@
     margin-top: 14px;
     max-width: 38em;
     line-height: 1.7;
-    color: rgba(236, 231, 222, 0.75);
+    color: var(--ink-soft);
     word-break: keep-all;
 }
 
@@ -382,7 +391,7 @@
 
 .shutter span {
     flex: 1;
-    background: var(--ink);
+    background: var(--accent);
     transform-origin: top;
     transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1) calc(var(--i) * 70ms);
 }
@@ -424,7 +433,7 @@
     letter-spacing: -0.03em;
     text-transform: uppercase;
     color: transparent;
-    -webkit-text-stroke: 1px rgba(236, 231, 222, 0.5);
+    -webkit-text-stroke: 1px var(--muted);
 }
 
 .marqueeTrack li:nth-child(4n + 1) {
@@ -438,18 +447,55 @@
     }
 }
 
-/* EndCard */
+/* Patents */
+.patents {
+    list-style: none;
+}
+
+.patent {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr) auto;
+    gap: 8px 32px;
+    align-items: baseline;
+    padding: 22px 0;
+    border-top: 1px solid var(--line);
+}
+
+.patent:last-child {
+    border-bottom: 1px solid var(--line);
+}
+
+.patentNumber,
+.patentDate {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.patentTitle {
+    font-size: clamp(1.1rem, 1.7vw, 1.6rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    word-break: keep-all;
+}
+
+/* EndCard: the stage floods with the accent */
 .end {
     position: relative;
     min-height: 100svh;
+    margin-top: clamp(96px, 13vw, 200px);
     display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
     align-items: center;
+    gap: 32px;
     padding: 120px var(--gutter);
-    overflow: hidden;
+    color: var(--ink);
 }
 
-.endFootage {
-    opacity: 0.35;
+.endAnchor {
+    height: min(46vh, 420px);
 }
 
 .endInner {
@@ -459,7 +505,7 @@
 }
 
 .endTitle {
-    font-size: clamp(2.75rem, 9vw, 10rem);
+    font-size: clamp(2.75rem, 8.4vw, 9.5rem);
     font-weight: 800;
     line-height: 1.05;
     letter-spacing: -0.04em;
@@ -487,22 +533,18 @@
     font-size: 1rem;
     font-weight: 600;
     border: 1px solid var(--ink);
-    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 .buttonPrimary {
     background: var(--ink);
-    color: var(--bg);
+    color: #ff5b2e;
 }
 
-.buttonPrimary:hover {
-    background: var(--accent);
-    border-color: var(--accent);
-}
-
+.buttonPrimary:hover,
 .buttonGhost:hover {
-    background: var(--ink);
-    color: var(--bg);
+    background: #f6f4ef;
+    color: var(--ink);
 }
 
 @media (max-width: 860px) {
@@ -512,6 +554,14 @@
 
     .note {
         grid-column: 1;
+    }
+
+    .patent {
+        grid-template-columns: 1fr;
+    }
+
+    .end {
+        grid-template-columns: 1fr;
     }
 
     .stats {

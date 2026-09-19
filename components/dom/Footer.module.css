@@ -1,4 +1,6 @@
 .footer {
+    position: relative;
+    z-index: 1;
     padding: 56px var(--gutter) 28px;
     border-top: 1px solid var(--line);
     background: var(--bg);
@@ -13,7 +15,7 @@
 .bio {
     font-size: 1.05rem;
     line-height: 1.6;
-    color: rgba(236, 231, 222, 0.8);
+    color: var(--ink-soft);
 }
 
 .links {
@@ -26,7 +28,7 @@
 .links a {
     display: inline-block;
     padding: 6px 0;
-    color: rgba(236, 231, 222, 0.72);
+    color: var(--ink-soft);
     transition: color 0.25s ease;
 }
 
