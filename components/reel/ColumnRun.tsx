@@ -5,6 +5,7 @@ import Footage, { FootageVariant } from './Footage'
 import Reveal from './Reveal'
 import { PROJECTS } from '@/data/projects'
 import { useLanguage } from '@/contexts/LanguageContext'
+import KineticText from './KineticText'
 import styles from './reel.module.css'
 
 // ColumnRun: five uneven columns that rise from below, one after another
@@ -19,7 +20,7 @@ export default function ColumnRun() {
         <section className={styles.section}>
             <header className={styles.sectionHead}>
                 <p className={styles.kicker}>Selected work</p>
-                <h2 className={styles.h2}>{copy.title}</h2>
+                <KineticText text={copy.title} className={styles.h2} />
                 <p className={styles.note}>{copy.note}</p>
             </header>
 

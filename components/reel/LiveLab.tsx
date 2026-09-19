@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import type { HandLandmarker } from '@mediapipe/tasks-vision'
 import { stage } from '@/lib/stage'
 import { useLanguage } from '@/contexts/LanguageContext'
+import KineticText from './KineticText'
 import styles from './LiveLab.module.css'
 
 const WASM = 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22-rc.20250304/wasm'
@@ -81,7 +82,7 @@ export default function LiveLab() {
                 <p className={styles.kicker}>
                     <em>Live</em> Lab
                 </p>
-                <h2 className={styles.title}>{copy.title}</h2>
+                <KineticText text={copy.title} className={styles.title} />
                 <p className={styles.desc}>{copy.desc}</p>
 
                 <button

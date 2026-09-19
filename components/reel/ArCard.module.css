@@ -1,0 +1,122 @@
+.dialog {
+    --ink: #0b0a09;
+    --muted: #6f6a61;
+    width: min(960px, calc(100vw - 32px));
+    max-height: calc(100svh - 32px);
+    margin: auto;
+    padding: 0;
+    border: 0;
+    color: var(--ink);
+    background: #f6f4ef;
+    overflow: hidden;
+}
+
+.dialog[open] {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    animation: open 0.6s var(--ease-out);
+}
+
+.dialog::backdrop {
+    background: rgba(11, 10, 9, 0.7);
+}
+
+@keyframes open {
+    from {
+        clip-path: inset(0 0 100% 0);
+    }
+
+    to {
+        clip-path: inset(0);
+    }
+}
+
+.viewer {
+    position: relative;
+    min-height: min(60svh, 520px);
+    background: #ebe8e1;
+}
+
+.arButton {
+    position: absolute;
+    left: 16px;
+    bottom: 16px;
+    padding: 14px 20px;
+    font: inherit;
+    font-weight: 600;
+    color: #0b0a09;
+    background: #ff5b2e;
+    border: 0;
+    cursor: pointer;
+}
+
+.side {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: clamp(24px, 3vw, 40px);
+}
+
+.title {
+    font-size: clamp(1.5rem, 2.4vw, 2.25rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    word-break: keep-all;
+}
+
+.desc {
+    line-height: 1.7;
+    color: var(--muted);
+    word-break: keep-all;
+}
+
+.qr {
+    margin-top: auto;
+    display: grid;
+    gap: 10px;
+}
+
+.qr img {
+    display: block;
+    width: 140px;
+    height: 140px;
+}
+
+.qr figcaption {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+}
+
+.close {
+    align-self: start;
+    padding: 12px 18px;
+    font: inherit;
+    font-weight: 600;
+    color: var(--ink);
+    background: none;
+    border: 1px solid var(--ink);
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #f6f4ef;
+    background: var(--ink);
+}
+
+@media (max-width: 760px) {
+    .dialog[open] {
+        grid-template-columns: 1fr;
+    }
+
+    .viewer {
+        min-height: 46svh;
+    }
+
+    /* the phone is already in hand */
+    .qr {
+        display: none;
+    }
+}

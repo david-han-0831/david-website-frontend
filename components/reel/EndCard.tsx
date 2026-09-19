@@ -2,8 +2,10 @@
 
 import Link from 'next/link'
 import Reveal from './Reveal'
+import ArCard from './ArCard'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { trackButtonClick } from '@/lib/utils/gtm'
+import KineticText from './KineticText'
 import styles from './reel.module.css'
 
 export default function EndCard() {
@@ -14,7 +16,7 @@ export default function EndCard() {
         <Reveal as="section" className={styles.end} bg="#ff5b2e" tone="accent">
             <div className={styles.endInner}>
                 <p className={styles.kicker}>End of reel</p>
-                <h2 className={styles.endTitle}>{copy.title}</h2>
+                <KineticText text={copy.title} className={styles.endTitle} />
                 <div className={styles.endActions}>
                     <Link
                         href="/contact"
@@ -30,6 +32,7 @@ export default function EndCard() {
                     >
                         {copy.lecture} →
                     </Link>
+                    <ArCard className={styles.buttonGhost} />
                 </div>
             </div>
             <div className={styles.endAnchor} data-stage-anchor aria-hidden="true" />

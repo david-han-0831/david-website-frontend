@@ -1,28 +1,35 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useInView } from 'framer-motion'
 import { useLanguage } from '@/contexts/LanguageContext'
 import styles from './reel.module.css'
 
-function CountUp({ to, run }: { to: number; run: boolean }) {
-    const [value, setValue] = useState(0)
+const DIGITS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-    useEffect(() => {
-        if (!run) return
-        const duration = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 1 : 1400
-        let raf = 0
-        const start = performance.now()
-        const tick = (now: number) => {
-            const p = Math.min(1, (now - start) / duration)
-            setValue(Math.round(to * (1 - Math.pow(1 - p, 4))))
-            if (p < 1) raf = requestAnimationFrame(tick)
-        }
-        raf = requestAnimationFrame(tick)
-        return () => cancelAnimationFrame(raf)
-    }, [to, run])
-
-    return <>{value}</>
+/** Odometer: each digit is a reel of 0-9 that rolls to its value, later digits rolling longer. */
+function Odometer({ value, run }: { value: number; run: boolean }) {
+    return (
+        <span className={styles.odometer} aria-hidden="true">
+            {String(value)
+                .split('')
+                .map((digit, i) => (
+                    <span key={i} className={styles.reel}>
+                        <span
+                            className={styles.reelTrack}
+                            style={{
+                                transform: `translateY(-${run ? Number(digit) * 10 : 0}%)`,
+                                transitionDelay: `${i * 120}ms`,
+                            }}
+                        >
+                            {DIGITS.map((d) => (
+                                <span key={d}>{d}</span>
+                            ))}
+                        </span>
+                    </span>
+                ))}
+        </span>
+    )
 }
 
 export default function StatsStrip() {
@@ -35,8 +42,9 @@ export default function StatsStrip() {
             {t.reel.stats.map((stat) => (
                 <div key={stat.label} className={styles.stat}>
                     <dd className={styles.statValue}>
-                        <CountUp to={stat.value} run={inView} />
-                        <span>+</span>
+                        <span className={styles.srOnly}>{stat.value}+</span>
+                        <Odometer value={stat.value} run={inView} />
+                        <span aria-hidden="true">+</span>
                     </dd>
                     <dt className={styles.statLabel}>{stat.label}</dt>
                 </div>

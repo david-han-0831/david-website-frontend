@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { trackButtonClick } from '@/lib/utils/gtm'
+import KineticText from './KineticText'
 import styles from './GlassHero.module.css'
 
 export default function GlassHero() {
@@ -16,7 +17,7 @@ export default function GlassHero() {
                     <span>Portfolio {new Date().getFullYear()}</span>
                     <span>Developer · Educator</span>
                 </p>
-                <h1 className={styles.title}>{copy.title}</h1>
+                <KineticText as="h1" trigger="load" text={copy.title} className={styles.title} />
                 <p className={styles.sub}>{copy.sub}</p>
                 <div className={styles.actions}>
                     <Link
@@ -36,7 +37,7 @@ export default function GlassHero() {
                 </div>
             </div>
 
-            {/* Where the glass monogram parks; it overlaps the wordmark on purpose so the letters bend */}
+            {/* Where the glass rings park; it overlaps the wordmark on purpose so the letters bend */}
             <div className={styles.anchor} data-stage-anchor aria-hidden="true" />
 
             {/* Painted into the WebGL scene once it is ready; this copy is the first paint and the fallback */}

@@ -19,8 +19,8 @@ export default function Showreel() {
     return (
         <section ref={ref} className={styles.showreel} data-bg="#0a0908" data-tone="dark">
             <div className={styles.pin}>
-                {/* the monogram splits and frames the screen from both sides */}
-                <div className={styles.anchor} data-stage-anchor data-split="1.3" aria-hidden="true" />
+                {/* the rings part and frame the screen from both sides */}
+                <div className={styles.anchor} data-stage-anchor data-split="1.1" aria-hidden="true" />
 
                 <motion.div className={styles.screen} style={{ scale }}>
                     <div className={styles.main}>

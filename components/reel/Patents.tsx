@@ -1,6 +1,7 @@
 'use client'
 
 import { useLanguage } from '@/contexts/LanguageContext'
+import KineticText from './KineticText'
 import styles from './reel.module.css'
 
 /** Deliberately still: a breath between the loud scenes. */
@@ -11,7 +12,7 @@ export default function Patents() {
         <section className={styles.section}>
             <header className={styles.sectionHead}>
                 <p className={styles.kicker}>Patents</p>
-                <h2 className={styles.h2}>{t.reel.patents.title}</h2>
+                <KineticText text={t.reel.patents.title} className={styles.h2} />
             </header>
             <ul className={styles.patents}>
                 {t.skills_page.trust.patents.map((patent) => (

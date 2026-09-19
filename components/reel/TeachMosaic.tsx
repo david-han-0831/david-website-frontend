@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Footage, { FootageVariant } from './Footage'
 import Reveal from './Reveal'
 import { useLanguage } from '@/contexts/LanguageContext'
+import KineticText from './KineticText'
 import styles from './reel.module.css'
 
 const VARIANTS: FootageVariant[] = ['seats', 'code', 'flow', 'bars', 'track', 'ledger']
@@ -19,7 +20,7 @@ export default function TeachMosaic() {
                 <p className={styles.kicker}>
                     <em>B</em> Teach
                 </p>
-                <h2 className={styles.h2}>{copy.title}</h2>
+                <KineticText text={copy.title} className={styles.h2} />
             </header>
 
             {/* ShutterWipe opens onto a MosaicSix grid, then the number punches in */}

@@ -2,12 +2,11 @@
 
 import { Suspense, useEffect, useMemo, useRef } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { Center, Environment, Lightformer, MeshTransmissionMaterial, Text3D } from '@react-three/drei'
+import { Environment, Lightformer, MeshTransmissionMaterial } from '@react-three/drei'
 import * as THREE from 'three'
 import { stage } from '@/lib/stage'
 import styles from './Stage.module.css'
 
-const FONT = '/fonts/helvetiker_bold.typeface.json'
 const damp = THREE.MathUtils.damp
 
 /** The "DAVID HAN" wordmark lives inside the scene so the glass can actually refract it. */
@@ -86,10 +85,11 @@ function Wordmark() {
     )
 }
 
-function Monogram() {
+/** Two interlocked glass rings, Build and Teach. One object for the whole page. */
+function Rings() {
     const group = useRef<THREE.Group>(null)
-    const letterD = useRef<THREE.Group>(null)
-    const letterH = useRef<THREE.Group>(null)
+    const ringA = useRef<THREE.Mesh>(null)
+    const ringB = useRef<THREE.Mesh>(null)
     const pointer = useRef({ x: 0, y: 0 })
     const spin = useRef({ angle: 0, lastScroll: 0 })
     const anchors = useRef<HTMLElement[]>([])
@@ -138,10 +138,10 @@ function Monogram() {
         const hand = stage.hand.active && best.dataset.hand !== undefined ? stage.hand : null
         let x = ((bestRect.left + bestRect.width / 2) / size.width - 0.5) * viewport.width
         let y = -((bestRect.top + bestRect.height / 2) / size.height - 0.5) * viewport.height
-        let scale = (Math.min(bestRect.height, bestRect.width / 1.7) / size.height) * viewport.height
+        let scale = (Math.min(bestRect.height, bestRect.width / 1.5) / size.height) * viewport.height * 0.62
         const split = Number(best.dataset.split ?? 0)
 
-        // scrolling throws the monogram into a spin; at rest it settles on the nearest full turn, face forward
+        // scrolling throws the rings into a spin; at rest it settles on the nearest full turn, face forward
         const turn = Math.PI * 2
         spin.current.angle += (window.scrollY - spin.current.lastScroll) * 0.004
         spin.current.lastScroll = window.scrollY
@@ -163,9 +163,11 @@ function Monogram() {
         g.scale.setScalar(damp(g.scale.x, scale, speed, dt))
         g.rotation.y = damp(g.rotation.y, rotY, 4, dt)
         g.rotation.x = damp(g.rotation.x, rotX, 4, dt)
-        if (letterD.current && letterH.current) {
-            letterD.current.position.x = damp(letterD.current.position.x, -0.42 - split, 3, dt)
-            letterH.current.position.x = damp(letterH.current.position.x, 0.42 + split, 3, dt)
+        if (ringA.current && ringB.current) {
+            ringA.current.position.x = damp(ringA.current.position.x, -0.3 - split, 3, dt)
+            ringB.current.position.x = damp(ringB.current.position.x, 0.3 + split, 3, dt)
+            ringA.current.rotation.z += dt * 0.25
+            ringB.current.rotation.z -= dt * 0.25
         }
 
         background.lerp(target.set(stage.bg), 1 - Math.exp(-4 * dt))
@@ -195,24 +197,17 @@ function Monogram() {
             attenuationDistance={6}
         />
     )
-    const text = { font: FONT, size: 1, height: 0.42, curveSegments: 10, bevelEnabled: true, bevelSize: 0.035, bevelThickness: 0.06, bevelSegments: 4 }
 
     return (
         <group ref={group} scale={0.001}>
-            <group ref={letterD} position-x={-0.42}>
-                <Center>
-                    <Text3D {...text}>
-                        D{glass}
-                    </Text3D>
-                </Center>
-            </group>
-            <group ref={letterH} position-x={0.42}>
-                <Center>
-                    <Text3D {...text}>
-                        H{glass}
-                    </Text3D>
-                </Center>
-            </group>
+            <mesh ref={ringA} position-x={-0.3} rotation={[Math.PI / 4.5, 0, 0]}>
+                <torusGeometry args={[0.52, 0.15, 48, 128]} />
+                {glass}
+            </mesh>
+            <mesh ref={ringB} position-x={0.3} rotation={[0, Math.PI / 2.9, 0]}>
+                <torusGeometry args={[0.52, 0.15, 48, 128]} />
+                {glass}
+            </mesh>
         </group>
     )
 }
@@ -227,7 +222,7 @@ export default function StageCanvas() {
         >
             <Suspense fallback={null}>
                 <Wordmark />
-                <Monogram />
+                <Rings />
                 {/* Procedural studio lighting: no HDR download */}
                 <Environment resolution={256}>
                     <Lightformer form="rect" intensity={4} position={[0, 4, 2]} scale={[8, 3, 1]} />

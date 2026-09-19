@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Footage, { FootageVariant } from './Footage'
 import { useLanguage } from '@/contexts/LanguageContext'
+import KineticText from './KineticText'
 import styles from './reel.module.css'
 
 export default function BuildList() {
@@ -39,7 +40,7 @@ export default function BuildList() {
                 <p className={styles.kicker}>
                     <em>A</em> Build
                 </p>
-                <h2 className={styles.h2}>{t.reel.build.title}</h2>
+                <KineticText text={t.reel.build.title} className={styles.h2} />
             </header>
 
             <div className={styles.build}>
