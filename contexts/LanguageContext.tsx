@@ -14,6 +14,10 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
     const [locale, setLocale] = useState<Locale>('ko') // Default to Korean as per recent interaction
 
+    useEffect(() => {
+        document.documentElement.lang = locale
+    }, [locale])
+
     const value = {
         locale,
         t: translations[locale],

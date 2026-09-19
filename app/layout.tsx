@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Poppins, JetBrains_Mono } from 'next/font/google'
+import { Archivo, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import SmoothScroll from '@/components/dom/SmoothScroll'
 import Navigation from '@/components/dom/Navigation'
@@ -9,16 +9,10 @@ import MicrosoftClarity from '@/components/analytics/MicrosoftClarity'
 import PostHogProviderWrapper from '@/components/analytics/PostHog'
 import StructuredData from '@/components/seo/StructuredData'
 
-const inter = Inter({
+const archivo = Archivo({
   subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-})
-
-const poppins = Poppins({
-  weight: ['400', '600', '700'],
-  subsets: ['latin'],
-  variable: '--font-poppins',
+  axes: ['wdth'],
+  variable: '--font-archivo',
   display: 'swap',
 })
 
@@ -92,13 +86,18 @@ export default function RootLayout({
   const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST
 
   return (
-    <html lang="en" className={`${inter.variable} ${poppins.variable} ${jetbrainsMono.variable}`}>
+    <html lang="ko" className={`${archivo.variable} ${jetbrainsMono.variable}`}>
       <head>
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+        />
         <StructuredData type="Person" />
         <StructuredData type="Organization" />
         <StructuredData type="WebSite" />
       </head>
-      <body className={inter.className}>
+      <body>
         {/* Google Tag Manager - Next.js 공식 컴포넌트 (자동으로 head와 body에 최적화 배치) */}
         {gtmId && <GoogleTagManager gtmId={gtmId} />}
         {clarityId && <MicrosoftClarity clarityId={clarityId} />}

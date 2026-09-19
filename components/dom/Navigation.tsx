@@ -27,7 +27,7 @@ export default function Navigation() {
     return (
         <nav className={styles.nav}>
             <Link href="/" className={styles.logo} onClick={() => setIsMenuOpen(false)}>
-                David
+                David Han
             </Link>
 
             {/* Desktop Links */}
@@ -45,8 +45,14 @@ export default function Navigation() {
             </div>
 
             {/* Mobile Hamburger */}
-            <button className={styles.hamburger} onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                {isMenuOpen ? <HiX /> : <HiMenu />}
+            <button
+                type="button"
+                className={styles.hamburger}
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-expanded={isMenuOpen}
+                aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+            >
+                {isMenuOpen ? <HiX aria-hidden="true" /> : <HiMenu aria-hidden="true" />}
             </button>
 
             {/* Mobile Overlay */}

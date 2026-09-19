@@ -2,6 +2,54 @@ export type Locale = 'en' | 'ko' | 'de'
 
 export const translations = {
     en: {
+        reel: {
+            hero: {
+                title: 'I build it.\nThen I teach it.',
+                sub: 'David Han — a developer who ships AI, automation and web systems, then takes the same work into the classroom.',
+                build_cta: 'See the projects',
+                teach_cta: 'See the courses',
+            },
+            stats: [
+                { value: 8, label: 'years building' },
+                { value: 30, label: 'projects shipped' },
+                { value: 3, label: 'years teaching' },
+                { value: 250, label: 'people taught' },
+            ],
+            work: {
+                title: 'Systems that run in production.',
+                note: 'Client work is under NDA, so the screens here are redrawn in code.',
+                all: 'All 30+ projects',
+                items: [
+                    { id: 3, title: 'POS settlement API for overseas markets', tag: 'Enterprise' },
+                    { id: 5, title: 'Basketball shooting form analysis', tag: 'AI · Vision' },
+                    { id: 1, title: 'Online exam platform backend', tag: 'Platform' },
+                    { id: 27, title: 'Tax automation program', tag: 'Automation' },
+                    { id: 6, title: 'B2B seafood trading platform', tag: 'Platform' },
+                ],
+            },
+            build: {
+                title: 'What I get hired for',
+                cta: 'Skills in detail',
+            },
+            teach: {
+                punch_label: 'people taught, hands on keyboards',
+                title: 'What I ship on Monday is what I teach on Friday.',
+                cta: 'Courses and curriculum',
+                tiles: [
+                    { title: 'ICT special lectures', place: 'Busan · Ulsan · Gyeongnam' },
+                    { title: 'Python course', place: 'Seoul National University of Science and Technology' },
+                    { title: 'Hands-on AI lab', place: 'Daegu TP' },
+                    { title: 'Corporate training', place: 'In-house teams' },
+                    { title: 'Bootcamp mentoring', place: 'Project-based' },
+                    { title: 'Curriculum design', place: 'Tailored per cohort' },
+                ],
+            },
+            end: {
+                title: 'Build something.\nOr teach someone.',
+                project: 'Start a project',
+                lecture: 'Book a lecture',
+            },
+        },
         nav: {
             home: 'Home',
             about: 'About',
@@ -433,6 +481,54 @@ export const translations = {
         }
     },
     ko: {
+        reel: {
+            hero: {
+                title: '만들고,\n가르칩니다.',
+                sub: 'AI·자동화·웹 시스템을 실제로 만들어 운영하고, 그 과정을 강의실에서 그대로 가르치는 개발자 한동윤입니다.',
+                build_cta: '프로젝트 보기',
+                teach_cta: '강의 보기',
+            },
+            stats: [
+                { value: 8, label: '년 개발 경력' },
+                { value: 30, label: '완료한 프로젝트' },
+                { value: 3, label: '년 강의 경력' },
+                { value: 250, label: '명 실습 교육' },
+            ],
+            work: {
+                title: '실제로 운영되는 시스템을 만듭니다.',
+                note: '클라이언트 작업은 NDA 대상이라, 화면은 코드로 다시 그렸습니다.',
+                all: '프로젝트 30+ 전체 보기',
+                items: [
+                    { id: 3, title: '해외 규정 기반 POS 정산 API', tag: 'Enterprise' },
+                    { id: 5, title: '농구 슛폼 분석 프로그램', tag: 'AI · Vision' },
+                    { id: 1, title: '온라인 시험 플랫폼 백엔드', tag: 'Platform' },
+                    { id: 27, title: '세무 자동화 프로그램', tag: 'Automation' },
+                    { id: 6, title: '해외 수산물 B2B 거래 플랫폼', tag: 'Platform' },
+                ],
+            },
+            build: {
+                title: '이런 일을 맡습니다',
+                cta: '기술 스택 상세',
+            },
+            teach: {
+                punch_label: '명이 직접 키보드를 잡고 배웠습니다',
+                title: '월요일에 만든 것을 금요일에 가르칩니다.',
+                cta: '강의·커리큘럼 보기',
+                tiles: [
+                    { title: 'ICT 특강', place: '부산 · 울산 · 경남' },
+                    { title: 'Python 과정', place: '서울과학기술대' },
+                    { title: 'AI 실습', place: '대구TP' },
+                    { title: '기업 교육', place: '사내 실무 팀' },
+                    { title: '부트캠프 멘토링', place: '프로젝트 기반' },
+                    { title: '커리큘럼 설계', place: '대상별 맞춤' },
+                ],
+            },
+            end: {
+                title: '같이 만들거나,\n같이 가르치거나.',
+                project: '프로젝트 문의',
+                lecture: '강의·출강 문의',
+            },
+        },
         nav: {
             home: '홈',
             about: '소개',
@@ -864,6 +960,54 @@ export const translations = {
         }
     },
     de: {
+        reel: {
+            hero: {
+                title: 'Ich baue es.\nDann lehre ich es.',
+                sub: 'David Han — Entwickler, der KI-, Automatisierungs- und Websysteme in Produktion bringt und genau das im Kursraum weitergibt.',
+                build_cta: 'Projekte ansehen',
+                teach_cta: 'Kurse ansehen',
+            },
+            stats: [
+                { value: 8, label: 'Jahre Entwicklung' },
+                { value: 30, label: 'Projekte umgesetzt' },
+                { value: 3, label: 'Jahre Lehre' },
+                { value: 250, label: 'Teilnehmende geschult' },
+            ],
+            work: {
+                title: 'Systeme, die im Betrieb laufen.',
+                note: 'Kundenprojekte stehen unter NDA, die Screens sind daher in Code nachgezeichnet.',
+                all: 'Alle 30+ Projekte',
+                items: [
+                    { id: 3, title: 'POS-Abrechnungs-API für Auslandsmärkte', tag: 'Enterprise' },
+                    { id: 5, title: 'Analyse der Basketball-Wurftechnik', tag: 'AI · Vision' },
+                    { id: 1, title: 'Backend einer Online-Prüfungsplattform', tag: 'Platform' },
+                    { id: 27, title: 'Programm zur Steuerautomatisierung', tag: 'Automation' },
+                    { id: 6, title: 'B2B-Handelsplattform für Meeresfrüchte', tag: 'Platform' },
+                ],
+            },
+            build: {
+                title: 'Wofür man mich holt',
+                cta: 'Skills im Detail',
+            },
+            teach: {
+                punch_label: 'Teilnehmende, Hände an der Tastatur',
+                title: 'Was ich montags ausliefere, lehre ich freitags.',
+                cta: 'Kurse und Curriculum',
+                tiles: [
+                    { title: 'ICT-Sondervorlesungen', place: 'Busan · Ulsan · Gyeongnam' },
+                    { title: 'Python-Kurs', place: 'Seoul National University of Science and Technology' },
+                    { title: 'KI-Praxislabor', place: 'Daegu TP' },
+                    { title: 'Firmenschulungen', place: 'Inhouse-Teams' },
+                    { title: 'Bootcamp-Mentoring', place: 'Projektbasiert' },
+                    { title: 'Curriculum-Design', place: 'Pro Zielgruppe' },
+                ],
+            },
+            end: {
+                title: 'Etwas bauen.\nOder jemanden lehren.',
+                project: 'Projekt anfragen',
+                lecture: 'Vortrag anfragen',
+            },
+        },
         nav: {
             home: 'Startseite',
             about: 'Über mich',

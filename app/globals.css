@@ -1,25 +1,36 @@
 :root {
-  /* Colors */
-  --primary-purple: #6A11CB;
-  --secondary-blue: #9ad0ff;
-  --bg-dark: #050510;
-  --bg-dark-secondary: #100520;
+  /* Reel palette */
+  --bg: #0a0908;
+  --surface: #141210;
+  --ink: #ece7de;
+  --muted: #8c867b;
+  --line: rgba(236, 231, 222, 0.14);
+  --accent: #ff5b2e;
 
-  --text-white: #ffffff;
-  --text-dim: rgba(255, 255, 255, 0.7);
+  /* Type */
+  --font-body: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  --font-display: var(--font-archivo), var(--font-body);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --gutter: clamp(20px, 3.2vw, 56px);
 
-  /* Gradients */
-  --bg-gradient: linear-gradient(135deg, var(--bg-dark), var(--bg-dark-secondary));
-  --accent-gradient: linear-gradient(to right, var(--primary-purple), var(--secondary-blue));
-
-  /* Glassmorphism */
-  --glass-bg: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  /* Legacy tokens, remapped so not-yet-redesigned pages inherit the palette */
+  --primary-purple: var(--accent);
+  --secondary-blue: var(--ink);
+  --bg-dark: var(--bg);
+  --bg-dark-secondary: var(--surface);
+  --text-white: var(--ink);
+  --text-dim: rgba(236, 231, 222, 0.7);
+  --bg-gradient: var(--bg);
+  --accent-gradient: linear-gradient(to right, var(--accent), var(--accent));
+  --glass-bg: rgba(236, 231, 222, 0.03);
+  --glass-border: var(--line);
+  --glass-shadow: none;
   --glass-blur: blur(10px);
+  --font-inter: var(--font-body);
+  --font-poppins: var(--font-display);
 
   /* Spacing */
-  --header-height: 80px;
+  --header-height: 72px;
 }
 
 * {
@@ -32,10 +43,8 @@ html {
   height: 100%;
   width: 100%;
   background: var(--bg-dark);
-  scroll-snap-type: y proximity;
-  /* Soft snap */
-  scroll-padding-top: 100px;
-  /* Offset for header */
+  scroll-padding-top: var(--header-height);
+  color-scheme: dark;
 }
 
 html.lenis,
@@ -62,8 +71,8 @@ html.lenis body {
 body {
   width: 100%;
   color: var(--text-white);
-  background: var(--bg-gradient) !important;
-  background-color: var(--bg-dark) !important;
+  background: var(--bg);
+  font-family: var(--font-body);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -86,15 +95,14 @@ a {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(37, 117, 252, 0.3);
-  /* secondary-blue with opacity */
-  border-radius: 5px;
+  background: rgba(236, 231, 222, 0.22);
+  border-radius: 0;
   border: 2px solid var(--bg-dark);
   /* Panic padding */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(37, 117, 252, 0.6);
+  background: var(--accent);
 }
 
 /* Utilities */
@@ -104,4 +112,23 @@ a {
   -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
+}
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

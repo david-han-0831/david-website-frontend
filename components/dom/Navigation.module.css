@@ -2,204 +2,131 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    right: 0;
+    z-index: 100;
     height: var(--header-height);
+    padding: 0 var(--gutter);
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 0 2rem;
-    background: rgba(5, 5, 16, 0.5);
-    /* Semi-transparent base */
-    backdrop-filter: blur(12px);
-    z-index: 1000;
-    border-bottom: 1px solid var(--glass-border);
+    gap: 32px;
+    background: linear-gradient(to bottom, rgba(10, 9, 8, 0.85), transparent);
 }
 
 .logo {
-    font-family: var(--font-poppins);
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: var(--text-white);
-    letter-spacing: -0.02em;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    display: inline-block;
-}
-
-.logo:hover {
-    transform: scale(1.05);
-    color: var(--primary-purple, #6a11cb);
+    margin-right: auto;
+    font-family: var(--font-display);
+    font-stretch: 75%;
+    font-variation-settings: 'wdth' 75;
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
 }
 
 .logo::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 2px;
-    background: linear-gradient(to right, var(--primary-purple, #6a11cb), #a5b4fc);
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 2px;
-}
-
-.logo:hover::after {
-    width: 100%;
+    content: '.';
+    color: var(--accent);
 }
 
 .links {
     display: flex;
-    gap: 2rem;
+    gap: clamp(16px, 2.2vw, 36px);
 }
 
-.link {
-    font-family: var(--font-inter);
-    font-size: 0.95rem;
-    color: var(--text-dim);
+.link,
+.mobileLink {
     position: relative;
-    padding: 0.5rem 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: inline-block;
+    padding: 8px 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(236, 231, 222, 0.72);
+    transition: color 0.25s ease;
 }
 
-.link::before {
+.link::after {
     content: '';
     position: absolute;
-    bottom: 0;
     left: 0;
-    width: 0;
-    height: 2px;
-    background: linear-gradient(to right, var(--primary-purple, #6a11cb), #a5b4fc);
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 2px;
+    right: 0;
+    bottom: 2px;
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--ease-out);
 }
 
-.link:hover {
-    color: var(--text-white);
-    transform: translateY(-2px);
-}
-
-.link:hover::before {
-    width: 100%;
-}
-
+.link:hover,
 .link.active {
-    color: #a78bfa; /* 더 밝은 보라색 */
-    font-weight: 600;
-    text-shadow: 0 0 10px rgba(167, 139, 250, 0.5); /* Glow 효과 */
+    color: var(--ink);
 }
 
-.link.active::before {
-    width: 100%;
-    background: linear-gradient(to right, #a78bfa, #c4b5fd); /* 더 밝은 그라데이션 */
-    box-shadow: 0 0 8px rgba(167, 139, 250, 0.6); /* 언더라인에 glow */
+.link:hover::after,
+.link.active::after {
+    transform: scaleX(1);
 }
 
-/* Mobile Hamburger */
 .hamburger {
     display: none;
-    font-size: 1.5rem;
-    color: var(--text-white);
+    order: 3;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    font-size: 1.6rem;
+    color: var(--ink);
     background: none;
-    border: none;
+    border: 0;
     cursor: pointer;
-    z-index: 1001;
-    padding: 0.5rem;
-    border-radius: 8px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.hamburger:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: scale(1.1);
-    color: var(--primary-purple, #6a11cb);
-}
-
-/* Mobile Overlay */
 .mobileOverlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(5, 5, 16, 0.95);
-    backdrop-filter: blur(16px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
+    inset: 0;
+    z-index: -1;
+    display: none;
+    align-items: flex-end;
+    padding: 0 var(--gutter) 15vh;
+    background: var(--bg);
+    clip-path: inset(0 0 100% 0);
+    visibility: hidden;
+    transition: clip-path 0.7s var(--ease-out), visibility 0s 0.7s;
 }
 
 .mobileOverlay.open {
-    opacity: 1;
-    pointer-events: all;
+    clip-path: inset(0);
+    visibility: visible;
+    transition: clip-path 0.7s var(--ease-out);
 }
 
 .mobileLinks {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    align-items: center;
+    display: grid;
+    gap: 4px;
+    width: 100%;
 }
 
 .mobileLink {
-    font-family: var(--font-poppins);
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--text-dim);
-    position: relative;
-    padding: 0.75rem 1.5rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 8px;
-    display: inline-block;
-}
-
-.mobileLink::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 0;
-    height: 100%;
-    background: rgba(106, 17, 203, 0.1);
-    border-radius: 8px;
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: -1;
-}
-
-.mobileLink:hover {
-    color: var(--primary-purple);
-    transform: translateX(8px) scale(1.05);
-}
-
-.mobileLink:hover::before {
-    width: 100%;
+    padding: 10px 0;
+    font-size: clamp(2rem, 9vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    border-bottom: 1px solid var(--line);
 }
 
 .mobileLink.active {
-    color: #a78bfa; /* 더 밝은 보라색 */
-    background: rgba(167, 139, 250, 0.2); /* 더 진한 배경 */
-    font-weight: 700;
-    text-shadow: 0 0 10px rgba(167, 139, 250, 0.5); /* Glow 효과 */
-    box-shadow: 0 0 15px rgba(167, 139, 250, 0.3); /* 외곽 glow */
+    color: var(--accent);
 }
 
-.mobileLink.active::before {
-    width: 100%;
-    background: rgba(167, 139, 250, 0.2);
-}
-
-@media (max-width: 768px) {
+@media (max-width: 860px) {
     .links {
         display: none;
     }
 
-    .hamburger {
-        display: block;
+    .hamburger,
+    .mobileOverlay {
+        display: grid;
+    }
+
+    .mobileOverlay {
+        display: flex;
     }
 }
