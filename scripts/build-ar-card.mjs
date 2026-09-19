@@ -55,15 +55,12 @@ const bar = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.004, 0.0012), accent)
 bar.position.set(left + 0.015, 0.058, T / 2 + 0.0006)
 card.add(bar)
 
-// the site's interlocked rings, as the emblem
-const ring = new THREE.TorusGeometry(0.02, 0.0055, 16, 48)
-const ringA = new THREE.Mesh(ring, glass)
-ringA.position.set(W / 2 - 0.052, -0.04, T / 2 + 0.012)
-ringA.rotation.set(Math.PI / 2.6, 0, 0)
-const ringB = new THREE.Mesh(ring, accent)
-ringB.position.set(W / 2 - 0.03, -0.04, T / 2 + 0.012)
-ringB.rotation.set(0, Math.PI / 2.4, 0)
-card.add(ringA, ringB)
+// the site's braces and caret, as the emblem
+text('{', 0.03, glass, W / 2 - 0.075, -0.058)
+text('}', 0.03, glass, W / 2 - 0.036, -0.058)
+const caret = new THREE.Mesh(new THREE.BoxGeometry(0.006, 0.024, 0.0012), accent)
+caret.position.set(W / 2 - 0.0475, -0.046, T / 2 + 0.0006)
+card.add(caret)
 
 // stands on the desk, leaning back on a small foot
 const foot = new THREE.Mesh(new THREE.BoxGeometry(W * 0.5, 0.004, 0.06), ink)

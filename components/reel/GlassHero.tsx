@@ -37,7 +37,7 @@ export default function GlassHero() {
                 </div>
             </div>
 
-            {/* Where the glass rings park; it overlaps the wordmark on purpose so the letters bend */}
+            {/* Where the glass braces park; it overlaps the wordmark on purpose so the letters bend */}
             <div className={styles.anchor} data-stage-anchor aria-hidden="true" />
 
             {/* Painted into the WebGL scene once it is ready; this copy is the first paint and the fallback */}

@@ -2,11 +2,12 @@
 
 import { Suspense, useEffect, useMemo, useRef } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { Environment, Lightformer, MeshTransmissionMaterial } from '@react-three/drei'
+import { Center, Environment, Lightformer, MeshTransmissionMaterial, Text3D } from '@react-three/drei'
 import * as THREE from 'three'
 import { stage } from '@/lib/stage'
 import styles from './Stage.module.css'
 
+const FONT = '/fonts/helvetiker_bold.typeface.json'
 const damp = THREE.MathUtils.damp
 
 /** The "DAVID HAN" wordmark lives inside the scene so the glass can actually refract it. */
@@ -85,11 +86,12 @@ function Wordmark() {
     )
 }
 
-/** Two interlocked glass rings, Build and Teach. One object for the whole page. */
-function Rings() {
+/** A pair of glass braces around a blinking caret. One object for the whole page; the braces part to wrap whatever a scene puts between them. */
+function Braces() {
     const group = useRef<THREE.Group>(null)
-    const ringA = useRef<THREE.Mesh>(null)
-    const ringB = useRef<THREE.Mesh>(null)
+    const open = useRef<THREE.Group>(null)
+    const close = useRef<THREE.Group>(null)
+    const caret = useRef<THREE.Mesh>(null)
     const pointer = useRef({ x: 0, y: 0 })
     const spin = useRef({ angle: 0, lastScroll: 0 })
     const anchors = useRef<HTMLElement[]>([])
@@ -138,10 +140,10 @@ function Rings() {
         const hand = stage.hand.active && best.dataset.hand !== undefined ? stage.hand : null
         let x = ((bestRect.left + bestRect.width / 2) / size.width - 0.5) * viewport.width
         let y = -((bestRect.top + bestRect.height / 2) / size.height - 0.5) * viewport.height
-        let scale = (Math.min(bestRect.height, bestRect.width / 1.5) / size.height) * viewport.height * 0.62
+        let scale = (Math.min(bestRect.height, bestRect.width / 1.5) / size.height) * viewport.height * 0.6
         const split = Number(best.dataset.split ?? 0)
 
-        // scrolling throws the rings into a spin; at rest it settles on the nearest full turn, face forward
+        // scrolling throws the braces into a spin; at rest it settles on the nearest full turn, face forward
         const turn = Math.PI * 2
         spin.current.angle += (window.scrollY - spin.current.lastScroll) * 0.004
         spin.current.lastScroll = window.scrollY
@@ -163,11 +165,11 @@ function Rings() {
         g.scale.setScalar(damp(g.scale.x, scale, speed, dt))
         g.rotation.y = damp(g.rotation.y, rotY, 4, dt)
         g.rotation.x = damp(g.rotation.x, rotX, 4, dt)
-        if (ringA.current && ringB.current) {
-            ringA.current.position.x = damp(ringA.current.position.x, -0.3 - split, 3, dt)
-            ringB.current.position.x = damp(ringB.current.position.x, 0.3 + split, 3, dt)
-            ringA.current.rotation.z += dt * 0.25
-            ringB.current.rotation.z -= dt * 0.25
+        if (open.current && close.current && caret.current) {
+            open.current.position.x = damp(open.current.position.x, -0.5 - split, 3, dt)
+            close.current.position.x = damp(close.current.position.x, 0.5 + split, 3, dt)
+            // the caret blinks like an editor's, and bows out when the braces are wrapping something else
+            caret.current.visible = split === 0 && state.clock.elapsedTime % 1.06 < 0.62
         }
 
         background.lerp(target.set(stage.bg), 1 - Math.exp(-4 * dt))
@@ -198,15 +200,29 @@ function Rings() {
         />
     )
 
+    const glyph = { font: FONT, size: 1.25, height: 0.34, curveSegments: 10, bevelEnabled: true, bevelSize: 0.03, bevelThickness: 0.05, bevelSegments: 4 }
+
     return (
         <group ref={group} scale={0.001}>
-            <mesh ref={ringA} position-x={-0.3} rotation={[Math.PI / 4.5, 0, 0]}>
-                <torusGeometry args={[0.52, 0.15, 48, 128]} />
-                {glass}
-            </mesh>
-            <mesh ref={ringB} position-x={0.3} rotation={[0, Math.PI / 2.9, 0]}>
-                <torusGeometry args={[0.52, 0.15, 48, 128]} />
-                {glass}
+            <group ref={open} position-x={-0.5}>
+                <Center>
+                    <Text3D {...glyph}>
+                        {'{'}
+                        {glass}
+                    </Text3D>
+                </Center>
+            </group>
+            <group ref={close} position-x={0.5}>
+                <Center>
+                    <Text3D {...glyph}>
+                        {'}'}
+                        {glass}
+                    </Text3D>
+                </Center>
+            </group>
+            <mesh ref={caret}>
+                <boxGeometry args={[0.13, 0.8, 0.13]} />
+                <meshBasicMaterial color="#ff5b2e" toneMapped={false} />
             </mesh>
         </group>
     )
@@ -222,7 +238,7 @@ export default function StageCanvas() {
         >
             <Suspense fallback={null}>
                 <Wordmark />
-                <Rings />
+                <Braces />
                 {/* Procedural studio lighting: no HDR download */}
                 <Environment resolution={256}>
                     <Lightformer form="rect" intensity={4} position={[0, 4, 2]} scale={[8, 3, 1]} />

@@ -9,7 +9,7 @@ const StageCanvas = dynamic(() => import('./StageCanvas'), { ssr: false })
 
 /**
  * Fixed layer behind the page: a colour backdrop that follows the section in view,
- * and one WebGL canvas whose glass rings travel between [data-stage-anchor] elements.
+ * and one WebGL canvas whose glass braces travel between [data-stage-anchor] elements.
  */
 export default function Stage() {
     const backdropRef = useRef<HTMLDivElement>(null)
