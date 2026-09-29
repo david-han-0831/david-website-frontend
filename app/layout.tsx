@@ -8,6 +8,8 @@ import { GoogleTagManager } from '@next/third-parties/google'
 import MicrosoftClarity from '@/components/analytics/MicrosoftClarity'
 import PostHogProviderWrapper from '@/components/analytics/PostHog'
 import StructuredData from '@/components/seo/StructuredData'
+import { LanguageProvider } from '@/contexts/LanguageContext'
+import { SITE_URL } from '@/lib/site'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -38,20 +40,20 @@ export const metadata: Metadata = {
   authors: [{ name: 'Han Dongyun' }],
   creator: 'Han Dongyun',
   publisher: 'Han Dongyun',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com'),
+  metadataBase: new URL(SITE_URL),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com',
+    url: SITE_URL,
     siteName: 'Han Dongyun Portfolio',
     title: 'Han Dongyun | Interactive Portfolio',
     description: 'Interactive Portfolio Platform of Han Dongyun - Developer & Educator',
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com'}/og-image.jpg`,
+        url: `${SITE_URL}/og-image.jpg`,
         width: 1200,
         height: 630,
         alt: 'Han Dongyun Portfolio',
@@ -62,7 +64,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Han Dongyun | Interactive Portfolio',
     description: 'Interactive Portfolio Platform of Han Dongyun - Developer & Educator',
-    images: [`${process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com'}/og-image.jpg`],
+    images: [`${SITE_URL}/og-image.jpg`],
   },
   robots: {
     index: true,
@@ -77,7 +79,6 @@ export const metadata: Metadata = {
   },
 }
 
-import { LanguageProvider } from '@/contexts/LanguageContext'
 
 // ... imports
 

@@ -1,7 +1,8 @@
 import { MetadataRoute } from 'next'
 import { PROJECTS } from '@/data/projects'
+import { SITE_URL } from '@/lib/site'
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com'
+const baseUrl = SITE_URL
 
 export default function sitemap(): MetadataRoute.Sitemap {
   // 정적 페이지

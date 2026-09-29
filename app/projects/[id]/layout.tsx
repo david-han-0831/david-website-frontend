@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { PROJECTS } from '@/data/projects'
 import StructuredData from '@/components/seo/StructuredData'
+import { SITE_URL } from '@/lib/site'
 
 interface Props {
   params: Promise<{ id: string }>
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com'
+  const baseUrl = SITE_URL
 
   return {
     title: project.title,

@@ -1,4 +1,5 @@
 import { PROJECTS } from '@/data/projects'
+import { SITE_URL } from '@/lib/site'
 
 interface StructuredDataProps {
   type: 'Person' | 'Organization' | 'WebSite' | 'BreadcrumbList' | 'Article' | 'SoftwareApplication'
@@ -7,7 +8,7 @@ interface StructuredDataProps {
 }
 
 export default function StructuredData({ type, data, projectId }: StructuredDataProps) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com'
+  const baseUrl = SITE_URL
 
   const getStructuredData = () => {
     switch (type) {

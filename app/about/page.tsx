@@ -5,8 +5,9 @@ import Intro from '@/components/dom/Intro'
 import Perspective from '@/components/dom/Perspective'
 import Closing from '@/components/dom/Closing'
 import StructuredData from '@/components/seo/StructuredData'
+import { SITE_URL } from '@/lib/site'
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com'
+const baseUrl = SITE_URL
 
 export const metadata: Metadata = {
   title: 'About Me',

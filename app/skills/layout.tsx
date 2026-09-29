@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
+import { SITE_URL } from '@/lib/site'
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com'
+const baseUrl = SITE_URL
 
 export const metadata: Metadata = {
   title: 'Skills | Han Dongyun',
