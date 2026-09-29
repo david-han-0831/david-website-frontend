@@ -1,26 +1,33 @@
 .hero {
-    padding: calc(var(--header-height) + clamp(40px, 9vh, 120px)) 0 clamp(48px, 8vh, 96px);
+    padding: calc(var(--header-height) + clamp(32px, 6vh, 72px)) 0 clamp(48px, 8vh, 96px);
 }
 
-.inner {
-    display: flex;
-    flex-direction: column;
+/* 제목과 설명·CTA 를 한 줄에 두어 영상이 첫 화면에 최대한 들어오게 한다 */
+.head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 400px);
+    align-items: end;
+    gap: 32px 64px;
+}
+
+.titleCol {
+    min-width: 0;
 }
 
 .title {
     visibility: hidden;
-    margin: clamp(20px, 3vh, 36px) 0 clamp(28px, 5vh, 56px);
+    margin-top: clamp(16px, 2.4vh, 28px);
     font-family: var(--f-display);
     font-weight: 600;
-    font-size: clamp(3.2rem, 10.4vw, 10.5rem);
-    line-height: 0.92;
+    font-size: clamp(3rem, 6.4vw, 7rem);
+    line-height: 0.94;
     letter-spacing: -0.055em;
 }
 
 /* 한글은 글자 폭이 넓어 한 단계 작게 */
 .hero[data-locale='ko'] .title {
-    font-size: clamp(2.6rem, 8.2vw, 8.6rem);
-    line-height: 1.02;
+    font-size: clamp(2.4rem, 4.9vw, 5.4rem);
+    line-height: 1.06;
     letter-spacing: -0.045em;
     font-weight: 700;
 }
@@ -33,16 +40,15 @@
     color: var(--bp);
 }
 
-.row {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
-    gap: 32px 64px;
+.aside {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-bottom: 6px;
 }
 
 .lead {
-    max-width: 34em;
-    font-size: clamp(1.05rem, 1.35vw, 1.3rem);
+    font-size: clamp(1rem, 1.15vw, 1.15rem);
     line-height: 1.6;
     color: var(--ink-2);
 }
@@ -54,10 +60,26 @@
     gap: 8px 20px;
 }
 
+/* ── 모션그래픽 패널 ── */
+.reel {
+    margin-top: clamp(36px, 5vh, 56px);
+    background: var(--ink);
+    clip-path: inset(0 var(--gutter) round 24px);
+    will-change: clip-path;
+}
+
+.video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: var(--ink);
+}
+
 .stats {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    margin-top: clamp(56px, 10vh, 120px);
+    margin-top: clamp(40px, 7vh, 80px);
     border-top: 1px solid var(--line);
 }
 
@@ -92,8 +114,12 @@
 }
 
 @media (max-width: 899px) {
-    .row {
+    .head {
         grid-template-columns: 1fr;
+    }
+
+    .reel {
+        clip-path: inset(0 var(--gutter) round 16px);
     }
 
     .stats {

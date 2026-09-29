@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Hero Reel — Plan · Design · Build · Ship</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=block" rel="stylesheet" />
+<!-- 레포의 gsap 을 그대로 쓴다 (사이트와 같은 버전) -->
+<script src="../../node_modules/gsap/dist/gsap.min.js"></script>
+<style>
+  /* 사이트 홈과 같은 토큰 */
+  :root {
+    --paper: #f3f4f6;
+    --paper-2: #e7e9ee;
+    --ink: #0c0d10;
+    --ink-2: #4b515c;
+    --ink-3: #8a909b;
+    --bp: #2747f5;
+    --bp-2: #6f86ff;
+    --ok: #16a34a;
+    --display: 'Bricolage Grotesque', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--ink); }
+  #stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--ink); color: var(--paper); font-family: var(--body); transform-origin: 0 0; }
+
+  .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(111,134,255,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(111,134,255,.07) 1px, transparent 1px); background-size: 48px 48px; background-position: -1px -1px; }
+  .vignette { position: absolute; inset: 0; background: radial-gradient(120% 90% at 60% 45%, transparent 40%, rgba(0,0,0,.55) 100%); }
+  .glow { position: absolute; left: 760px; top: 140px; width: 1100px; height: 800px; background: radial-gradient(closest-side, rgba(39,71,245,.45), rgba(39,71,245,0)); opacity: 0; filter: blur(20px); }
+
+  /* 단계 이름 (키네틱 타이포) */
+  .words { position: absolute; left: 120px; top: 108px; height: 140px; width: 700px; overflow: hidden; }
+  .w { position: absolute; left: 0; top: 0; font-family: var(--display); font-weight: 600; font-size: 128px; line-height: 1.05; letter-spacing: -0.05em; }
+  .w em { font-style: normal; color: var(--bp-2); }
+
+  /* 하단 진행 표시 */
+  .hud { position: absolute; left: 120px; right: 120px; bottom: 72px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; font-family: var(--mono); font-size: 20px; letter-spacing: .04em; }
+  .hud .it { display: flex; flex-direction: column; gap: 14px; color: rgba(243,244,246,.35); }
+  .hud .it span b { font-weight: 500; margin-right: 14px; }
+  .hud .bar { height: 3px; background: rgba(243,244,246,.12); overflow: hidden; }
+  .hud .bar i { display: block; height: 100%; width: 100%; background: var(--bp-2); transform-origin: left; transform: scaleX(0); }
+
+  /* 흐름 연결선 */
+  svg.links { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: visible; }
+  .links path { fill: none; stroke: var(--bp-2); stroke-width: 3; stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .links .head { fill: var(--bp-2); stroke: none; opacity: 0; }
+
+  /* 요구사항 카드 → 휴대폰 화면으로 변하는 오브젝트 */
+  .obj { position: absolute; width: 300px; height: 170px; border-radius: 18px; background: #16181d; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.1); overflow: hidden; opacity: 0; }
+  .card-ui { position: absolute; inset: 0; padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; }
+  .card-ui .tag { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 15px; color: rgba(243,244,246,.5); }
+  .card-ui .tag i { font-style: normal; color: #fff; background: var(--bp); padding: 2px 8px; border-radius: 6px; }
+  .card-ui h3 { font-family: var(--display); font-weight: 600; font-size: 30px; letter-spacing: -0.02em; color: var(--paper); }
+  .card-ui .ln { height: 8px; border-radius: 4px; background: rgba(243,244,246,.12); }
+
+  .screen { position: absolute; left: 0; top: 0; width: 300px; height: 620px; opacity: 0; }
+  .notch { position: absolute; left: 110px; top: 14px; width: 80px; height: 22px; border-radius: 12px; background: var(--ink); }
+  .blk { position: absolute; border: 2px dashed rgba(39,71,245,.75); border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .blk > .c { opacity: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+  .txt { font-family: var(--display); font-weight: 600; color: var(--ink); letter-spacing: -0.02em; }
+  .muted { font-family: var(--body); font-size: 15px; color: var(--ink-3); }
+  .field { justify-content: flex-start !important; padding: 0 16px; font-family: var(--body); font-size: 17px; color: var(--ink-2); }
+  .field span { display: inline-block; clip-path: inset(0 100% 0 0); }
+  .btn { font-family: var(--body); font-weight: 600; font-size: 18px; color: #fff; }
+
+  .cal { display: grid !important; grid-template-columns: repeat(7, 1fr); gap: 6px; padding: 10px; align-content: start; }
+  .cal b { height: 30px; border-radius: 8px; background: var(--paper-2); font: 500 13px var(--body); color: var(--ink-2); display: grid; place-items: center; }
+  .cal b.sel { background: var(--bp); color: #fff; }
+  .chips { gap: 8px; justify-content: flex-start !important; }
+  .chips i { font-style: normal; padding: 8px 12px; border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 1.5px var(--paper-2); font: 500 14px var(--body); color: var(--ink-2); }
+  .chips i.on { background: var(--ink); color: #fff; box-shadow: none; }
+  .rows { flex-direction: column; gap: 0; padding: 4px 16px; justify-content: stretch !important; }
+  .rows p { display: flex; justify-content: space-between; width: 100%; padding: 11px 0; border-bottom: 1px solid var(--paper-2); font: 400 15px var(--body); color: var(--ink-2); }
+  .rows p:last-child { border: 0; }
+  .rows p b { font-weight: 600; color: var(--ink); }
+  .check path { fill: none; stroke: #fff; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+
+  /* 디자인 도구 */
+  .select { position: absolute; border: 2px solid var(--bp-2); opacity: 0; }
+  .select i { position: absolute; width: 14px; height: 14px; background: #fff; border: 2px solid var(--bp-2); }
+  .select .dim { position: absolute; left: 50%; bottom: -44px; transform: translateX(-50%); font: 500 16px var(--mono); color: #fff; background: var(--bp); padding: 4px 10px; border-radius: 6px; white-space: nowrap; }
+  svg.pen { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: visible; }
+  .pen path.curve { fill: none; stroke: var(--paper); stroke-width: 2.5; stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .pen path.handle { stroke: rgba(111,134,255,.8); stroke-width: 1.5; opacity: 0; }
+  .pen rect, .pen circle { fill: var(--ink); stroke: var(--bp-2); stroke-width: 2; opacity: 0; }
+
+  .panel { position: absolute; left: 120px; top: 330px; width: 540px; border-radius: 20px; background: #14161b; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.08), 0 40px 80px -30px rgba(0,0,0,.6); opacity: 0; overflow: hidden; }
+  .panel .top { display: flex; align-items: center; gap: 10px; height: 52px; padding: 0 20px; border-bottom: 1px solid rgba(255,255,255,.07); font: 500 16px var(--mono); color: rgba(243,244,246,.55); }
+  .panel .top i { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,.12); }
+  .panel .top span { margin-left: 10px; }
+  .tokens .body { padding: 28px; display: flex; flex-direction: column; gap: 26px; }
+  .sw { display: flex; gap: 14px; }
+  .sw i { width: 64px; height: 64px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.12); }
+  .aa { display: flex; align-items: baseline; gap: 20px; }
+  .aa b { font-family: var(--display); font-size: 88px; font-weight: 600; letter-spacing: -0.05em; line-height: 1; }
+  .aa span { font: 400 16px var(--mono); color: rgba(243,244,246,.55); }
+  .scale { display: flex; align-items: flex-end; gap: 10px; }
+  .scale i { width: 26px; background: var(--bp-2); border-radius: 4px; opacity: .8; }
+
+  .editor .src { padding: 22px 0 18px; font: 400 20px/1.75 var(--mono); color: #c9d1e3; }
+  .editor .l { display: flex; }
+  .editor .l .no { width: 56px; text-align: right; padding-right: 22px; color: rgba(243,244,246,.25); }
+  .editor .l .code { white-space: pre; clip-path: inset(0 100% 0 0); }
+  .k { color: #ff7ab6; } .f { color: #7aa2ff; } .s { color: #9be29b; } .t { color: #f7c56b; } .p { color: #c9d1e3; }
+  .term { border-top: 1px solid rgba(255,255,255,.07); padding: 18px 28px 22px; font: 400 19px/1.7 var(--mono); }
+  .term p { clip-path: inset(0 100% 0 0); color: rgba(243,244,246,.6); }
+  .term p.ok { color: #4ade80; }
+
+  .deploy { position: absolute; left: 1280px; top: 150px; transform: translateX(-50%); display: flex; align-items: center; gap: 12px; padding: 12px 22px; border-radius: 999px; background: rgba(22,163,74,.14); box-shadow: inset 0 0 0 1.5px rgba(74,222,128,.35); font: 500 20px var(--mono); color: #4ade80; opacity: 0; white-space: nowrap; }
+  .deploy i { width: 12px; height: 12px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 0 6px rgba(74,222,128,.18); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="grid"></div>
+  <div class="glow"></div>
+  <div class="vignette"></div>
+
+  <div class="words">
+    <div class="w">Plan<em>.</em></div>
+    <div class="w">Design<em>.</em></div>
+    <div class="w">Build<em>.</em></div>
+    <div class="w">Ship<em>.</em></div>
+  </div>
+
+  <svg class="links" viewBox="0 0 1920 1080">
+    <path id="l1" pathLength="1" d="M1060 375 C 1090 375, 1080 605, 1110 605" />
+    <path id="l2" pathLength="1" d="M1410 605 C 1440 605, 1430 375, 1460 375" />
+    <path class="head" d="M1110 605 l-14 -8 v16 z" />
+    <path class="head" d="M1460 375 l-14 -8 v16 z" />
+  </svg>
+
+  <!-- 1: 로그인 -->
+  <div class="obj" id="o1">
+    <div class="card-ui"><div class="tag">REQ-01 <i>P0</i></div><h3>User signs in</h3><div class="ln" style="width:80%"></div><div class="ln" style="width:55%"></div></div>
+    <div class="screen">
+      <div class="notch"></div>
+      <div class="blk" data-bg="#0c0d10" style="left:128px;top:92px;width:44px;height:44px;border-radius:50%"><div class="c"></div></div>
+      <div class="blk" data-bg="transparent" style="left:40px;top:162px;width:220px;height:34px"><div class="c txt" style="font-size:28px">Welcome back</div></div>
+      <div class="blk" data-bg="transparent" style="left:40px;top:204px;width:220px;height:22px"><div class="c muted">Sign in to continue</div></div>
+      <div class="blk f1" data-bg="#ffffff" style="left:40px;top:252px;width:220px;height:48px"><div class="c field"><span>david@han.dev</span></div></div>
+      <div class="blk f2" data-bg="#ffffff" style="left:40px;top:312px;width:220px;height:48px"><div class="c field"><span>••••••••••</span></div></div>
+      <div class="blk b1" data-bg="#2747f5" style="left:40px;top:384px;width:220px;height:52px"><div class="c btn">Sign in</div></div>
+      <div class="blk" data-bg="transparent" style="left:70px;top:452px;width:160px;height:20px"><div class="c muted" style="font-size:14px">Forgot password?</div></div>
+    </div>
+  </div>
+
+  <!-- 2: 예약 -->
+  <div class="obj" id="o2">
+    <div class="card-ui"><div class="tag">REQ-02 <i>P0</i></div><h3>Books a slot</h3><div class="ln" style="width:70%"></div><div class="ln" style="width:45%"></div></div>
+    <div class="screen">
+      <div class="notch"></div>
+      <div class="blk" data-bg="transparent" style="left:28px;top:70px;width:244px;height:34px"><div class="c txt" style="font-size:28px;justify-content:flex-start">Book a slot</div></div>
+      <div class="blk" data-bg="transparent" style="left:28px;top:112px;width:130px;height:22px"><div class="c muted" style="justify-content:flex-start">October 2026</div></div>
+      <div class="blk" data-bg="#ffffff" style="left:28px;top:146px;width:244px;height:196px"><div class="c cal" id="cal"></div></div>
+      <div class="blk" data-bg="transparent" style="left:28px;top:360px;width:244px;height:40px"><div class="c chips"><i>09:00</i><i class="chip2">10:30</i><i>14:00</i></div></div>
+      <div class="blk" data-bg="#ffffff" style="left:28px;top:416px;width:244px;height:84px"><div class="c rows" style="padding:8px 16px"><p>Duration <b>60 min</b></p><p>Price <b>$48.00</b></p></div></div>
+      <div class="blk b2" data-bg="#2747f5" style="left:28px;top:520px;width:244px;height:52px"><div class="c btn">Book · 10:30</div></div>
+    </div>
+  </div>
+
+  <!-- 3: 결제 완료 -->
+  <div class="obj" id="o3">
+    <div class="card-ui"><div class="tag">REQ-03 <i>P1</i></div><h3>Pays &amp; gets receipt</h3><div class="ln" style="width:75%"></div><div class="ln" style="width:50%"></div></div>
+    <div class="screen">
+      <div class="notch"></div>
+      <div class="blk" data-bg="#16a34a" style="left:110px;top:110px;width:80px;height:80px;border-radius:50%"><div class="c"><svg class="check" width="44" height="44" viewBox="0 0 44 44"><path pathLength="1" d="M10 23 L19 32 L34 13" /></svg></div></div>
+      <div class="blk" data-bg="transparent" style="left:28px;top:214px;width:244px;height:36px"><div class="c txt" style="font-size:30px">Payment done</div></div>
+      <div class="blk" data-bg="transparent" style="left:28px;top:258px;width:244px;height:52px"><div class="c txt" style="font-size:44px;color:#2747f5">$48.00</div></div>
+      <div class="blk" data-bg="#ffffff" style="left:28px;top:334px;width:244px;height:150px"><div class="c rows"><p>Date <b>Oct 17</b></p><p>Time <b>10:30</b></p><p>Receipt <b>#1042</b></p></div></div>
+      <div class="blk" data-bg="#0c0d10" style="left:28px;top:520px;width:244px;height:52px"><div class="c btn">Done</div></div>
+    </div>
+  </div>
+
+  <div class="select" id="sel"><i style="left:-8px;top:-8px"></i><i style="right:-8px;top:-8px"></i><i style="left:-8px;bottom:-8px"></i><i style="right:-8px;bottom:-8px"></i><span class="dim">375 × 812</span></div>
+
+  <svg class="pen" viewBox="0 0 1920 1080">
+    <path class="curve" pathLength="1" d="M860 200 C 980 120, 1120 250, 1250 180 S 1480 110, 1600 190" />
+    <path class="handle" d="M1180 215 L1320 145" />
+    <rect x="853" y="193" width="14" height="14" />
+    <rect x="1243" y="173" width="14" height="14" />
+    <rect x="1593" y="183" width="14" height="14" />
+    <circle cx="1180" cy="215" r="6" />
+    <circle cx="1320" cy="145" r="6" />
+  </svg>
+
+  <div class="panel tokens">
+    <div class="top"><i></i><i></i><i></i><span>tokens.css</span></div>
+    <div class="body">
+      <div class="sw"><i style="background:#2747f5"></i><i style="background:#0c0d10"></i><i style="background:#f3f4f6"></i><i style="background:#6f86ff"></i><i style="background:#16a34a"></i></div>
+      <div class="aa"><b>Aa</b><span>Bricolage Grotesque<br />600 · -0.035em</span></div>
+      <div class="scale"><i style="height:12px"></i><i style="height:20px"></i><i style="height:32px"></i><i style="height:48px"></i><i style="height:72px"></i></div>
+    </div>
+  </div>
+
+  <div class="panel editor">
+    <div class="top"><i></i><i></i><i></i><span>Booking.tsx</span></div>
+    <div class="src">
+<div class="l"><span class="no">1</span><span class="code"><span class="k">export default function</span> <span class="f">Booking</span><span class="p">() {</span></span></div>
+<div class="l"><span class="no">2</span><span class="code">  <span class="k">const</span> <span class="p">slots =</span> <span class="f">useSlots</span><span class="p">(</span><span class="s">'2026-10'</span><span class="p">)</span></span></div>
+<div class="l"><span class="no">3</span><span class="code">  <span class="k">const</span> <span class="p">pay =</span> <span class="f">useCheckout</span><span class="p">()</span></span></div>
+<div class="l"><span class="no">4</span><span class="code">  <span class="k">return</span> <span class="p">(</span></span></div>
+<div class="l"><span class="no">5</span><span class="code">    <span class="t">&lt;Calendar</span> <span class="p">data={slots} /</span><span class="t">&gt;</span></span></div>
+<div class="l"><span class="no">6</span><span class="code">    <span class="t">&lt;Button</span> <span class="p">onClick={pay}</span><span class="t">&gt;</span><span class="p">Book</span><span class="t">&lt;/Button&gt;</span></span></div>
+<div class="l"><span class="no">7</span><span class="code">  <span class="p">)</span></span></div>
+<div class="l"><span class="no">8</span><span class="code"><span class="p">}</span></span></div></div>
+    <div class="term"><p>$ npm run build</p><p class="ok">✓ Compiled successfully · 1.2s</p></div>
+  </div>
+
+  <div class="deploy"><i></i>Live · booking.app</div>
+
+  <div class="hud">
+    <div class="it"><span><b>01</b>Plan</span><div class="bar"><i></i></div></div>
+    <div class="it"><span><b>02</b>Design</span><div class="bar"><i></i></div></div>
+    <div class="it"><span><b>03</b>Build</span><div class="bar"><i></i></div></div>
+    <div class="it"><span><b>04</b>Ship</span><div class="bar"><i></i></div></div>
+  </div>
+</div>
+
+<script>
+  // 달력 칸
+  const cal = document.getElementById('cal')
+  for (let d = 1; d <= 28; d++) {
+    const b = document.createElement('b')
+    b.textContent = d
+    if (d === 9) b.classList.add('sel')
+    cal.appendChild(b)
+  }
+
+  const DURATION = 9
+  const $ = (s) => document.querySelector(s)
+  const $$ = (s) => [...document.querySelectorAll(s)]
+
+  // 카드 위치 → 휴대폰 위치
+  const CARD = { o1: [760, 290], o2: [1110, 520], o3: [1460, 290] }
+  const PHONE = { o1: [790, 230], o2: [1130, 230], o3: [1470, 230] }
+  const SHIP = { o1: [700, 230], o2: [1040, 230], o3: [1380, 230] }
+  for (const id in CARD) gsap.set('#' + id, { left: CARD[id][0], top: CARD[id][1] })
+
+  const words = $$('.w')
+  gsap.set(words, { yPercent: 110 })
+  const bars = $$('.hud .bar i')
+  const items = $$('.hud .it')
+  const tl = gsap.timeline({ paused: true, defaults: { ease: 'expo.out' } })
+
+  const showWord = (i, at) => {
+    if (i > 0) tl.to(words[i - 1], { yPercent: -110, duration: 0.5, ease: 'expo.in' }, at - 0.1)
+    tl.fromTo(words[i], { yPercent: 110 }, { yPercent: 0, duration: 0.8 }, at + (i > 0 ? 0.25 : 0))
+    tl.to(items[i], { color: 'rgba(243,244,246,1)', duration: 0.3 }, at)
+    if (i > 0) tl.to(items[i - 1], { color: 'rgba(243,244,246,.55)', duration: 0.3 }, at)
+  }
+  const fillBar = (i, from, to) => tl.fromTo(bars[i], { scaleX: 0 }, { scaleX: 1, duration: to - from, ease: 'none' }, from)
+
+  // ── PLAN 0.3 – 2.5
+  showWord(0, 0.3)
+  fillBar(0, 0.3, 2.5)
+  tl.fromTo('.obj', { opacity: 0, y: 40, scale: 0.88 }, { opacity: 1, y: 0, scale: 1, duration: 0.9, stagger: 0.16 }, 0.45)
+  tl.to('#l1', { strokeDashoffset: 0, duration: 0.6, ease: 'power2.inOut' }, 1.15)
+  tl.to('.links .head', { opacity: 1, duration: 0.2, stagger: 0.4 }, 1.6)
+  tl.to('#l2', { strokeDashoffset: 0, duration: 0.6, ease: 'power2.inOut' }, 1.55)
+  tl.fromTo('.card-ui .tag i', { scale: 1 }, { scale: 1.15, duration: 0.2, yoyo: true, repeat: 1, stagger: 0.1, ease: 'power1.inOut' }, 2.0)
+
+  // ── DESIGN 2.5 – 4.8
+  showWord(1, 2.5)
+  fillBar(1, 2.5, 4.8)
+  tl.to(['.links path'], { opacity: 0, duration: 0.3, ease: 'none' }, 2.5)
+  tl.to('.card-ui', { opacity: 0, duration: 0.25, ease: 'none' }, 2.5)
+  for (const id in PHONE) {
+    tl.to('#' + id, { left: PHONE[id][0], top: PHONE[id][1], width: 300, height: 620, borderRadius: 44, backgroundColor: '#f3f4f6', boxShadow: 'inset 0 0 0 1.5px rgba(255,255,255,0), 0 40px 90px -30px rgba(0,0,0,.7)', duration: 0.9, ease: 'power3.inOut' }, 2.6 + (id === 'o2' ? 0.08 : id === 'o3' ? 0.16 : 0))
+  }
+  tl.to('.screen', { opacity: 1, duration: 0.2, ease: 'none' }, 3.1)
+  tl.from('.blk', { opacity: 0, scale: 0.9, duration: 0.5, stagger: 0.025 }, 3.15)
+  // 선택 박스 + 펜 곡선 + 토큰 패널
+  tl.set('#sel', { left: 1124, top: 224, width: 312, height: 632 }, 0)
+  tl.to('#sel', { opacity: 1, duration: 0.2, ease: 'none' }, 3.5)
+  tl.to('.pen .curve', { strokeDashoffset: 0, duration: 1.0, ease: 'power2.inOut' }, 3.4)
+  tl.to('.pen rect, .pen circle, .pen .handle', { opacity: 1, duration: 0.2, stagger: 0.08, ease: 'none' }, 3.5)
+  tl.fromTo('.tokens', { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.8 }, 3.2)
+  tl.from('.tokens .sw i', { scale: 0, duration: 0.5, stagger: 0.06, ease: 'back.out(2)' }, 3.4)
+  tl.from('.tokens .scale i', { scaleY: 0, transformOrigin: '50% 100%', duration: 0.5, stagger: 0.05 }, 3.6)
+  // 와이어 → 하이파이
+  $$('.blk').forEach((b, i) => {
+    tl.to(b, { borderColor: 'rgba(39,71,245,0)', backgroundColor: b.dataset.bg, duration: 0.45, ease: 'power2.out' }, 4.05 + (i % 7) * 0.035)
+    tl.to(b.querySelector('.c'), { opacity: 1, duration: 0.4, ease: 'power2.out' }, 4.15 + (i % 7) * 0.035)
+  })
+  tl.to('#sel, .pen', { opacity: 0, duration: 0.3, ease: 'none' }, 4.5)
+
+  // ── BUILD 4.8 – 7.0
+  showWord(2, 4.8)
+  fillBar(2, 4.8, 7.0)
+  tl.to('.tokens', { opacity: 0, x: -40, duration: 0.4, ease: 'expo.in' }, 4.8)
+  tl.fromTo('.editor', { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.7 }, 5.05)
+  $$('.editor .code').forEach((c, i) => {
+    const n = Math.max(4, c.textContent.length)
+    tl.to(c, { clipPath: 'inset(0 0% 0 0)', duration: n * 0.012, ease: `steps(${n})` }, 5.25 + i * 0.16)
+  })
+  // 코드에 맞춰 화면이 동작
+  tl.to('.f1 span', { clipPath: 'inset(0 0% 0 0)', duration: 0.35, ease: 'steps(13)' }, 5.4)
+  tl.to('.f2 span', { clipPath: 'inset(0 0% 0 0)', duration: 0.3, ease: 'steps(10)' }, 5.75)
+  tl.to('.b1', { scale: 0.94, duration: 0.08, yoyo: true, repeat: 1, ease: 'power1.inOut' }, 6.1)
+  const cells = $$('#cal b')
+  tl.to(cells[8], { backgroundColor: '#e7e9ee', color: '#4b515c', duration: 0.15, ease: 'none' }, 6.0)
+  tl.to(cells[16], { backgroundColor: '#2747f5', color: '#ffffff', duration: 0.15, ease: 'none' }, 6.0)
+  tl.to('.chip2', { backgroundColor: '#0c0d10', color: '#ffffff', boxShadow: 'inset 0 0 0 0px #fff', duration: 0.15, ease: 'none' }, 6.15)
+  tl.to('.b2', { scale: 0.94, duration: 0.08, yoyo: true, repeat: 1, ease: 'power1.inOut' }, 6.3)
+  tl.fromTo($$('#o3 .blk')[0], { scale: 0.6 }, { scale: 1, duration: 0.5, ease: 'back.out(2.5)' }, 6.4)
+  tl.to('.check path', { strokeDashoffset: 0, duration: 0.35, ease: 'power2.out' }, 6.5)
+  tl.to('.term p:first-child', { clipPath: 'inset(0 0% 0 0)', duration: 0.2, ease: 'steps(15)' }, 6.45)
+  tl.to('.term p.ok', { clipPath: 'inset(0 0% 0 0)', duration: 0.25, ease: 'steps(28)' }, 6.75)
+
+  // ── SHIP 7.0 – 8.2
+  showWord(3, 7.0)
+  fillBar(3, 7.0, 8.2)
+  tl.to('.editor', { opacity: 0, x: -40, duration: 0.4, ease: 'expo.in' }, 7.0)
+  for (const id in SHIP) tl.to('#' + id, { left: SHIP[id][0], top: SHIP[id][1] + (id === 'o2' ? -16 : 0), duration: 0.9, ease: 'power3.inOut' }, 7.1)
+  tl.set('.glow', { left: 660 }, 0)
+  tl.to('.glow', { opacity: 1, duration: 0.9, ease: 'power2.out' }, 7.3)
+  tl.set('.deploy', { left: 1190 }, 0)
+  tl.fromTo('.deploy', { opacity: 0, y: 16, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: 'back.out(2)' }, 7.55)
+
+  // ── 처음으로 (8.2 – 9.0): 끝 프레임 = 첫 프레임
+  tl.to('.obj, .deploy, .glow', { opacity: 0, y: -20, duration: 0.6, ease: 'power2.in' }, 8.25)
+  tl.to(words[3], { yPercent: -110, duration: 0.5, ease: 'expo.in' }, 8.3)
+  tl.to(bars, { scaleX: 0, duration: 0.5, ease: 'power2.in', transformOrigin: 'right' }, 8.35)
+  tl.to(items[3], { color: 'rgba(243,244,246,.35)', duration: 0.4 }, 8.4)
+  tl.to(items.slice(0, 3), { color: 'rgba(243,244,246,.35)', duration: 0.4 }, 8.4)
+  tl.to({}, { duration: 0.01 }, DURATION - 0.01)
+
+  window.__reel = { tl, duration: DURATION }
+  window.__ready = document.fonts.ready.then(() => true)
+
+  // 브라우저에서 열면 그냥 반복 재생 (?frame 모드는 렌더러가 제어)
+  if (!location.search.includes('render')) tl.repeat(-1).play()
+</script>
+</body>
+</html>
