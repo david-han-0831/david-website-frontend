@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Reel — Blueprint City</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=block" rel="stylesheet" />
+<!-- node motion/render.mjs motion/reel-city 로 렌더 (frontend 루트를 서빙) -->
+<script src="/node_modules/gsap/dist/gsap.min.js"></script>
+<script type="importmap">
+  { "imports": { "three": "/node_modules/three/build/three.module.js", "three/addons/": "/node_modules/three/examples/jsm/" } }
+</script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: #05060a; }
+  #stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+  canvas { position: absolute; inset: 0; display: block; }
+  .vignette { position: absolute; inset: 0; background: radial-gradient(115% 90% at 50% 45%, transparent 48%, rgba(0,0,0,.7) 100%); pointer-events: none; }
+  .grain { position: absolute; inset: -50%; opacity: .07; mix-blend-mode: overlay; pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  .hud { position: absolute; left: 96px; bottom: 84px; font: 500 20px 'JetBrains Mono', monospace; letter-spacing: .08em; color: rgba(236,239,248,.9); }
+  .hud .labels { position: relative; height: 28px; width: 520px; overflow: hidden; }
+  .hud .labels span { position: absolute; left: 0; top: 0; opacity: 0; white-space: nowrap; }
+  .hud .labels b { color: #7b93ff; font-weight: 500; margin-right: 16px; }
+  .hud .track { display: grid; grid-template-columns: repeat(4, 64px); gap: 8px; margin-top: 18px; }
+  .hud .track i { display: block; height: 2px; background: rgba(236,239,248,.16); overflow: hidden; }
+  .hud .track i b { display: block; height: 100%; background: #7b93ff; transform-origin: left; transform: scaleX(0); }
+  .count { position: absolute; right: 96px; bottom: 84px; text-align: right; font: 400 18px 'JetBrains Mono', monospace; letter-spacing: .08em; color: rgba(236,239,248,.45); }
+  .count b { display: block; font: 600 64px 'Bricolage Grotesque', sans-serif; letter-spacing: -0.03em; color: #eef1f8; margin-bottom: 6px; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="vignette"></div>
+  <div class="grain"></div>
+  <div class="hud">
+    <div class="labels">
+      <span><b>01</b>PLAN · MASTER PLAN</span>
+      <span><b>02</b>DESIGN · STRUCTURE</span>
+      <span><b>03</b>BUILD · CONSTRUCTION</span>
+      <span><b>04</b>SHIP · LIVE</span>
+    </div>
+    <div class="track"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
+  </div>
+  <div class="count"><b id="count">0</b>PRODUCTS SHIPPED · HAN-DAVID.COM</div>
+</div>
+
+<script type="module">
+import * as THREE from 'three'
+import { Line2 } from 'three/addons/lines/Line2.js'
+import { LineGeometry } from 'three/addons/lines/LineGeometry.js'
+import { LineSegments2 } from 'three/addons/lines/LineSegments2.js'
+import { LineSegmentsGeometry } from 'three/addons/lines/LineSegmentsGeometry.js'
+import { LineMaterial } from 'three/addons/lines/LineMaterial.js'
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js'
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js'
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js'
+
+const W = 1920, H = 1080, DURATION = 10
+const BG = 0x05060a
+const BLUE = new THREE.Color(0.5, 0.62, 3.0)
+
+await Promise.all(['600 64px "Bricolage Grotesque"', '600 40px Inter', '400 40px Inter', '500 24px "JetBrains Mono"'].map((f) => document.fonts.load(f)))
+
+// 시드 고정 난수 (렌더할 때마다 같은 도시)
+let seed = 7
+const rand = () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296 }
+const clamp01 = (v) => Math.min(1, Math.max(0, v))
+const easeOut = (v) => 1 - Math.pow(1 - v, 3)
+
+// ── 렌더러 ──────────────────────────────────────
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true })
+renderer.setPixelRatio(1)
+renderer.setSize(W, H)
+renderer.toneMapping = THREE.ACESFilmicToneMapping
+renderer.toneMappingExposure = 1.0
+document.getElementById('stage').prepend(renderer.domElement)
+
+const scene = new THREE.Scene()
+scene.background = new THREE.Color(BG)
+scene.fog = new THREE.FogExp2(BG, 0.075)
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture
+scene.environmentIntensity = 0.25
+const camera = new THREE.PerspectiveCamera(34, W / H, 0.05, 80)
+const moon = new THREE.DirectionalLight(0x8fa2ff, 0.45)
+moon.position.set(-4, 8, 3)
+scene.add(moon, new THREE.AmbientLight(0x223055, 0.6))
+
+const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(W, H, { samples: 4, type: THREE.HalfFloatType }))
+composer.addPass(new RenderPass(scene, camera))
+const bloom = new UnrealBloomPass(new THREE.Vector2(W, H), 0.55, 0.5, 0.88)
+composer.addPass(bloom)
+composer.addPass(new OutputPass())
+
+// ── 도시 배치 ────────────────────────────────────
+const N = 13, LOT = 0.56, STREET = 0.22, PITCH = LOT + STREET
+const EXT = (N * PITCH) / 2
+const lotCenter = (i) => (i - (N - 1) / 2) * PITCH
+
+// 대표 프로젝트 8건 = 랜드마크 타워
+const LANDMARKS = [
+  { at: [5, 7], kind: 'market', tag: 'B2B TRADE · 2024' },
+  { at: [7, 5], kind: 'pos', tag: 'POS · GLOBAL · 2025' },
+  { at: [4, 4], kind: 'exam', tag: 'EXAM PLATFORM · 2025' },
+  { at: [8, 8], kind: 'vision', tag: 'AI VISION · 2025' },
+  { at: [6, 3], kind: 'coach', tag: 'SPORTS AI · 2025' },
+  { at: [3, 6], kind: 'gallery', tag: 'ARTS PLATFORM · 2024' },
+  { at: [9, 6], kind: 'app', tag: 'TELEHEALTH APP · 2023' },
+  { at: [6, 9], kind: 'sheet', tag: 'ERP / HR · 2022' },
+]
+const landmarkAt = new Map(LANDMARKS.map((l, i) => [l.at.join(','), i]))
+
+const buildings = []
+for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) {
+  const lm = landmarkAt.get(`${i},${j}`)
+  const x = lotCenter(i), z = lotCenter(j)
+  const d = Math.hypot(x, z) / EXT
+  if (lm === undefined && rand() < 0.1) { rand(); rand(); continue } // 광장
+  const fw = lm !== undefined ? LOT * 0.92 : LOT * (0.62 + rand() * 0.34)
+  const fd = lm !== undefined ? LOT * 0.92 : LOT * (0.62 + rand() * 0.34)
+  const h = lm !== undefined ? 2.3 + (lm % 3) * 0.35 : 0.14 + rand() * 0.5 + Math.max(0, 1 - d * 1.3) * 1.1 * rand()
+  buildings.push({ x, z, fw, fd, h, lm, delay: clamp01(d * 0.75 + rand() * 0.25) })
+}
+const COUNT = buildings.length
+
+// ── 지면: 설계 격자 ───────────────────────────────
+const groundMat = new THREE.ShaderMaterial({
+  transparent: true, depthWrite: false,
+  uniforms: { uGrid: { value: 0.45 }, uColor: { value: new THREE.Color(0.32, 0.42, 1.5) } },
+  vertexShader: 'varying vec2 vP; void main(){ vP = position.xy; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.); }',
+  fragmentShader: `varying vec2 vP; uniform float uGrid; uniform vec3 uColor;
+    float grid(vec2 p, float s){ vec2 g = abs(fract(p / s - .5) - .5) / fwidth(p / s); return 1. - min(min(g.x, g.y), 1.); }
+    void main(){ float f = max(grid(vP, ${(PITCH / 4).toFixed(4)}) * .1, grid(vP, ${PITCH.toFixed(4)}) * .35);
+      float fade = smoothstep(${(EXT * 1.25).toFixed(2)}, 1.0, length(vP));
+      gl_FragColor = vec4(uColor, f * fade * uGrid); }`,
+})
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), groundMat)
+ground.rotation.x = -Math.PI / 2
+scene.add(ground)
+const base = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.MeshStandardMaterial({ color: 0x07090f, roughness: 0.35, metalness: 0.6 }))
+base.rotation.x = -Math.PI / 2
+base.position.y = -0.002
+scene.add(base)
+
+function lineMat(width, opacity, color = BLUE) {
+  const m = new LineMaterial({ color, linewidth: width, transparent: true, opacity, depthWrite: false })
+  m.resolution.set(W, H)
+  return m
+}
+// 도로 중심선 (처음과 끝 모두 보이는 상태)
+const streetPos = []
+for (let k = 0; k <= N; k++) {
+  const c = (k - N / 2) * PITCH
+  streetPos.push(c, 0.003, -EXT, c, 0.003, EXT, -EXT, 0.003, c, EXT, 0.003, c)
+}
+const streetGeo = new LineSegmentsGeometry().setPositions(streetPos)
+const streets = new LineSegments2(streetGeo, lineMat(1.4, 0.55))
+scene.add(streets)
+// 필지 윤곽 (기획 단계에서 그어짐)
+const lotPos = []
+for (const b of buildings) {
+  const x0 = b.x - LOT / 2, x1 = b.x + LOT / 2, z0 = b.z - LOT / 2, z1 = b.z + LOT / 2, y = 0.004
+  lotPos.push(x0, y, z0, x1, y, z0, x1, y, z0, x1, y, z1, x1, y, z1, x0, y, z1, x0, y, z1, x0, y, z0)
+}
+const lotsMat = lineMat(0.8, 0)
+const lots = new LineSegments2(new LineSegmentsGeometry().setPositions(lotPos), lotsMat)
+scene.add(lots)
+
+// ── 건물: 설계선 박스(와이어) + 솔리드 ──────────────────
+const boxGeo = new THREE.BoxGeometry(1, 1, 1)
+boxGeo.translate(0, 0.5, 0)
+boxGeo.setAttribute('aDelay', new THREE.InstancedBufferAttribute(new Float32Array(buildings.map((b) => b.delay)), 1))
+boxGeo.setAttribute('aSeed', new THREE.InstancedBufferAttribute(new Float32Array(buildings.map(() => rand())), 1))
+
+const wireMat = new THREE.ShaderMaterial({
+  transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+  uniforms: { uWire: { value: 0 }, uColor: { value: BLUE } },
+  vertexShader: `varying vec2 vUv; varying float vH;
+    void main(){ vUv = uv; vec4 w = modelMatrix * instanceMatrix * vec4(position, 1.); vH = w.y; gl_Position = projectionMatrix * viewMatrix * w; }`,
+  fragmentShader: `varying vec2 vUv; varying float vH; uniform float uWire; uniform vec3 uColor;
+    void main(){ vec2 d = min(vUv, 1. - vUv) / fwidth(vUv); float e = 1. - clamp(min(d.x, d.y) / 1.4, 0., 1.);
+      float fill = .025; gl_FragColor = vec4(uColor, (e + fill) * uWire); }`,
+})
+const wire = new THREE.InstancedMesh(boxGeo, wireMat, COUNT)
+wire.frustumCulled = false
+scene.add(wire)
+
+const solidMat = new THREE.MeshStandardMaterial({ color: 0x0b0f18, roughness: 0.7, metalness: 0.05 })
+solidMat.userData.uniforms = { uLight: { value: 0 } }
+solidMat.onBeforeCompile = (shader) => {
+  shader.uniforms.uLight = solidMat.userData.uniforms.uLight
+  shader.vertexShader = shader.vertexShader
+    .replace('#include <common>', '#include <common>\nattribute float aDelay; attribute float aSeed; varying float vDelay; varying float vSeed; varying vec3 vWP; varying vec3 vWN;')
+    .replace('#include <project_vertex>', '#include <project_vertex>\nvDelay = aDelay; vSeed = aSeed; vWP = (modelMatrix * instanceMatrix * vec4(transformed, 1.)).xyz; vWN = normalize(mat3(modelMatrix * instanceMatrix) * objectNormal);')
+  shader.fragmentShader = shader.fragmentShader
+    .replace('#include <common>', '#include <common>\nuniform float uLight; varying float vDelay; varying float vSeed; varying vec3 vWP; varying vec3 vWN;\nfloat h21(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }')
+    // 옥상은 어둡게 (창문 없는 면이 달빛에 떠 보이지 않도록)
+    .replace('#include <color_fragment>', `#include <color_fragment>
+      diffuseColor.rgb *= mix(1., .28, step(.5, vWN.y));`)
+    .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
+      {
+        float side = step(abs(vWN.y), .5);
+        float c = abs(vWN.x) > .5 ? vWP.z : vWP.x;
+        vec2 cell = vec2(floor(c * 26.), floor(vWP.y * 20.));
+        vec2 f = vec2(fract(c * 26.), fract(vWP.y * 20.));
+        float win = step(.3, f.x) * step(f.x, .8) * step(.3, f.y) * step(f.y, .78);
+        float on = step(.62, h21(cell + vSeed * 31.));
+        float lit = smoothstep(vDelay, vDelay + .12, uLight);
+        vec3 warm = vec3(1.0, .78, .52), cool = vec3(.55, .68, 1.2);
+        vec3 col = mix(cool, warm, step(.6, h21(cell.yx + vSeed)));
+        totalEmissiveRadiance += col * win * on * side * lit * 1.05;
+      }`)
+}
+const solid = new THREE.InstancedMesh(boxGeo, solidMat, COUNT)
+solid.frustumCulled = false
+scene.add(solid)
+
+// ── 랜드마크 외벽 화면 (프로젝트별 UI) ─────────────────
+const SW = 600, SH = 960
+const RR = (x, a, b, w, h, r) => { x.beginPath(); x.roundRect(a, b, w, h, r) }
+function drawScreen(kind) {
+  const c = document.createElement('canvas'); c.width = SW; c.height = SH
+  const x = c.getContext('2d')
+  const dark = ['vision', 'app', 'pos'].includes(kind)
+  x.fillStyle = dark ? '#0d1016' : '#f3f4f6'; x.fillRect(0, 0, SW, SH)
+  const ink = dark ? '#ffffff' : '#0c0d10', sub = dark ? '#8a909b' : '#6b7280', card = dark ? '#171a21' : '#ffffff'
+  const title = (t) => { x.fillStyle = ink; x.font = '600 44px "Bricolage Grotesque"'; x.fillText(t, 40, 90) }
+  const text = (t, a, b, s = 24, col = sub, w = 500) => { x.fillStyle = col; x.font = `${w} ${s}px Inter`; x.fillText(t, a, b) }
+  const palette = ['#2747f5', '#16a34a', '#f59e0b', '#ec4899', '#8b5cf6', '#06b6d4']
+  if (kind === 'market') {
+    title('Marketplace'); text('Frozen seafood · 124 lots', 40, 130)
+    for (let r = 0; r < 3; r++) for (let q = 0; q < 2; q++) {
+      const a = 40 + q * 270, b = 170 + r * 250
+      RR(x, a, b, 250, 230, 22); x.fillStyle = card; x.fill()
+      RR(x, a + 14, b + 14, 222, 120, 14); x.fillStyle = palette[(r * 2 + q) % 6]; x.globalAlpha = .85; x.fill(); x.globalAlpha = 1
+      text(['Salmon', 'Tuna', 'Squid', 'Shrimp', 'Cod', 'Crab'][r * 2 + q], a + 18, b + 170, 24, ink, 600)
+      text(`$${(12 + r * 7 + q * 3).toFixed(2)}/kg`, a + 18, b + 204, 22, '#2747f5', 600)
+    }
+  } else if (kind === 'pos') {
+    title('Order #1042')
+    ;['Americano', 'Latte ×2', 'Croissant', 'Bagel'].forEach((t, i) => { text(t, 40, 170 + i * 56, 28, ink, 500); text(['$3.50', '$9.00', '$4.20', '$3.80'][i], 440, 170 + i * 56, 28, ink, 600) })
+    x.fillStyle = '#2a2e38'; x.fillRect(40, 400, 520, 2)
+    text('Total', 40, 460, 30, sub); x.fillStyle = ink; x.font = '600 64px "Bricolage Grotesque"'; x.fillText('$20.50', 300, 470)
+    for (let r = 0; r < 4; r++) for (let q = 0; q < 3; q++) { RR(x, 40 + q * 178, 520 + r * 92, 162, 78, 16); x.fillStyle = '#1d212a'; x.fill(); text(['1','2','3','4','5','6','7','8','9','·','0','⌫'][r * 3 + q], 110 + q * 178, 570 + r * 92, 30, ink, 600) }
+    RR(x, 40, 900, 520, 40, 20); x.fillStyle = '#2747f5'; x.fill()
+  } else if (kind === 'exam') {
+    title('Question 12 / 40'); text('Remaining 18:42', 40, 130, 24, '#2747f5', 600)
+    RR(x, 40, 170, 520, 180, 22); x.fillStyle = card; x.fill()
+    text('Which data structure gives O(1)', 64, 230, 26, ink, 600); text('average lookup by key?', 64, 268, 26, ink, 600)
+    ;['Linked list', 'Hash map', 'Binary tree', 'Stack'].forEach((t, i) => {
+      RR(x, 40, 390 + i * 108, 520, 88, 20); x.fillStyle = i === 1 ? '#2747f5' : card; x.fill()
+      text(t, 90, 444 + i * 108, 28, i === 1 ? '#fff' : ink, 500)
+    })
+    RR(x, 40, 850, 520, 70, 35); x.fillStyle = '#0c0d10'; x.fill(); text('Submit', 255, 895, 28, '#fff', 600)
+  } else if (kind === 'vision') {
+    title('Shot analysis'); text('Release angle 52° · Arc ok', 40, 130, 24, '#4ade80', 600)
+    const g = x.createLinearGradient(0, 170, 0, 760); g.addColorStop(0, '#1b2a4a'); g.addColorStop(1, '#0d1320')
+    RR(x, 40, 170, 520, 590, 24); x.fillStyle = g; x.fill()
+    x.strokeStyle = '#7b93ff'; x.lineWidth = 7; x.lineCap = 'round'
+    const P = [[300, 280], [300, 360], [240, 420], [220, 500], [360, 400], [400, 320], [300, 500], [260, 600], [250, 700], [340, 600], [360, 700]]
+    ;[[0, 1], [1, 2], [2, 3], [1, 4], [4, 5], [1, 6], [6, 7], [7, 8], [6, 9], [9, 10]].forEach(([a, b]) => { x.beginPath(); x.moveTo(...P[a]); x.lineTo(...P[b]); x.stroke() })
+    x.fillStyle = '#fff'; P.forEach(([a, b]) => { x.beginPath(); x.arc(a, b, 9, 0, 7); x.fill() })
+    x.setLineDash([12, 10]); x.strokeStyle = '#f59e0b'; x.beginPath(); x.moveTo(400, 320); x.quadraticCurveTo(470, 180, 520, 260); x.stroke(); x.setLineDash([])
+    ;['Form', 'Balance', 'Follow'].forEach((t, i) => { text(t, 40, 820 + i * 46, 24, sub); RR(x, 200, 800 + i * 46, 360, 18, 9); x.fillStyle = '#1d212a'; x.fill(); RR(x, 200, 800 + i * 46, 360 * [0.86, 0.72, 0.91][i], 18, 9); x.fillStyle = '#4ade80'; x.fill() })
+  } else if (kind === 'coach') {
+    title('Training load'); text('Week 42 · 18 athletes', 40, 130)
+    for (let r = 0; r < 4; r++) for (let q = 0; q < 7; q++) { RR(x, 40 + q * 75, 170 + r * 75, 62, 62, 12); x.fillStyle = (q + r * 3) % 4 === 0 ? '#2747f5' : (q + r) % 5 === 0 ? '#16a34a' : '#e7e9ee'; x.fill() }
+    RR(x, 40, 490, 520, 300, 22); x.fillStyle = card; x.fill()
+    x.strokeStyle = '#2747f5'; x.lineWidth = 6; x.beginPath(); [0.7, 0.55, 0.6, 0.4, 0.45, 0.3, 0.35, 0.2].forEach((v, i) => { const a = 70 + i * 66, b = 520 + v * 240; i ? x.lineTo(a, b) : x.moveTo(a, b) }); x.stroke()
+    text('Injury risk', 40, 850, 26, ink, 600); text('Low', 480, 850, 26, '#16a34a', 600)
+  } else if (kind === 'gallery') {
+    title('Now showing'); text('Seoul · 32 venues', 40, 130)
+    ;[[40, 170, 250, 340], [310, 170, 250, 220], [310, 410, 250, 300], [40, 530, 250, 280], [40, 830, 520, 100]].forEach(([a, b, w, h], i) => {
+      const g = x.createLinearGradient(a, b, a + w, b + h); g.addColorStop(0, palette[i % 6]); g.addColorStop(1, palette[(i + 2) % 6])
+      RR(x, a, b, w, h, 20); x.fillStyle = g; x.fill()
+    })
+    text('Jazz Night', 60, 490, 30, '#fff', 600); text('Modern Dance', 330, 680, 28, '#fff', 600)
+  } else if (kind === 'app') {
+    title('Good morning'); text('Next visit · Oct 17 10:30', 40, 130, 24, '#4ade80', 600)
+    RR(x, 40, 170, 520, 240, 28); const g = x.createLinearGradient(40, 170, 560, 410); g.addColorStop(0, '#2747f5'); g.addColorStop(1, '#8b5cf6'); x.fillStyle = g; x.fill()
+    text('Dr. Kim · Dermatology', 70, 250, 28, '#fff', 600); text('Video consult in 2h', 70, 292, 24, 'rgba(255,255,255,.8)')
+    RR(x, 70, 330, 200, 54, 27); x.fillStyle = '#fff'; x.fill(); text('Join call', 110, 366, 24, '#2747f5', 600)
+    ;['Prescriptions', 'Records', 'Payments'].forEach((t, i) => { RR(x, 40, 450 + i * 130, 520, 110, 22); x.fillStyle = card; x.fill(); x.beginPath(); x.arc(100, 505 + i * 130, 26, 0, 7); x.fillStyle = palette[i]; x.fill(); text(t, 150, 515 + i * 130, 28, ink, 600) })
+  } else if (kind === 'sheet') {
+    title('Payroll · Oct'); text('142 employees · closed', 40, 130, 24, '#16a34a', 600)
+    RR(x, 40, 170, 520, 440, 20); x.fillStyle = card; x.fill()
+    x.fillStyle = '#e7e9ee'; x.fillRect(40, 170, 520, 56)
+    for (let r = 0; r < 7; r++) { x.fillStyle = '#e7e9ee'; x.fillRect(40, 280 + r * 48, 520, 2); ;[60, 230, 400].forEach((a, q) => { RR(x, a, 250 + r * 48, [120, 110, 120][q], 16, 8); x.fillStyle = q === 2 ? '#2747f5' : '#d6d9e0'; x.fill() }) }
+    ;[180, 260, 220, 320, 280].forEach((h, i) => { RR(x, 60 + i * 100, 900 - h, 60, h, 10); x.fillStyle = i === 3 ? '#2747f5' : '#c7cbd4'; x.fill() })
+  }
+  const t = new THREE.CanvasTexture(c)
+  t.colorSpace = THREE.SRGBColorSpace
+  t.anisotropy = 8
+  return t
+}
+
+const landmarkScreens = []
+for (const b of buildings) {
+  if (b.lm === undefined) continue
+  const L = LANDMARKS[b.lm]
+  const sw = b.fw * 0.84, sh = Math.min(b.h * 0.62, sw * (SH / SW))
+  // 밝은 화면이 블룸으로 번지지 않게 살짝 낮춘다
+  const mat = new THREE.MeshBasicMaterial({ map: drawScreen(L.kind), color: 0xc4c8d2, transparent: true, opacity: 0, toneMapped: false })
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(sw, sh), mat)
+  m.position.set(b.x, b.h * 0.58, b.z + b.fd / 2 + 0.004)
+  scene.add(m)
+  // 프로젝트 태그
+  const c = document.createElement('canvas'); const x = c.getContext('2d')
+  x.font = '500 30px "JetBrains Mono"'; c.width = Math.ceil(x.measureText(L.tag).width) + 44; c.height = 56
+  x.fillStyle = 'rgba(39,71,245,.92)'; x.beginPath(); x.roundRect(0, 0, c.width, c.height, 10); x.fill()
+  x.font = '500 30px "JetBrains Mono"'; x.fillStyle = '#fff'; x.textBaseline = 'middle'; x.fillText(L.tag, 22, 29)
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace
+  const tag = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 0, depthWrite: false, toneMapped: false }))
+  tag.scale.set(c.width * 0.0019, c.height * 0.0019, 1)
+  tag.position.set(b.x, b.h + 0.22, b.z)
+  scene.add(tag)
+  landmarkScreens.push({ b, mat, tag })
+}
+
+// ── 거리의 불빛 궤적 ───────────────────────────────
+const TRAILS = 90
+const trail = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, toneMapped: false }), TRAILS)
+trail.frustumCulled = false
+const trailData = Array.from({ length: TRAILS }, () => ({ axis: rand() < 0.5 ? 'x' : 'z', lane: Math.floor(rand() * (N + 1)), off: rand(), speed: 0.12 + rand() * 0.2, dir: rand() < 0.5 ? -1 : 1, warm: rand() < 0.5 }))
+trailData.forEach((d, i) => trail.setColorAt(i, d.warm ? new THREE.Color(3, 1.6, 0.7) : new THREE.Color(1.2, 1.6, 4)))
+scene.add(trail)
+
+// ── 카메라 ──────────────────────────────────────
+const cam = { yaw: 0, pitch: 88, dist: 14, tx: 0, tz: 0 }
+function placeCamera() {
+  const y = THREE.MathUtils.degToRad(cam.yaw), p = THREE.MathUtils.degToRad(cam.pitch)
+  camera.position.set(cam.tx + Math.sin(y) * Math.cos(p) * cam.dist, Math.sin(p) * cam.dist, cam.tz + Math.cos(y) * Math.cos(p) * cam.dist)
+  camera.lookAt(cam.tx, 0.4 * (1 - p / 1.6), cam.tz)
+}
+
+// ── 타임라인 ────────────────────────────────────
+const st = { rise: 0, fill: 0, light: 0, screens: 0, trails: 0, count: 0 }
+const tl = gsap.timeline({ paused: true, defaults: { ease: 'power2.inOut' } })
+const hudLabels = [...document.querySelectorAll('.hud .labels span')]
+const hudBars = [...document.querySelectorAll('.hud .track b')]
+const phase = (i, from, to) => {
+  tl.fromTo(hudLabels[i], { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out' }, from)
+  if (i < 3) tl.to(hudLabels[i], { opacity: 0, y: -20, duration: 0.35, ease: 'expo.in' }, to - 0.3)
+  tl.fromTo(hudBars[i], { scaleX: 0 }, { scaleX: 1, duration: to - from, ease: 'none' }, from)
+}
+phase(0, 0.3, 2.2); phase(1, 2.2, 4.6); phase(2, 4.6, 7.0); phase(3, 7.0, 9.2)
+
+// PLAN 0 – 2.2: 위에서 본 설계도, 필지가 그어진다
+tl.fromTo(cam, { yaw: 0, pitch: 88, dist: 14, tx: 0, tz: 0 }, { yaw: 18, pitch: 82, dist: 12.5, duration: 2.4, ease: 'power1.inOut' }, 0)
+tl.to(lotsMat, { opacity: 0.4, duration: 1.2, ease: 'power1.out' }, 0.3)
+tl.to(wireMat.uniforms.uWire, { value: 1, duration: 0.01 }, 2.0)
+// DESIGN 2.2 – 4.6: 카메라가 기울고 설계선 박스가 솟는다
+tl.to(cam, { yaw: 32, pitch: 44, dist: 10, duration: 2.4 }, 2.2)
+tl.to(st, { rise: 1, duration: 2.2, ease: 'none' }, 2.2)
+tl.to(groundMat.uniforms.uGrid, { value: 0.3, duration: 2 }, 3)
+// BUILD 4.6 – 7.0: 거리로 내려앉으며 솔리드가 차오르고 불이 켜진다
+tl.to(cam, { yaw: 22, pitch: 24, dist: 7.2, tx: 0.2, tz: 0.6, duration: 2.4 }, 4.6)
+tl.to(st, { fill: 1, duration: 2.0, ease: 'none' }, 4.7)
+tl.to(wireMat.uniforms.uWire, { value: 0.08, duration: 1.2 }, 5.6)
+tl.to(lotsMat, { opacity: 0.12, duration: 1 }, 5)
+tl.to(st, { light: 1, duration: 1.8, ease: 'none' }, 5.6)
+// SHIP 7.0 – 9.2: 불 켜진 도시 사이를 비행, 대표 프로젝트 화면과 태그
+tl.to(cam, { yaw: 6, pitch: 15, dist: 6.2, tx: 0, tz: 0, duration: 2.3, ease: 'power1.inOut' }, 7.0)
+tl.to(st, { screens: 1, duration: 0.8 }, 6.8)
+tl.to(st, { trails: 1, duration: 0.8 }, 6.6)
+tl.to(st, { count: 37, duration: 1.4, ease: 'power2.out' }, 7.2)
+tl.to(bloom, { strength: 0.75, duration: 1.2 }, 7)
+// 처음으로 9.2 – 10: 다시 위로, 도시가 설계도 속으로 가라앉는다
+tl.to(cam, { yaw: 0, pitch: 88, dist: 14, tx: 0, tz: 0, duration: 0.8, ease: 'power2.inOut' }, 9.2)
+tl.to(st, { rise: 0, fill: 0, light: 0, screens: 0, trails: 0, duration: 0.7, ease: 'power2.in' }, 9.2)
+tl.to(st, { count: 0, duration: 0.5, ease: 'power2.in' }, 9.3)
+tl.to(wireMat.uniforms.uWire, { value: 0, duration: 0.6 }, 9.3)
+tl.to(lotsMat, { opacity: 0, duration: 0.6 }, 9.3)
+tl.to(groundMat.uniforms.uGrid, { value: 0.45, duration: 0.7 }, 9.3)
+tl.to(bloom, { strength: 0.55, duration: 0.7 }, 9.3)
+tl.to(hudBars, { scaleX: 0, duration: 0.4, ease: 'power2.in', transformOrigin: 'right' }, 9.4)
+tl.to(hudLabels[3], { opacity: 0, y: -20, duration: 0.35, ease: 'expo.in' }, 9.45)
+tl.to({}, { duration: 0.01 }, DURATION - 0.01)
+
+// ── 매 프레임 적용 ───────────────────────────────
+const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v = new THREE.Vector3(), s = new THREE.Vector3()
+const grain = document.querySelector('.grain')
+const countEl = document.getElementById('count')
+function apply(t) {
+  buildings.forEach((b, i) => {
+    const r = easeOut(clamp01(st.rise * 2 - b.delay))
+    const f = easeOut(clamp01(st.fill * 2 - b.delay))
+    wire.setMatrixAt(i, m4.compose(v.set(b.x, 0, b.z), q, s.set(b.fw, Math.max(1e-4, b.h * r), b.fd)))
+    solid.setMatrixAt(i, m4.compose(v.set(b.x, 0, b.z), q, s.set(b.fw * 0.995, Math.max(1e-4, b.h * f), b.fd * 0.995)))
+  })
+  wire.instanceMatrix.needsUpdate = true
+  solid.instanceMatrix.needsUpdate = true
+  solidMat.userData.uniforms.uLight.value = st.light * 1.15
+  for (const L of landmarkScreens) {
+    const p = clamp01(st.screens * 1.6 - L.b.delay * 0.6)
+    L.mat.opacity = p
+    L.tag.material.opacity = p
+  }
+  trail.material.opacity = st.trails
+  trailData.forEach((d, i) => {
+    const lane = (d.lane - N / 2) * PITCH
+    const pos = ((((d.off + t * d.speed * d.dir) % 1) + 1) % 1) * EXT * 2 - EXT
+    const p = d.axis === 'x' ? v.set(pos, 0.02, lane + (d.dir > 0 ? 0.03 : -0.03)) : v.set(lane + (d.dir > 0 ? 0.03 : -0.03), 0.02, pos)
+    trail.setMatrixAt(i, m4.compose(p, q, d.axis === 'x' ? s.set(0.16, 0.01, 0.012) : s.set(0.012, 0.01, 0.16)))
+  })
+  trail.instanceMatrix.needsUpdate = true
+  countEl.textContent = Math.round(st.count)
+  placeCamera()
+  const f = Math.floor(t * 24)
+  grain.style.transform = `translate(${((f * 37) % 200) - 100}px, ${((f * 53) % 200) - 100}px)`
+}
+
+function seek(t) {
+  tl.seek(t, false)
+  apply(t)
+  composer.render()
+}
+
+window.__reel = { seek, duration: DURATION, poster: 8.4, stills: [0, 1.4, 3.0, 4.2, 5.4, 6.4, 7.4, 8.4, 9.5, 9.97] }
+window.__ready = true
+
+if (!location.search.includes('render')) {
+  const t0 = performance.now()
+  const loop = () => { seek(((performance.now() - t0) / 1000) % DURATION); requestAnimationFrame(loop) }
+  loop()
+} else {
+  seek(0)
+}
+</script>
+</body>
+</html>

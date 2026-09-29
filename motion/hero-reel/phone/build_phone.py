@@ -1,6 +1,7 @@
 """히어로 릴용 휴대폰 모델을 Blender 로 만들어 GLB 로 내보낸다.
 
     blender -b --factory-startup --python motion/hero-reel/phone/build_phone.py
+    (영상 반영: node motion/render.mjs motion/hero-reel --publish)
 
 치수는 릴 장면 단위(폭 0.78 · 높이 1.6 · 두께 0.085)와 같다.
 Blender 는 Z 가 위이므로 높이를 Z, 두께를 Y 로 두고 앞면이 -Y 를 보게 만든다.

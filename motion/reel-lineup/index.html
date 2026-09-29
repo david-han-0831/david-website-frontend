@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Reel — Lineup × Tempo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=block" rel="stylesheet" />
+<!-- node motion/render.mjs motion/reel-lineup 로 렌더 (frontend 루트를 서빙) -->
+<script src="/node_modules/gsap/dist/gsap.min.js"></script>
+<script type="importmap">
+  { "imports": { "three": "/node_modules/three/build/three.module.js", "three/addons/": "/node_modules/three/examples/jsm/" } }
+</script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: #05060a; }
+  #stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+  canvas { position: absolute; inset: 0; display: block; }
+  .vignette { position: absolute; inset: 0; background: radial-gradient(115% 90% at 50% 42%, transparent 50%, rgba(0,0,0,.7) 100%); pointer-events: none; }
+  .grain { position: absolute; inset: -50%; opacity: .07; mix-blend-mode: overlay; pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  .hud { position: absolute; left: 96px; bottom: 84px; font: 500 20px 'JetBrains Mono', monospace; letter-spacing: .08em; color: rgba(236,239,248,.9); }
+  .hud .labels { position: relative; height: 28px; width: 520px; overflow: hidden; }
+  .hud .labels span { position: absolute; left: 0; top: 0; opacity: 0; white-space: nowrap; }
+  .hud .labels b { color: #7b93ff; font-weight: 500; margin-right: 16px; }
+  .tempo { display: flex; align-items: center; gap: 22px; margin-top: 18px; color: rgba(236,239,248,.55); font-size: 17px; }
+  .beats { display: flex; gap: 10px; }
+  .beats i { width: 14px; height: 14px; border-radius: 3px; background: rgba(236,239,248,.14); }
+  .count { position: absolute; right: 96px; bottom: 84px; text-align: right; font: 400 18px 'JetBrains Mono', monospace; letter-spacing: .08em; color: rgba(236,239,248,.45); }
+  .count b { display: block; font: 600 64px 'Bricolage Grotesque', sans-serif; letter-spacing: -0.03em; color: #eef1f8; margin-bottom: 6px; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="vignette"></div>
+  <div class="grain"></div>
+  <div class="hud">
+    <div class="labels">
+      <span><b>01</b>PLAN</span>
+      <span><b>02</b>DESIGN</span>
+      <span><b>03</b>BUILD</span>
+      <span><b>04</b>SHIP</span>
+    </div>
+    <div class="tempo"><span>♩ = 120</span><div class="beats"><i></i><i></i><i></i><i></i></div><span id="bar">BAR 1 / 5</span></div>
+  </div>
+  <div class="count"><b id="count">0</b>PRODUCTS SHIPPED · HAN-DAVID.COM</div>
+</div>
+
+<script type="module">
+import * as THREE from 'three'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
+import { Reflector } from 'three/addons/objects/Reflector.js'
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js'
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js'
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js'
+
+const W = 1920, H = 1080, DURATION = 10
+const BEAT = 0.5 // 120 BPM
+const BG = 0x05060a
+
+await Promise.all(['600 64px "Bricolage Grotesque"', '600 40px Inter', '400 40px Inter', '500 24px "JetBrains Mono"'].map((f) => document.fonts.load(f)))
+
+// ── 렌더러 ──────────────────────────────────────
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true })
+renderer.setPixelRatio(1)
+renderer.setSize(W, H)
+renderer.toneMapping = THREE.ACESFilmicToneMapping
+renderer.toneMappingExposure = 1.05
+document.getElementById('stage').prepend(renderer.domElement)
+
+const scene = new THREE.Scene()
+scene.background = new THREE.Color(BG)
+scene.fog = new THREE.Fog(BG, 16, 34)
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture
+scene.environmentIntensity = 0.7
+const camera = new THREE.PerspectiveCamera(30, W / H, 0.1, 100)
+const key = new THREE.DirectionalLight(0xffffff, 1.6)
+key.position.set(-6, 9, 8)
+const rim = new THREE.DirectionalLight(0x6f86ff, 3)
+rim.position.set(7, 4, -8)
+scene.add(key, rim)
+
+const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(W, H, { samples: 4, type: THREE.HalfFloatType }))
+composer.addPass(new RenderPass(scene, camera))
+const bloom = new UnrealBloomPass(new THREE.Vector2(W, H), 0.5, 0.55, 0.88)
+composer.addPass(bloom)
+composer.addPass(new OutputPass())
+
+// ── 바닥: 반사면 + 어둡게 덮는 판 + 박자 조명 ──────────────
+const mirror = new Reflector(new THREE.PlaneGeometry(60, 60), { textureWidth: W / 2, textureHeight: H / 2, color: 0x3a3d46 })
+mirror.rotation.x = -Math.PI / 2
+scene.add(mirror)
+const floorMat = new THREE.ShaderMaterial({
+  transparent: true, depthWrite: false,
+  uniforms: { uPulse: { value: 0 }, uGrid: { value: 0.35 } },
+  vertexShader: 'varying vec2 vP; void main(){ vP = position.xy; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.); }',
+  fragmentShader: `varying vec2 vP; uniform float uPulse; uniform float uGrid;
+    float grid(vec2 p, float s){ vec2 g = abs(fract(p / s - .5) - .5) / fwidth(p / s); return 1. - min(min(g.x, g.y), 1.); }
+    void main(){
+      float r = length(vP * vec2(1., 1.6));
+      float fade = smoothstep(4., 16., r);
+      vec3 col = vec3(.0015, .0018, .003); // 배경색(선형)과 같게 — 멀수록 배경에 녹는다
+      float g = grid(vP, 1.) * (1. - smoothstep(2., 12., r)) * uGrid;
+      float glow = (1. - smoothstep(0., 7., r)) * (.18 + uPulse * .35);
+      gl_FragColor = vec4(col + vec3(.35, .45, 1.6) * (g * .5 + glow), mix(.72, 1., fade));
+    }`,
+})
+const floorCover = new THREE.Mesh(new THREE.PlaneGeometry(60, 60), floorMat)
+floorCover.rotation.x = -Math.PI / 2
+floorCover.position.y = 0.004
+scene.add(floorCover)
+
+// ── 화면 텍스처 ──────────────────────────────────
+const RR = (x, a, b, w, h, r) => { x.beginPath(); x.roundRect(a, b, w, h, r) }
+function canvasTex(w, h, draw) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h
+  draw(c.getContext('2d'), w, h)
+  const t = new THREE.CanvasTexture(c)
+  t.colorSpace = THREE.SRGBColorSpace
+  t.flipY = false // glTF UV
+  t.anisotropy = 8
+  return t
+}
+// 설계 단계: 같은 비율의 블루프린트
+function blueprint(x, w, h) {
+  x.fillStyle = '#0a1024'; x.fillRect(0, 0, w, h)
+  x.strokeStyle = 'rgba(123,147,255,.16)'; x.lineWidth = 2
+  const s = w / 24
+  for (let a = 0; a <= w; a += s) { x.beginPath(); x.moveTo(a, 0); x.lineTo(a, h); x.stroke() }
+  for (let b = 0; b <= h; b += s) { x.beginPath(); x.moveTo(0, b); x.lineTo(w, b); x.stroke() }
+  x.setLineDash([s * 0.4, s * 0.25]); x.strokeStyle = 'rgba(143,162,255,.95)'; x.lineWidth = Math.max(3, w / 400)
+  const portrait = h > w
+  const boxes = portrait
+    ? [[0.08, 0.06, 0.84, 0.05], [0.08, 0.15, 0.84, 0.3], [0.08, 0.5, 0.4, 0.14], [0.52, 0.5, 0.4, 0.14], [0.08, 0.68, 0.84, 0.08], [0.08, 0.79, 0.84, 0.08], [0.08, 0.9, 0.84, 0.06]]
+    : [[0.03, 0.05, 0.16, 0.9], [0.22, 0.05, 0.75, 0.1], [0.22, 0.2, 0.36, 0.42], [0.61, 0.2, 0.36, 0.42], [0.22, 0.67, 0.75, 0.28]]
+  for (const [a, b, c, d] of boxes) { RR(x, a * w, b * h, c * w, d * h, s * 0.3); x.stroke() }
+  x.setLineDash([]); x.fillStyle = 'rgba(143,162,255,1)'; x.font = `500 ${Math.round(s * 0.45)}px "JetBrains Mono"`
+  x.fillText(portrait ? '375 × 812' : `${w} × ${h}`, s * 0.6, h - s * 0.6)
+}
+const text = (x, t, a, b, size, col, weight = 500, font = 'Inter') => { x.fillStyle = col; x.font = `${weight} ${size}px ${font === 'd' ? '"Bricolage Grotesque"' : font}`; x.fillText(t, a, b) }
+const palette = ['#2747f5', '#16a34a', '#f59e0b', '#ec4899', '#8b5cf6', '#06b6d4']
+
+const UI = {
+  // 노트북: B2B 수산물 거래 대시보드
+  market(x, w, h) {
+    x.fillStyle = '#f3f4f6'; x.fillRect(0, 0, w, h)
+    x.fillStyle = '#0c0d10'; x.fillRect(0, 0, w * 0.17, h)
+    ;['Market', 'Orders', 'Bids', 'Logistics', 'Reports'].forEach((t, i) => { if (i === 0) { RR(x, 20, 120 + i * 70, w * 0.17 - 40, 54, 12); x.fillStyle = '#2747f5'; x.fill() } text(x, t, 44, 156 + i * 70, 26, i === 0 ? '#fff' : '#8a909b', 600) })
+    text(x, 'Seafood Exchange', w * 0.2, 90, 48, '#0c0d10', 600, 'd'); text(x, 'Live lots · 124 · FOB Busan', w * 0.2, 132, 24, '#6b7280')
+    for (let r = 0; r < 2; r++) for (let q = 0; q < 4; q++) {
+      const a = w * 0.2 + q * (w * 0.195), b = 170 + r * 330
+      RR(x, a, b, w * 0.18, 300, 20); x.fillStyle = '#fff'; x.fill()
+      const g = x.createLinearGradient(a, b, a + w * 0.18, b + 150); g.addColorStop(0, palette[(r * 4 + q) % 6]); g.addColorStop(1, palette[(r * 4 + q + 2) % 6])
+      RR(x, a + 14, b + 14, w * 0.18 - 28, 150, 14); x.fillStyle = g; x.fill()
+      text(x, ['Salmon', 'Tuna', 'Squid', 'Shrimp', 'Cod', 'Crab', 'Eel', 'Octopus'][r * 4 + q], a + 20, b + 210, 28, '#0c0d10', 600)
+      text(x, `$${(12 + r * 7 + q * 3).toFixed(2)}/kg`, a + 20, b + 256, 26, '#2747f5', 600)
+    }
+  },
+  // 태블릿: 해외용 POS
+  pos(x, w, h) {
+    x.fillStyle = '#0d1016'; x.fillRect(0, 0, w, h)
+    RR(x, 30, 30, w * 0.36, h - 60, 26); x.fillStyle = '#161a22'; x.fill()
+    text(x, 'Order #1042', 70, 110, 44, '#fff', 600, 'd')
+    ;[['Americano', '3.50'], ['Latte ×2', '9.00'], ['Croissant', '4.20'], ['Bagel', '3.80'], ['Orange juice', '4.50']].forEach(([t, p], i) => { text(x, t, 70, 190 + i * 64, 30, '#e5e7eb'); text(x, `$${p}`, w * 0.36 - 60, 190 + i * 64, 30, '#fff', 600); x.textAlign = 'left' })
+    x.fillStyle = '#2a2e38'; x.fillRect(70, 520, w * 0.36 - 80, 2)
+    text(x, 'Total', 70, 590, 32, '#8a909b'); text(x, '$25.00', w * 0.2, 600, 64, '#fff', 600, 'd')
+    RR(x, 70, h - 150, w * 0.36 - 80, 90, 20); x.fillStyle = '#2747f5'; x.fill(); text(x, 'Charge', w * 0.14, h - 92, 34, '#fff', 600)
+    for (let r = 0; r < 3; r++) for (let q = 0; q < 4; q++) {
+      const a = w * 0.4 + q * (w * 0.148), b = 40 + r * ((h - 80) / 3)
+      RR(x, a, b, w * 0.135, (h - 80) / 3 - 20, 22); x.fillStyle = '#1b1f28'; x.fill()
+      x.beginPath(); x.arc(a + w * 0.0675, b + 90, 44, 0, 7); x.fillStyle = palette[(r * 4 + q) % 6]; x.fill()
+      x.textAlign = 'center'; text(x, ['Espresso', 'Latte', 'Mocha', 'Tea', 'Bagel', 'Muffin', 'Cookie', 'Toast', 'Juice', 'Water', 'Soda', 'Salad'][r * 4 + q], a + w * 0.0675, b + 190, 26, '#e5e7eb', 600); x.textAlign = 'left'
+    }
+  },
+  // 모니터: 농구 슛폼 AI 분석
+  vision(x, w, h) {
+    x.fillStyle = '#0b0e14'; x.fillRect(0, 0, w, h)
+    const g = x.createLinearGradient(0, 0, 0, h); g.addColorStop(0, '#1c2c52'); g.addColorStop(1, '#0c1322')
+    RR(x, 40, 40, w * 0.64, h - 180, 26); x.fillStyle = g; x.fill()
+    x.strokeStyle = '#7b93ff'; x.lineWidth = 10; x.lineCap = 'round'
+    const cx = w * 0.3, s = h / 900
+    const P = [[0, -300], [0, -210], [-70, -140], [-100, -40], [70, -150], [120, -250], [0, -30], [-50, 110], [-60, 250], [50, 110], [70, 250]].map(([a, b]) => [cx + a * s * 1.3, h * 0.47 + b * s * 1.3])
+    ;[[0, 1], [1, 2], [2, 3], [1, 4], [4, 5], [1, 6], [6, 7], [7, 8], [6, 9], [9, 10]].forEach(([a, b]) => { x.beginPath(); x.moveTo(...P[a]); x.lineTo(...P[b]); x.stroke() })
+    x.fillStyle = '#fff'; P.forEach(([a, b]) => { x.beginPath(); x.arc(a, b, 13, 0, 7); x.fill() })
+    x.setLineDash([22, 16]); x.strokeStyle = '#f59e0b'; x.lineWidth = 8; x.beginPath(); x.moveTo(...P[5]); x.quadraticCurveTo(w * 0.52, h * 0.05, w * 0.6, h * 0.28); x.stroke(); x.setLineDash([])
+    x.strokeStyle = 'rgba(74,222,128,.9)'; x.lineWidth = 4; x.strokeRect(P[0][0] - 170, P[0][1] - 60, 340, 620 * s * 1.3)
+    text(x, 'Release 52° · Arc OK', 80, 110, 34, '#4ade80', 600)
+    for (let i = 0; i < 40; i++) { x.fillStyle = i < 26 ? '#2747f5' : '#1d212a'; x.fillRect(40 + i * (w * 0.64 / 40), h - 110, w * 0.64 / 40 - 6, 50) }
+    text(x, 'Shot analysis', w * 0.7, 110, 52, '#fff', 600, 'd')
+    ;[['Form', 0.86], ['Balance', 0.72], ['Release', 0.91], ['Follow-through', 0.8]].forEach(([t, v], i) => {
+      const b = 190 + i * 150; text(x, t, w * 0.7, b, 30, '#8a909b'); text(x, `${Math.round(v * 100)}`, w * 0.94, b, 30, '#fff', 600)
+      RR(x, w * 0.7, b + 30, w * 0.26, 22, 11); x.fillStyle = '#1d212a'; x.fill(); RR(x, w * 0.7, b + 30, w * 0.26 * v, 22, 11); x.fillStyle = '#4ade80'; x.fill()
+    })
+    RR(x, w * 0.7, h - 220, w * 0.26, 110, 22); x.fillStyle = '#2747f5'; x.fill(); text(x, '15 fps · realtime', w * 0.72, h - 152, 30, '#fff', 600)
+  },
+  // 휴대폰: 비대면 진료 앱
+  telehealth(x, w, h) {
+    x.fillStyle = '#0b0d12'; x.fillRect(0, 0, w, h)
+    text(x, 'Good morning', 60, 190, 64, '#fff', 600, 'd'); text(x, 'Next visit · Oct 17 10:30', 60, 250, 34, '#4ade80', 600)
+    const g = x.createLinearGradient(60, 300, w - 60, 700); g.addColorStop(0, '#2747f5'); g.addColorStop(1, '#8b5cf6')
+    RR(x, 60, 300, w - 120, 420, 44); x.fillStyle = g; x.fill()
+    text(x, 'Dr. Kim', 110, 420, 58, '#fff', 600, 'd'); text(x, 'Dermatology · video consult', 110, 480, 32, 'rgba(255,255,255,.8)')
+    RR(x, 110, 560, 330, 96, 48); x.fillStyle = '#fff'; x.fill(); text(x, 'Join call', 175, 622, 38, '#2747f5', 600)
+    ;['Prescriptions', 'Records', 'Payments', 'Messages'].forEach((t, i) => { RR(x, 60, 780 + i * 220, w - 120, 190, 36); x.fillStyle = '#171a21'; x.fill(); x.beginPath(); x.arc(160, 875 + i * 220, 44, 0, 7); x.fillStyle = palette[i]; x.fill(); text(x, t, 240, 890 + i * 220, 42, '#fff', 600) })
+  },
+  // 휴대폰: 온라인 시험
+  exam(x, w, h) {
+    x.fillStyle = '#f3f4f6'; x.fillRect(0, 0, w, h)
+    text(x, 'Question 12 / 40', 60, 190, 56, '#0c0d10', 600, 'd'); text(x, 'Remaining 18:42', 60, 250, 34, '#2747f5', 600)
+    RR(x, 60, 300, w - 120, 360, 40); x.fillStyle = '#fff'; x.fill()
+    text(x, 'Which structure gives', 110, 420, 42, '#0c0d10', 600); text(x, 'O(1) average lookup?', 110, 480, 42, '#0c0d10', 600)
+    ;['Linked list', 'Hash map', 'Binary tree', 'Stack'].forEach((t, i) => { RR(x, 60, 720 + i * 190, w - 120, 160, 36); x.fillStyle = i === 1 ? '#2747f5' : '#fff'; x.fill(); text(x, t, 140, 815 + i * 190, 42, i === 1 ? '#fff' : '#0c0d10', 500) })
+    RR(x, 60, h - 240, w - 120, 130, 65); x.fillStyle = '#0c0d10'; x.fill(); text(x, 'Submit', w / 2 - 70, h - 158, 44, '#fff', 600)
+  },
+}
+
+// ── 기기 불러오기 ─────────────────────────────────
+const loader = new GLTFLoader()
+const [devicesGltf, phoneGltf] = await Promise.all([loader.loadAsync('/motion/reel-lineup/devices/devices.glb'), loader.loadAsync('/motion/hero-reel/phone/phone.glb')])
+const byName = (root, n) => root.getObjectByName(n)
+
+// 화면 크기(장면 단위) → 캔버스 해상도
+function screenFor(mesh, kind, pxPerUnit = 560) {
+  mesh.geometry.computeBoundingBox()
+  const bb = mesh.geometry.boundingBox
+  const w = Math.round((bb.max.x - bb.min.x) * pxPerUnit), h = Math.round((bb.max.y - bb.min.y) * pxPerUnit)
+  const full = new THREE.MeshBasicMaterial({ map: canvasTex(w, h, UI[kind]), color: 0x000000, toneMapped: false })
+  const wireMat = new THREE.MeshBasicMaterial({ map: canvasTex(w, h, blueprint), transparent: true, opacity: 0, toneMapped: false, depthWrite: false })
+  mesh.material = full
+  const overlay = new THREE.Mesh(mesh.geometry, wireMat)
+  overlay.position.z = 0.0008
+  mesh.add(overlay)
+  return { full, wireMat }
+}
+
+function prepare(obj) {
+  obj.traverse((o) => {
+    if (o.isMesh && o.material) {
+      o.material = o.material.clone()
+      o.material.envMapIntensity = 1.2
+    }
+  })
+  return obj
+}
+
+// 기기 · 화면 · 태그 · 배치 (흩어진 무대 → 한 줄)
+const DEVICES = [
+  { name: 'Laptop', kind: 'market', light: true, tag: 'B2B TRADE · WEB', width: 3.0, stage: [-4.7, 0.9, 0.36] },
+  { name: 'Tablet', kind: 'pos', tag: 'POS · GLOBAL', width: 2.3, stage: [-2.5, -1.7, 0.2] },
+  { name: 'Monitor', kind: 'vision', tag: 'AI VISION', width: 3.6, stage: [0.3, -2.8, 0] },
+  { name: 'Phone', kind: 'telehealth', tag: 'TELEHEALTH APP', width: 0.78, stage: [2.9, 0.4, -0.28], phone: true },
+  { name: 'Phone2', kind: 'exam', light: true, tag: 'EXAM PLATFORM', width: 0.78, stage: [4.3, -1.1, -0.36], phone: true },
+]
+const GAP = 0.8
+const rowWidth = DEVICES.reduce((a, d) => a + d.width, 0) + GAP * (DEVICES.length - 1)
+let cursor = -rowWidth / 2
+for (const d of DEVICES) { d.row = cursor + d.width / 2; cursor += d.width + GAP }
+
+const DROP = 9
+for (const d of DEVICES) {
+  const holder = new THREE.Group()
+  let obj, screenMesh
+  if (d.phone) {
+    obj = prepare(phoneGltf.scene.clone(true))
+    obj.position.y = 0.82
+    screenMesh = byName(obj, 'Screen')
+  } else {
+    obj = prepare(byName(devicesGltf.scene, d.name).clone(true))
+    obj.position.set(0, 0, 0)
+    screenMesh = byName(obj, `${d.name}Screen`)
+  }
+  holder.add(obj)
+  Object.assign(d, screenFor(screenMesh, d.kind))
+  d.holder = holder
+  d.state = { x: d.stage[0], y: DROP, z: d.stage[1], ry: d.stage[2], power: 0, wire: 0, flash: 0, tag: 0 }
+  // 착지 링
+  d.ring = new THREE.Mesh(new THREE.RingGeometry(0.9, 1.0, 64), new THREE.MeshBasicMaterial({ color: new THREE.Color(0.5, 0.65, 3), transparent: true, opacity: 0, toneMapped: false, depthWrite: false }))
+  d.ring.rotation.x = -Math.PI / 2
+  d.ring.position.y = 0.01
+  d.ringState = { s: 1, o: 0 }
+  scene.add(d.ring)
+  // 태그
+  const c = document.createElement('canvas'); const x = c.getContext('2d')
+  x.font = '500 34px "JetBrains Mono"'; c.width = Math.ceil(x.measureText(d.tag).width) + 48; c.height = 62
+  x.fillStyle = 'rgba(39,71,245,.95)'; x.beginPath(); x.roundRect(0, 0, c.width, c.height, 12); x.fill()
+  x.font = '500 34px "JetBrains Mono"'; x.fillStyle = '#fff'; x.textBaseline = 'middle'; x.fillText(d.tag, 24, 32)
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace
+  d.tagSprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 0, depthWrite: false, toneMapped: false }))
+  d.tagSprite.scale.set(c.width * 0.0032, c.height * 0.0032, 1)
+  scene.add(holder, d.tagSprite)
+}
+const topOf = (d) => (d.phone ? 1.72 : d.name === 'Monitor' ? 2.75 : d.name === 'Tablet' ? 1.62 : 2.05)
+
+// ── 카메라 ──────────────────────────────────────
+const cam = { yaw: -16, pitch: 13, dist: 16, ty: 1.2, tz: -0.6 }
+function placeCamera(kick) {
+  const y = THREE.MathUtils.degToRad(cam.yaw), p = THREE.MathUtils.degToRad(cam.pitch)
+  camera.position.set(Math.sin(y) * Math.cos(p) * cam.dist, cam.ty + Math.sin(p) * cam.dist, cam.tz + Math.cos(y) * Math.cos(p) * cam.dist)
+  camera.lookAt(0, cam.ty, cam.tz)
+  camera.fov = 30 - kick * 0.35
+  camera.updateProjectionMatrix()
+}
+
+// ── 타임라인 (모든 사건은 박자 위에) ─────────────────────
+const b = (n) => n * BEAT
+const st = { count: 0, grid: 0.35 }
+const tl = gsap.timeline({ paused: true })
+const hudLabels = [...document.querySelectorAll('.hud .labels span')]
+const phase = (i, from, to) => {
+  tl.fromTo(hudLabels[i], { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: 'expo.out' }, from)
+  tl.to(hudLabels[i], { opacity: 0, y: -20, duration: 0.3, ease: 'expo.in' }, to - 0.28)
+}
+phase(0, b(1), b(5)); phase(1, b(5), b(9)); phase(2, b(9), b(14)); phase(3, b(14), b(18.5))
+
+// 카메라: 천천히 궤도를 돈다
+tl.fromTo(cam, { yaw: -16, pitch: 13, dist: 16 }, { yaw: 4, pitch: 14, dist: 14.2, duration: b(9), ease: 'sine.inOut' }, 0)
+tl.to(cam, { yaw: 14, pitch: 11, dist: 13, duration: b(5), ease: 'sine.inOut' }, b(9))
+tl.to(cam, { yaw: 0, pitch: 10, dist: 18.2, tz: 0, duration: b(4), ease: 'power2.inOut' }, b(14))
+tl.to(cam, { yaw: -16, pitch: 13, dist: 16, tz: -0.6, duration: b(2), ease: 'power2.inOut' }, b(18))
+
+DEVICES.forEach((d, i) => {
+  // PLAN: 박자마다 한 대씩 떨어져 착지 (착지 = 박)
+  const land = b(1 + i)
+  // 화면 밖에서 빠르게 들어와 착지 직전에 감속 (가장 빠른 순간이 화면 밖이라 잔상이 끊겨 보이지 않는다)
+  tl.fromTo(d.state, { y: DROP }, { y: 0, duration: 0.5, ease: 'expo.out', immediateRender: false }, land - 0.5)
+  // immediateRender 를 끄지 않으면 아직 안 떨어진 기기의 링이 미리 보인다
+  tl.fromTo(d.ringState, { s: 0.6, o: 1 }, { s: 2.6, o: 0, duration: 0.5, ease: 'expo.out', immediateRender: false }, land)
+  // DESIGN: 박자마다 설계 화면이 켜진다
+  tl.to(d.state, { wire: 1, duration: 0.12, ease: 'power2.out' }, b(5 + i * 0.75))
+  // BUILD: 박자마다 실제 UI 로 번쩍 바뀐다
+  const on = b(9 + i)
+  tl.set(d.state, { power: 1 }, on)
+  tl.fromTo(d.state, { flash: 1 }, { flash: 0, duration: 0.45, ease: 'expo.out', immediateRender: false }, on)
+  tl.to(d.state, { wire: 0, duration: 0.2, ease: 'none' }, on)
+  // SHIP: 다운비트에 한 줄로 정렬, 태그는 박자마다
+  tl.to(d.state, { x: d.row, z: 0, ry: 0, duration: 0.5, ease: 'expo.out' }, b(14))
+  tl.to(d.state, { tag: 1, duration: 0.2, ease: 'back.out(2)' }, b(15) + i * BEAT * 0.5)
+  // 끝: 8분음표마다 역순으로 떠오른다
+  const up = b(18) + (DEVICES.length - 1 - i) * BEAT * 0.3
+  tl.to(d.state, { tag: 0, power: 0, duration: 0.15, ease: 'none' }, up)
+  tl.to(d.state, { y: DROP, duration: 0.5, ease: 'power3.in' }, up)
+  tl.set(d.state, { x: d.stage[0], z: d.stage[1], ry: d.stage[2] }, DURATION - 0.02)
+})
+tl.to(st, { count: 12, duration: 0.15, ease: 'none' }, b(15))
+tl.to(st, { count: 25, duration: 0.15, ease: 'none' }, b(16))
+tl.to(st, { count: 37, duration: 0.15, ease: 'none' }, b(17))
+tl.to(st, { count: 0, duration: 0.3, ease: 'power2.in' }, b(18.5))
+tl.to(st, { grid: 0.12, duration: b(4) }, b(9))
+tl.to(st, { grid: 0.35, duration: b(2) }, b(18))
+tl.to({}, { duration: 0.01 }, DURATION - 0.01)
+
+// ── 매 프레임 적용 ───────────────────────────────
+const beatDots = [...document.querySelectorAll('.beats i')]
+const barEl = document.getElementById('bar')
+const countEl = document.getElementById('count')
+const grain = document.querySelector('.grain')
+function apply(t) {
+  const beatIndex = Math.floor(t / BEAT + 1e-6)
+  const kick = Math.exp(-((t % BEAT) / BEAT) * 6)
+  for (const d of DEVICES) {
+    const s = d.state
+    d.holder.position.set(s.x, s.y, s.z)
+    d.holder.rotation.y = s.ry
+    // 밝은 화면이 블룸으로 하얗게 날아가지 않게 기본 밝기를 낮춘다
+    const lvl = s.power * ((d.light ? 0.72 : 0.9) + s.flash * 2.2)
+    d.full.color.setRGB(lvl, lvl, lvl)
+    d.wireMat.opacity = s.wire * (1 + s.flash)
+    d.ring.position.x = s.x; d.ring.position.z = s.z
+    d.ring.scale.setScalar(d.ringState.s * (d.width / 2 + 0.3))
+    d.ring.material.opacity = d.ringState.o
+    d.tagSprite.position.set(s.x, topOf(d) + 0.45 + (1 - s.tag) * 0.3 + s.y, s.z)
+    d.tagSprite.material.opacity = s.tag
+  }
+  floorMat.uniforms.uPulse.value = kick
+  floorMat.uniforms.uGrid.value = st.grid
+  bloom.strength = 0.5 + kick * 0.18
+  beatDots.forEach((el, i) => { const on = i === beatIndex % 4; el.style.background = on ? `rgba(123,147,255,${0.35 + kick * 0.65})` : 'rgba(236,239,248,.14)' })
+  barEl.textContent = `BAR ${Math.min(5, Math.floor(beatIndex / 4) + 1)} / 5`
+  countEl.textContent = Math.round(st.count)
+  placeCamera(kick)
+  const f = Math.floor(t * 24)
+  grain.style.transform = `translate(${((f * 37) % 200) - 100}px, ${((f * 53) % 200) - 100}px)`
+}
+
+function seek(t) {
+  tl.seek(t, false)
+  apply(t)
+  composer.render()
+}
+
+window.__reel = { seek, duration: DURATION, poster: 8.2, stills: [0, 1.0, 2.6, 3.8, 4.9, 5.6, 6.9, 7.3, 8.2, 9.3, 9.97] }
+window.__ready = true
+
+if (!location.search.includes('render')) {
+  const t0 = performance.now()
+  const loop = () => { seek(((performance.now() - t0) / 1000) % DURATION); requestAnimationFrame(loop) }
+  loop()
+} else {
+  seek(0)
+}
+</script>
+</body>
+</html>
