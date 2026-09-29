@@ -1,0 +1,118 @@
+.hero {
+    padding: calc(var(--header-height) + clamp(40px, 9vh, 120px)) 0 clamp(48px, 8vh, 96px);
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    visibility: hidden;
+    margin: clamp(20px, 3vh, 36px) 0 clamp(28px, 5vh, 56px);
+    font-family: var(--f-display);
+    font-weight: 600;
+    font-size: clamp(3.2rem, 10.4vw, 10.5rem);
+    line-height: 0.92;
+    letter-spacing: -0.055em;
+}
+
+/* 한글은 글자 폭이 넓어 한 단계 작게 */
+.hero[data-locale='ko'] .title {
+    font-size: clamp(2.6rem, 8.2vw, 8.6rem);
+    line-height: 1.02;
+    letter-spacing: -0.045em;
+    font-weight: 700;
+}
+
+.line {
+    display: block;
+}
+
+.accent {
+    color: var(--bp);
+}
+
+.row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 32px 64px;
+}
+
+.lead {
+    max-width: 34em;
+    font-size: clamp(1.05rem, 1.35vw, 1.3rem);
+    line-height: 1.6;
+    color: var(--ink-2);
+}
+
+.ctas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 20px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-top: clamp(56px, 10vh, 120px);
+    border-top: 1px solid var(--line);
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 22px 24px 0 0;
+}
+
+.stat + .stat {
+    padding-left: 24px;
+    border-left: 1px solid var(--line);
+}
+
+.statValue {
+    font-family: var(--f-display);
+    font-size: clamp(1.9rem, 3vw, 2.9rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    order: -1;
+}
+
+.statLabel {
+    font-size: 14px;
+    color: var(--ink-2);
+}
+
+.reveal {
+    position: relative;
+}
+
+@media (max-width: 899px) {
+    .row {
+        grid-template-columns: 1fr;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .stat:nth-child(3) {
+        padding-left: 0;
+        border-left: 0;
+    }
+
+    .stat:nth-child(n + 3) {
+        border-top: 1px solid var(--line);
+        margin-top: 22px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .title {
+        visibility: visible;
+    }
+}

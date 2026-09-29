@@ -1,0 +1,149 @@
+.build {
+    --progress: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 100svh;
+    padding: calc(var(--header-height) + 24px) 0 40px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: minmax(280px, 4fr) 8fr;
+    grid-template-areas:
+        'head stage'
+        'steps stage';
+    grid-template-rows: auto auto;
+    align-content: center;
+    column-gap: clamp(32px, 5vw, 88px);
+    row-gap: 20px;
+}
+
+.head {
+    grid-area: head;
+    align-self: end;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.steps {
+    grid-area: steps;
+    align-self: start;
+}
+
+.title {
+    font-size: clamp(2rem, 3.3vw, 3.2rem);
+}
+
+.phases {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+    border-top: 1px solid var(--line);
+}
+
+.phase {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 4px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-3);
+    transition: color 0.4s ease;
+}
+
+.num {
+    font-family: var(--f-mono);
+    font-size: 12px;
+    padding-top: 5px;
+}
+
+.phaseBody {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.phaseTitle {
+    font-family: var(--f-display);
+    font-size: clamp(1.15rem, 1.5vw, 1.4rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+/* 현재 단계만 설명을 펼친다 */
+.phaseDesc {
+    overflow: hidden;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    opacity: 0;
+    max-height: 0;
+    transition:
+        max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.4s ease;
+}
+
+.done {
+    color: var(--ink-2);
+}
+
+.active {
+    color: var(--ink);
+}
+
+.active .num {
+    color: var(--bp);
+}
+
+.active .phaseDesc {
+    max-height: 6em;
+    opacity: 1;
+}
+
+.meter {
+    margin-top: 20px;
+    height: 2px;
+    background: var(--line);
+    overflow: hidden;
+}
+
+.meter span {
+    display: block;
+    height: 100%;
+    background: var(--bp);
+    transform-origin: left;
+    transform: scaleX(var(--progress));
+}
+
+.stageWrap {
+    grid-area: stage;
+    align-self: center;
+    min-width: 0;
+}
+
+@media (max-width: 899px) {
+    .build {
+        min-height: 0;
+        padding: 72px 0;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+        grid-template-areas: 'head' 'stage' 'steps';
+        row-gap: 28px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .phaseDesc {
+        max-height: none;
+        opacity: 1;
+    }
+
+    .phase {
+        color: var(--ink);
+    }
+}

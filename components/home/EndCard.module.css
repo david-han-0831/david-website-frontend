@@ -1,0 +1,133 @@
+.end {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(112px, 18vh, 200px) 0 clamp(80px, 12vh, 140px);
+    background: var(--bp);
+    color: #fff;
+}
+
+/* 설계 격자 모티프 */
+.grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: linear-gradient(to bottom, #000 0%, transparent 90%);
+    pointer-events: none;
+}
+
+.inner {
+    position: relative;
+}
+
+.eyebrow {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.eyebrow::before {
+    background: #fff;
+}
+
+.title {
+    visibility: hidden;
+    margin: 28px 0 clamp(40px, 7vh, 72px);
+    font-family: var(--f-display);
+    font-weight: 600;
+    font-size: clamp(3rem, 9vw, 9rem);
+    line-height: 0.95;
+    letter-spacing: -0.05em;
+}
+
+.line {
+    display: block;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 32px 64px;
+}
+
+.desc {
+    max-width: 30em;
+    font-size: clamp(1.05rem, 1.3vw, 1.25rem);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 28px;
+}
+
+.cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 60px;
+    padding: 0 26px 0 30px;
+    border-radius: 999px;
+    background: #fff;
+    color: var(--ink);
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.cta:hover {
+    background: var(--ink);
+    color: #fff;
+}
+
+.cta:focus-visible,
+.mail:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+}
+
+.mail {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--f-mono);
+    font-size: 14px;
+    color: #fff;
+}
+
+.mail span {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.mail small {
+    font-family: var(--f-body);
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.mail:hover span {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.after {
+    position: relative;
+}
+
+@media (max-width: 899px) {
+    .row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .title {
+        visibility: visible;
+    }
+}

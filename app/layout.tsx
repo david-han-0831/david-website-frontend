@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Poppins, JetBrains_Mono } from 'next/font/google'
+import { Inter, Poppins, JetBrains_Mono, Bricolage_Grotesque } from 'next/font/google'
 import './globals.css'
 import SmoothScroll from '@/components/dom/SmoothScroll'
 import Navigation from '@/components/dom/Navigation'
@@ -21,6 +21,12 @@ const poppins = Poppins({
   weight: ['400', '600', '700'],
   subsets: ['latin'],
   variable: '--font-poppins',
+  display: 'swap',
+})
+
+const bricolage = Bricolage_Grotesque({
+  subsets: ['latin'],
+  variable: '--font-display',
   display: 'swap',
 })
 
@@ -93,8 +99,12 @@ export default function RootLayout({
   const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST
 
   return (
-    <html lang="en" className={`${inter.variable} ${poppins.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" className={`${inter.variable} ${poppins.variable} ${jetbrainsMono.variable} ${bricolage.variable}`}>
       <head>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+        />
         <StructuredData type="Person" />
         <StructuredData type="Organization" />
         <StructuredData type="WebSite" />

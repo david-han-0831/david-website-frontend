@@ -199,7 +199,63 @@
         display: none;
     }
 
+    /* 로고는 왼쪽, 언어 전환·메뉴 버튼은 오른쪽 끝에 모은다 */
+    .logo {
+        margin-right: auto;
+    }
+
+    .hamburger {
+        order: 3;
+        margin-left: 8px;
+    }
+
     .hamburger {
         display: block;
     }
+}
+/* 홈(라이트 베이스)용 변형 */
+.light {
+    background: rgba(243, 244, 246, 0.78);
+    border-bottom-color: rgba(12, 13, 16, 0.08);
+    --switch-bg: rgba(12, 13, 16, 0.04);
+    --switch-border: rgba(12, 13, 16, 0.1);
+    --switch-fg: #8a909b;
+    --switch-fg-hover: #0c0d10;
+    --switch-active: #2747f5;
+    --switch-divider: rgba(12, 13, 16, 0.2);
+}
+
+.light .logo,
+.light .hamburger {
+    color: #0c0d10;
+}
+
+.light .logo::after,
+.light .link::before {
+    background: #2747f5;
+}
+
+.light .link {
+    color: #4b515c;
+}
+
+.light .link:hover {
+    color: #0c0d10;
+}
+
+.light .link.active {
+    color: #2747f5;
+    text-shadow: none;
+}
+
+.light .mobileOverlay {
+    background: rgba(243, 244, 246, 0.97);
+}
+
+.light .mobileLink {
+    color: #4b515c;
+}
+
+.light .mobileLink:hover {
+    color: #2747f5;
 }

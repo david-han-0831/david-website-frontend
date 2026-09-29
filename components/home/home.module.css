@@ -1,0 +1,114 @@
+/* 홈 리뉴얼 디자인 토큰 — The Build (설계선 → 완성품) */
+.home {
+    --paper: #f3f4f6;
+    --paper-2: #e7e9ee;
+    --surface: #ffffff;
+    --ink: #0c0d10;
+    --ink-2: #4b515c;
+    --ink-3: #8a909b;
+    --line: rgba(12, 13, 16, 0.12);
+    --bp: #2747f5;
+    --bp-2: #6f86ff;
+    --bp-soft: rgba(39, 71, 245, 0.1);
+    --ok: #16a34a;
+
+    --radius: 14px;
+    --gutter: clamp(16px, 4vw, 56px);
+    --maxw: 1440px;
+
+    --f-display: var(--font-display), 'Pretendard Variable', Pretendard, system-ui, sans-serif;
+    --f-body: 'Pretendard Variable', Pretendard, var(--font-inter), system-ui, sans-serif;
+    --f-mono: var(--font-mono), 'Pretendard Variable', Pretendard, ui-monospace, monospace;
+
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--f-body);
+    overflow-x: clip;
+    word-break: keep-all;
+}
+
+.container {
+    width: 100%;
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--f-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+}
+
+.eyebrow::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    background: var(--bp);
+}
+
+.sectionTitle {
+    font-family: var(--f-display);
+    font-weight: 600;
+    font-size: clamp(2.2rem, 4.6vw, 4.25rem);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+}
+
+.btnPrimary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 54px;
+    padding: 0 24px 0 26px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    transition: background-color 0.25s ease, transform 0.25s ease;
+}
+
+.btnPrimary:hover {
+    background: var(--bp);
+}
+
+.btnPrimary svg {
+    transition: transform 0.25s ease;
+}
+
+.btnPrimary:hover svg {
+    transform: translateX(3px);
+}
+
+.btnGhost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 54px;
+    padding: 0 6px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+    text-underline-offset: 6px;
+    transition: text-decoration-color 0.25s ease;
+}
+
+.btnGhost:hover {
+    text-decoration-color: currentColor;
+}
+
+.btnPrimary:focus-visible,
+.btnGhost:focus-visible {
+    outline: 2px solid var(--bp);
+    outline-offset: 3px;
+}

@@ -25,7 +25,7 @@ export default function Navigation() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
 
     return (
-        <nav className={styles.nav}>
+        <nav className={clsx(styles.nav, pathname === '/' && styles.light)}>
             <Link href="/" className={styles.logo} onClick={() => setIsMenuOpen(false)}>
                 David
             </Link>
