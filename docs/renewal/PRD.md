@@ -28,7 +28,7 @@ redesign 디자인은 쓰지 않고 새로 설계한다. main의 스택과 데�
 | 토큰 | 퍼플·블루 | #f6f4ef / #0b0a09 / #ff5b2e, Archivo + Pretendard |
 | 범위 | 전체 | 홈만 |
 
-**재사용**: Next.js 16 + React 19 + R3F(drei, postprocessing) + Lenis + Framer Motion / redesign의 R3F 유리 굴절 재질·DOM↔3D 공유 상태(`lib/stage.ts`) / ko·en·de 3개 언어, 프로젝트 데이터 38건 / Notion 문의 API(분당 5회), GTM·Clarity·PostHog
+**재사용**: Next.js 16 + React 19 + R3F(drei, postprocessing) + Lenis + Framer Motion / redesign의 R3F 유리 굴절 재질·DOM↔3D 공유 상태(`lib/stage.ts`) / ko·en·de 3개 언어, 프로젝트 데이터 37건 (id 11 결번) / Notion 문의 API(분당 5회), GTM·Clarity·PostHog
 
 **바꿀 것**
 1. 전 페이지를 새 디자인 시스템으로 재설계
@@ -208,7 +208,7 @@ A 기본 + 히어로에 B의 3D 로고 오브젝트 결합을 우선 검토.
 
 - [ ] 로고: 개인(David Han)과 콜론비 법인 로고 분리 vs 통일
 - [ ] 첫 화면 주 메시지: 외주 개발 vs 솔루션·서비스
-- [ ] 케이스 스터디 대표 프로젝트 6~8건
+- [x] 케이스 스터디 대표 8건 (2026-09-30 확정): #6 수산물 B2B · #3 해외 POS · #1 온라인 시험 · #5 농구 슛폼 분석 · #4 운동선수 트레이닝 · #7 아트스테이지 · #9 비대면 진료 앱·CRM · #10 ERP/HR — 고객사 공개 가능 여부 확인 필요
 - [ ] DESIGN.md 레퍼런스 1개
 - [ ] redesign에서 마음에 안 들었던 점 정리
 - [x] 작업 브랜치: main → `renewal` (2026-09-30 생성), redesign 참고용 보관

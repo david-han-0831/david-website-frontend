@@ -6,15 +6,27 @@ import clsx from 'clsx'
 import { ArrowRight, ArrowUpRight } from '@phosphor-icons/react'
 import h from './home.module.css'
 import s from './Work.module.css'
-import WorkThumb from './WorkThumb'
+import WorkThumb, { type ThumbVariant } from './WorkThumb'
 import { PROJECTS } from '@/data/projects'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { trackCardClick } from '@/lib/utils/gtm'
 import { gsap, useGSAP, MQ, BEAT } from '@/lib/motion'
 
-// TODO: 케이스 스터디 대표 6~8건이 확정되면 교체 (임시 선정)
-const FEATURED_IDS = [1, 3, 5, 7, 6, 38]
-const FEATURED = FEATURED_IDS.map((id) => PROJECTS.find((p) => p.id === id)!).filter(Boolean)
+// 케이스 스터디 대표 8건 (2026-09-30 확정, 성과·해외·AI·업종 다양성 기준)
+const FEATURED: { id: number; thumb: ThumbVariant }[] = [
+    { id: 6, thumb: 'market' },
+    { id: 3, thumb: 'pos' },
+    { id: 1, thumb: 'exam' },
+    { id: 5, thumb: 'vision' },
+    { id: 4, thumb: 'coach' },
+    { id: 7, thumb: 'gallery' },
+    { id: 9, thumb: 'phones' },
+    { id: 10, thumb: 'sheet' },
+]
+const ITEMS = FEATURED.flatMap(({ id, thumb }) => {
+    const project = PROJECTS.find((p) => p.id === id)
+    return project ? [{ project, thumb }] : []
+})
 
 export default function Work() {
     const { t, locale } = useLanguage()
@@ -41,7 +53,12 @@ export default function Work() {
             })
 
             mm.add(MQ.desktop, () => {
-                const distance = () => track.scrollWidth - track.clientWidth
+                // 마지막 카드 오른쪽에 좌측과 같은 여백이 남을 때까지 이동
+                const distance = () => {
+                    const last = track.lastElementChild as HTMLElement
+                    const gutter = parseFloat(getComputedStyle(track).paddingLeft)
+                    return Math.max(0, last.offsetLeft + last.offsetWidth + gutter - track.clientWidth)
+                }
                 gsap.to(track, {
                     x: () => -distance(),
                     ease: 'none',
@@ -82,7 +99,7 @@ export default function Work() {
             </div>
 
             <div className={s.track}>
-                {FEATURED.map((p, i) => (
+                {ITEMS.map(({ project: p, thumb }, i) => (
                     <Link
                         key={p.id}
                         href={`/projects/${p.id}`}
@@ -90,7 +107,7 @@ export default function Work() {
                         onClick={() => trackCardClick(`home_work_${p.id}`, `/projects/${p.id}`, locale)}
                     >
                         <div className={s.thumb}>
-                            <WorkThumb category={p.category} />
+                            <WorkThumb variant={thumb} />
                             <span className={s.index}>{String(i + 1).padStart(2, '0')}</span>
                             {p.nda && <span className={s.nda}>NDA</span>}
                         </div>

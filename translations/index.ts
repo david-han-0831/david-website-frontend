@@ -16,7 +16,7 @@ export const translations = {
                 'Ideas, built',
                 'to ship.',
             ],
-            lead: 'I design and build web, app and AI products from first brief to production. 38 projects shipped since 2015.',
+            lead: 'I design and build web, app and AI products from first brief to production. {count} projects shipped since 2015.',
             cta_primary: 'Start a project',
             cta_secondary: 'See the work',
             stats: [
@@ -25,7 +25,7 @@ export const translations = {
                     label: 'First product shipped',
                 },
                 {
-                    value: '38',
+                    value: '{count}',
                     label: 'Projects delivered',
                 },
                 {
@@ -558,7 +558,7 @@ export const translations = {
                 '아이디어를',
                 '출시 가능한 제품으로.',
             ],
-            lead: '웹·앱·AI 서비스를 기획부터 배포까지 직접 설계하고 만듭니다. 2015년부터 38개 프로젝트를 출시했습니다.',
+            lead: '웹·앱·AI 서비스를 기획부터 배포까지 직접 설계하고 만듭니다. 2015년부터 {count}개 프로젝트를 출시했습니다.',
             cta_primary: '프로젝트 문의하기',
             cta_secondary: '작업 보기',
             stats: [
@@ -567,7 +567,7 @@ export const translations = {
                     label: '첫 서비스 출시',
                 },
                 {
-                    value: '38',
+                    value: '{count}',
                     label: '완료한 프로젝트',
                 },
                 {
@@ -1100,7 +1100,7 @@ export const translations = {
                 'Ideen, gebaut',
                 'zum Launch.',
             ],
-            lead: 'Ich konzipiere und entwickle Web-, App- und KI-Produkte vom ersten Briefing bis zum Livegang. Seit 2015 habe ich 38 Projekte umgesetzt.',
+            lead: 'Ich konzipiere und entwickle Web-, App- und KI-Produkte vom ersten Briefing bis zum Livegang. Seit 2015 habe ich {count} Projekte umgesetzt.',
             cta_primary: 'Projekt anfragen',
             cta_secondary: 'Arbeiten ansehen',
             stats: [
@@ -1109,7 +1109,7 @@ export const translations = {
                     label: 'Erstes Produkt live',
                 },
                 {
-                    value: '38',
+                    value: '{count}',
                     label: 'Abgeschlossene Projekte',
                 },
                 {

@@ -7,6 +7,7 @@ import clsx from 'clsx'
 import h from './home.module.css'
 import s from './Hero.module.css'
 import { useLanguage } from '@/contexts/LanguageContext'
+import { PROJECTS } from '@/data/projects'
 import { trackButtonClick } from '@/lib/utils/gtm'
 import { gsap, SplitText, useGSAP, MQ, BEAT, EIGHTH, SIXTEENTH, EASE_OUT } from '@/lib/motion'
 
@@ -14,6 +15,8 @@ export default function Hero() {
     const { t, locale } = useLanguage()
     const root = useRef<HTMLElement>(null)
     const home = t.home
+    // 프로젝트 수는 문구에 적지 않고 데이터에서 센다
+    const fill = (text: string) => text.replace('{count}', String(PROJECTS.length))
 
     useGSAP(
         () => {
@@ -49,7 +52,7 @@ export default function Hero() {
                 </h1>
 
                 <div className={s.row}>
-                    <p className={clsx(s.lead, s.reveal)}>{home.lead}</p>
+                    <p className={clsx(s.lead, s.reveal)}>{fill(home.lead)}</p>
                     <div className={clsx(s.ctas, s.reveal)}>
                         <Link
                             href="/contact"
@@ -74,7 +77,7 @@ export default function Hero() {
                     {home.stats.map((stat) => (
                         <div key={stat.label} className={s.stat}>
                             <dt className={s.statLabel}>{stat.label}</dt>
-                            <dd className={s.statValue}>{stat.value}</dd>
+                            <dd className={s.statValue}>{fill(stat.value)}</dd>
                         </div>
                     ))}
                 </dl>
