@@ -47,7 +47,6 @@
 
 <script type="module">
 import * as THREE from 'three'
-import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { Line2 } from 'three/addons/lines/Line2.js'
 import { LineGeometry } from 'three/addons/lines/LineGeometry.js'
 import { LineMaterial } from 'three/addons/lines/LineMaterial.js'
@@ -56,6 +55,7 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js'
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 
 const W = 1920, H = 1080, DURATION = 10
 const BLUE = new THREE.Color(0.55, 0.66, 3.2) // 블룸에 걸리도록 1 을 넘기는 선 색
@@ -261,17 +261,26 @@ const device = new THREE.Group()
 scene.add(device)
 
 const clip = new THREE.Plane(new THREE.Vector3(0, -1, 0), -2) // y <= constant 인 부분만 보임
-const body = new THREE.Mesh(
-  new RoundedBoxGeometry(DEV.w, DEV.h, DEV.d, 8, DEV.r),
-  new THREE.MeshPhysicalMaterial({ color: 0x3a3e48, metalness: 1, roughness: 0.24, clearcoat: 0.8, clearcoatRoughness: 0.12, clippingPlanes: [clip] }),
-)
-device.add(body)
 
-// 화면 (완성 상태)
-const screenMat = new THREE.MeshBasicMaterial({ map: makeTexture([layerVisual, layerData], '#0b0d12'), transparent: true, opacity: 0, toneMapped: false })
-const screen = new THREE.Mesh(roundedRectGeometry(SCR.w, SCR.h, SCR.r), screenMat)
-screen.position.z = DEV.d / 2 + 0.0015
-device.add(screen)
+// 화면 (완성 상태) — glTF UV 는 위아래가 뒤집혀 있어 flipY 를 끈다
+const screenTex = makeTexture([layerVisual, layerData], '#0b0d12')
+screenTex.flipY = false
+const screenMat = new THREE.MeshBasicMaterial({ map: screenTex, transparent: true, opacity: 0, toneMapped: false })
+
+// Blender 로 만든 휴대폰 (motion/hero-reel/phone/build_phone.py)
+const phone = (await new GLTFLoader().loadAsync('/motion/hero-reel/phone/phone.glb')).scene
+phone.traverse((o) => {
+  if (!o.isMesh) return
+  if (o.name === 'Screen') {
+    o.material = screenMat
+    return
+  }
+  // 솔리드가 아래부터 차오르는 연출: 모든 부품에 같은 절단면
+  o.material = o.material.clone()
+  o.material.clippingPlanes = [clip]
+  o.material.envMapIntensity = o.material.metalness > 0.5 ? 1.3 : 1
+})
+device.add(phone)
 // 화면 위 유리 반사
 const glass = new THREE.Mesh(roundedRectGeometry(SCR.w, SCR.h, SCR.r), new THREE.MeshPhysicalMaterial({ color: 0x000000, metalness: 0, roughness: 0.05, transparent: true, opacity: 0, clearcoat: 1 }))
 glass.position.z = DEV.d / 2 + 0.003
