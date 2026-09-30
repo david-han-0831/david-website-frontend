@@ -39,7 +39,7 @@ html {
 /* 홈은 라이트 베이스: 오버스크롤·핀 전환 때 어두운 배경이 비치지 않게 */
 html:has(main[data-page='home']),
 html:has(main[data-page='home']) body {
-  background: #e9ebef !important;
+  background: #eef0f3 !important;
 }
 
 html.lenis,

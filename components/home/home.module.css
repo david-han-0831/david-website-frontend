@@ -1,8 +1,8 @@
 /* 홈 디자인 토큰 — docs/renewal/DESIGN.md */
 .home {
-    --alu: #e9ebef;
-    --graphite: #1b1c20;
-    --slate: #5d6270;
+    --alu: #eef0f3;
+    --graphite: #111318;
+    --slate: #5a5f6b;
     --cobalt: #1e3cff;
     --keywhite: #fafafb;
     --rule: rgba(27, 28, 32, 0.14);
@@ -10,8 +10,8 @@
     --gutter: clamp(16px, 4.4vw, 64px);
     --maxw: 1480px;
 
-    /* 제목: 라틴은 Unbounded, 한글은 Wanted Sans 로 떨어진다 */
-    --f-display: var(--font-display), 'Wanted Sans Variable', 'Wanted Sans', 'Pretendard Variable', sans-serif;
+    /* 제목은 한글·라틴 모두 Wanted Sans */
+    --f-display: 'Wanted Sans Variable', 'Wanted Sans', 'Pretendard Variable', sans-serif;
     --f-body: 'Pretendard Variable', Pretendard, var(--font-inter), system-ui, sans-serif;
 
     background: var(--alu);
@@ -23,11 +23,6 @@
     word-break: keep-all;
 }
 
-/* 한글 페이지는 제목 전체를 Wanted Sans 로 (Unbounded 숫자·기호가 섞이지 않게) */
-.home[data-locale='ko'] {
-    --f-display: 'Wanted Sans Variable', 'Wanted Sans', 'Pretendard Variable', sans-serif;
-}
-
 .container {
     width: 100%;
     max-width: var(--maxw);
@@ -37,15 +32,10 @@
 
 .h2 {
     font-family: var(--f-display);
-    font-weight: 600;
-    font-size: clamp(1.9rem, 3.4vw, 3rem);
-    line-height: 1.08;
-    letter-spacing: -0.02em;
-}
-
-.home[data-locale='ko'] .h2 {
     font-weight: 800;
-    letter-spacing: -0.03em;
+    font-size: clamp(1.9rem, 3.4vw, 3rem);
+    line-height: 1.12;
+    letter-spacing: -0.035em;
 }
 
 .section {

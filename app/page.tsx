@@ -1,6 +1,5 @@
 import HomeShell from '@/components/home/HomeShell'
 import Hero from '@/components/home/Hero'
-import Statement from '@/components/home/Statement'
 import WorkIndex from '@/components/home/WorkIndex'
 import Process from '@/components/home/Process'
 import Services from '@/components/home/Services'
@@ -11,7 +10,6 @@ export default function Home() {
   return (
     <HomeShell>
       <Hero />
-      <Statement />
       <WorkIndex />
       <Process />
       <Services />

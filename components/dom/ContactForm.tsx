@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/contexts/LanguageContext'
 import styles from './ContactForm.module.css'
+import { BRIEF_STORAGE_KEY } from '@/components/home/briefs'
 
 interface FormData {
     name: string
@@ -25,6 +26,18 @@ export default function ContactForm() {
         inquiryType: 'general',
         message: ''
     })
+
+    // 홈 히어로에서 "이 내용으로 문의하기"로 넘어오면 초안을 내용 칸에 채운다 (한 번만)
+    useEffect(() => {
+        let brief: string | null = null
+        try {
+            brief = sessionStorage.getItem(BRIEF_STORAGE_KEY)
+            sessionStorage.removeItem(BRIEF_STORAGE_KEY)
+        } catch {
+            return
+        }
+        if (brief) setFormData((prev) => (prev.message ? prev : { ...prev, message: brief }))
+    }, [])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target

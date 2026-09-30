@@ -108,7 +108,7 @@
 }
 /* 홈(라이트 베이스)용 변형 — docs/renewal/DESIGN.md */
 .light {
-    background: #e9ebef;
+    background: #eef0f3;
     border-top: 1px solid rgba(27, 28, 32, 0.14);
 }
 
