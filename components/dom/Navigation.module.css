@@ -213,49 +213,63 @@
         display: block;
     }
 }
-/* 홈(라이트 베이스)용 변형 */
+/* 홈(라이트 베이스)용 변형 — docs/renewal/DESIGN.md */
 .light {
-    background: rgba(243, 244, 246, 0.78);
-    border-bottom-color: rgba(12, 13, 16, 0.08);
-    --switch-bg: rgba(12, 13, 16, 0.04);
-    --switch-border: rgba(12, 13, 16, 0.1);
-    --switch-fg: #8a909b;
-    --switch-fg-hover: #0c0d10;
-    --switch-active: #2747f5;
-    --switch-divider: rgba(12, 13, 16, 0.2);
+    background: rgba(233, 235, 239, 0.82);
+    border-bottom-color: rgba(27, 28, 32, 0.08);
+    --switch-bg: transparent;
+    --switch-border: rgba(27, 28, 32, 0.14);
+    --switch-fg: #5d6270;
+    --switch-fg-hover: #1b1c20;
+    --switch-active: #1b1c20;
+    --switch-divider: rgba(27, 28, 32, 0.2);
 }
 
 .light .logo,
 .light .hamburger {
-    color: #0c0d10;
+    color: #1b1c20;
+}
+
+.light .logo {
+    font-family: var(--font-display), 'Wanted Sans Variable', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
 }
 
 .light .logo::after,
 .light .link::before {
-    background: #2747f5;
+    background: #1b1c20;
+    height: 1px;
+}
+
+.light .logo:hover {
+    transform: none;
+    color: #1b1c20;
 }
 
 .light .link {
-    color: #4b515c;
+    color: #5d6270;
 }
 
 .light .link:hover {
-    color: #0c0d10;
+    color: #1b1c20;
+    transform: none;
 }
 
 .light .link.active {
-    color: #2747f5;
+    color: #1b1c20;
     text-shadow: none;
 }
 
 .light .mobileOverlay {
-    background: rgba(243, 244, 246, 0.97);
+    background: rgba(233, 235, 239, 0.98);
 }
 
 .light .mobileLink {
-    color: #4b515c;
+    color: #5d6270;
 }
 
 .light .mobileLink:hover {
-    color: #2747f5;
+    color: #1b1c20;
 }

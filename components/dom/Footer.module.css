@@ -106,3 +106,27 @@
     color: #444;
     font-size: 0.85rem;
 }
+/* 홈(라이트 베이스)용 변형 — docs/renewal/DESIGN.md */
+.light {
+    background: #e9ebef;
+    border-top: 1px solid rgba(27, 28, 32, 0.14);
+}
+
+.light .logo,
+.light .title {
+    color: #1b1c20;
+}
+
+.light .desc,
+.light .links a {
+    color: #5d6270;
+}
+
+.light .sub,
+.light .bottom {
+    color: #7a7f8c;
+}
+
+.light .links a:hover {
+    color: #1b1c20;
+}

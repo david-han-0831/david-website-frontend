@@ -11,114 +11,92 @@ export const translations = {
             contact: 'Contact',
         },
         home: {
-            eyebrow: 'David Han · Product Developer · Seoul',
             title: [
-                'Ideas, built',
-                'to ship.',
+                'Web, app and AI',
+                'products, built',
+                'and shipped end to end.',
             ],
-            lead: 'I design and build web, app and AI products from first brief to production. {count} projects shipped since 2015.',
+            lead: 'David Han is a freelance developer who handles planning, design, engineering and launch himself. {count} products built since 2015, two patents filed.',
             cta_primary: 'Start a project',
-            cta_secondary: 'See the work',
-            stats: [
-                {
-                    value: '2015',
-                    label: 'First product shipped',
+            email_label: 'Send an email',
+            enter_hint: 'Pressing the Enter key also takes you to the contact page.',
+            statement: 'You don\'t need a spec. Tell me what you want to make: we agree on the scope together, you see working screens every week, and you get everything you need to run it.',
+            work: {
+                title: 'Recent work',
+                note: 'Most clients keep their screens private, so each project is described by what was built and what it changed.',
+                cols: [
+                    'Year',
+                    'Project',
+                    'Area',
+                    'Result',
+                ],
+                areas: {
+                    1: 'Web platform',
+                    3: 'POS',
+                    4: 'AI platform',
+                    5: 'AI video analysis',
+                    6: 'Web platform',
+                    7: 'Web platform',
+                    9: 'Mobile app',
+                    10: 'Internal system',
                 },
-                {
-                    value: '{count}',
-                    label: 'Projects delivered',
-                },
-                {
-                    value: '2',
-                    label: 'Patents filed',
-                },
-                {
-                    value: '3+ yrs',
-                    label: 'University & bootcamp teaching',
-                }
-            ],
-            build: {
-                eyebrow: 'The Build',
-                title: 'How your product comes together',
-                phases: [
+                all: 'See all {count} projects',
+            },
+            process: {
+                title: 'How it works',
+                steps: [
                     {
-                        title: 'Sketch',
-                        desc: 'Break requirements into screens and set priorities.',
+                        title: 'Scope',
+                        desc: 'I listen to what you want and why, then order what matters first.',
                     },
                     {
-                        title: 'Blueprint',
-                        desc: 'Lock the layout and data model before writing code.',
+                        title: 'Design',
+                        desc: 'Screen flows and the data model are drawn up and agreed.',
                     },
                     {
                         title: 'Build',
-                        desc: 'Ship working screens every week so you see real progress.',
+                        desc: 'You see working screens every week.',
                     },
                     {
-                        title: 'Ship',
-                        desc: 'Deploy, monitor and hand over everything you need to run it.',
+                        title: 'Launch',
+                        desc: 'It goes live, and you get the docs and access to run it.',
                     }
                 ],
-                app: {
-                    title: 'Dashboard',
-                    action: 'Export',
-                    kpis: [
-                        'Revenue',
-                        'Orders',
-                        'Conversion',
-                    ],
-                    chart: 'Weekly trend',
-                    list: 'Recent orders',
-                    url: 'your-product.com',
-                    deployed: 'Deployed',
-                }
-            },
-            work: {
-                eyebrow: 'Selected Work',
-                title: 'Finished builds',
-                desc: 'Most of these are under NDA, so names and screens stay private. Each one is written up around the problem and the result.',
-                view: 'Read more',
-                all: 'All projects',
             },
             services: {
-                eyebrow: 'Services',
                 title: 'What you can hand me',
                 items: [
                     {
-                        title: 'Web products & platforms',
+                        title: 'Web products and platforms',
                         desc: 'Booking, marketplace and back-office products built from zero.',
-                        stack: 'Next.js · FastAPI · PostgreSQL',
+                        stack: 'Next.js, FastAPI, PostgreSQL',
                     },
                     {
                         title: 'Mobile apps',
-                        desc: 'iOS and Android apps together with the admin that runs them.',
-                        stack: 'Flutter · React Native · Firebase',
+                        desc: 'iOS and Android apps, together with the admin that runs them.',
+                        stack: 'Flutter, React Native, Firebase',
                     },
                     {
-                        title: 'AI & automation',
-                        desc: 'Vision analysis, chatbots and workflow automation wired into real work.',
-                        stack: 'OpenAI · MediaPipe · Python',
+                        title: 'AI and automation',
+                        desc: 'Video analysis, support chatbots and workflow automation wired into real work.',
+                        stack: 'OpenAI, MediaPipe, Python',
                     },
                     {
-                        title: 'Landing & brand sites',
-                        desc: 'Sites that make a first impression with motion and 3D.',
-                        stack: 'Next.js · GSAP · Three.js',
+                        title: 'Landing and brand sites',
+                        desc: 'Sites that make a first impression with motion and 3D. Like this one.',
+                        stack: 'Next.js, GSAP, Three.js',
                     }
                 ],
-                cta: 'Get in touch',
             },
             teaching: {
                 text: 'I also teach software development at universities and bootcamps.',
                 link: 'Teaching record',
             },
             end: {
-                eyebrow: 'Next Build',
-                title: [
-                    'Ready for',
-                    'the next build?',
-                ],
-                desc: 'Send a short note about what you want to make. I will reply with scope, timeline and an estimate.',
+                title: 'Starting something new?',
+                desc: 'Send a few lines about what you want to make. I\'ll reply with scope, timeline and an estimate.',
                 cta: 'Start a project',
-                email_label: 'Or email me directly',
+                email_label: 'Send an email',
             }
         },
         hero: {
@@ -553,114 +531,92 @@ export const translations = {
             contact: '문의하기',
         },
         home: {
-            eyebrow: '한동윤 · 제품 개발자 · 서울',
             title: [
-                '아이디어를',
-                '출시 가능한 제품으로.',
+                '웹·앱·AI 제품을',
+                '처음부터 끝까지',
+                '만들어 출시합니다.',
             ],
-            lead: '웹·앱·AI 서비스를 기획부터 배포까지 직접 설계하고 만듭니다. 2015년부터 {count}개 프로젝트를 출시했습니다.',
+            lead: '한동윤은 기획, 디자인, 개발, 배포를 혼자 맡는 외주 개발자입니다. 2015년부터 {count}개 제품을 만들었고 특허 2건을 출원했습니다.',
             cta_primary: '프로젝트 문의하기',
-            cta_secondary: '작업 보기',
-            stats: [
-                {
-                    value: '2015',
-                    label: '첫 서비스 출시',
+            email_label: '이메일로 보내기',
+            enter_hint: 'Enter 키를 눌러도 문의 페이지로 이동합니다.',
+            statement: '기획서가 없어도 괜찮습니다. 만들고 싶은 것을 말해 주시면 범위를 함께 정하고, 매주 동작하는 화면을 보여드리고, 운영까지 넘겨드립니다.',
+            work: {
+                title: '최근에 만든 것',
+                note: '대부분 고객사 요청으로 화면을 공개하지 않습니다. 무엇을 만들었고 어떤 결과가 났는지만 적었습니다.',
+                cols: [
+                    '연도',
+                    '프로젝트',
+                    '분야',
+                    '결과',
+                ],
+                areas: {
+                    1: '웹 플랫폼',
+                    3: 'POS',
+                    4: 'AI 플랫폼',
+                    5: 'AI 영상 분석',
+                    6: '웹 플랫폼',
+                    7: '웹 플랫폼',
+                    9: '모바일 앱',
+                    10: '사내 시스템',
                 },
-                {
-                    value: '{count}',
-                    label: '완료한 프로젝트',
-                },
-                {
-                    value: '2',
-                    label: '특허 출원',
-                },
-                {
-                    value: '3년+',
-                    label: '대학·부트캠프 강의',
-                }
-            ],
-            build: {
-                eyebrow: 'The Build',
-                title: '맡기면 이렇게 완성됩니다',
-                phases: [
+                all: '전체 {count}개 프로젝트 보기',
+            },
+            process: {
+                title: '진행 방식',
+                steps: [
                     {
-                        title: '스케치',
-                        desc: '요구사항을 화면 단위로 나누고 우선순위를 정합니다.',
+                        title: '정리',
+                        desc: '무엇을 왜 만드는지 듣고, 먼저 필요한 것부터 순서를 정합니다.',
                     },
                     {
                         title: '설계',
-                        desc: '레이아웃과 데이터 구조를 먼저 그려 방향을 확정합니다.',
+                        desc: '화면 흐름과 데이터 구조를 그려 방향을 확정합니다.',
                     },
                     {
                         title: '개발',
-                        desc: '실제로 동작하는 화면을 주 단위로 공유하며 만듭니다.',
+                        desc: '매주 실제로 동작하는 화면을 보여드립니다.',
                     },
                     {
                         title: '출시',
-                        desc: '배포와 모니터링, 운영 인수인계까지 마무리합니다.',
+                        desc: '배포하고, 운영에 필요한 문서와 권한을 넘겨드립니다.',
                     }
                 ],
-                app: {
-                    title: '대시보드',
-                    action: '내보내기',
-                    kpis: [
-                        '매출',
-                        '주문',
-                        '전환율',
-                    ],
-                    chart: '주간 추이',
-                    list: '최근 주문',
-                    url: 'your-product.com',
-                    deployed: '배포 완료',
-                }
-            },
-            work: {
-                eyebrow: 'Selected Work',
-                title: '완성된 빌드',
-                desc: '대부분 고객사 요청으로 이름과 화면을 공개하지 않은 프로젝트입니다. 문제와 결과 위주로 정리했습니다.',
-                view: '자세히 보기',
-                all: '전체 프로젝트 보기',
             },
             services: {
-                eyebrow: 'Services',
                 title: '맡길 수 있는 일',
                 items: [
                     {
-                        title: '웹 서비스·플랫폼',
-                        desc: '예약·거래·관리자 페이지가 있는 서비스를 처음부터 만듭니다.',
-                        stack: 'Next.js · FastAPI · PostgreSQL',
+                        title: '웹 서비스와 플랫폼',
+                        desc: '예약, 거래, 관리자 페이지가 있는 서비스를 처음부터 만듭니다.',
+                        stack: 'Next.js, FastAPI, PostgreSQL',
                     },
                     {
                         title: '모바일 앱',
-                        desc: 'iOS·안드로이드 앱과 운영용 어드민을 함께 만듭니다.',
-                        stack: 'Flutter · React Native · Firebase',
+                        desc: 'iOS와 안드로이드 앱을 운영용 관리자 화면과 함께 만듭니다.',
+                        stack: 'Flutter, React Native, Firebase',
                     },
                     {
-                        title: 'AI·자동화',
-                        desc: '영상 분석, 챗봇, 반복 업무 자동화를 실제 업무에 붙입니다.',
-                        stack: 'OpenAI · MediaPipe · Python',
+                        title: 'AI와 업무 자동화',
+                        desc: '영상 분석, 상담 챗봇, 반복 업무 자동화를 실제 업무에 붙입니다.',
+                        stack: 'OpenAI, MediaPipe, Python',
                     },
                     {
-                        title: '랜딩·브랜드 사이트',
-                        desc: '모션과 3D로 첫인상을 만드는 사이트를 만듭니다.',
-                        stack: 'Next.js · GSAP · Three.js',
+                        title: '랜딩과 브랜드 사이트',
+                        desc: '모션과 3D로 첫인상을 만드는 사이트를 만듭니다. 이 사이트처럼요.',
+                        stack: 'Next.js, GSAP, Three.js',
                     }
                 ],
-                cta: '문의하기',
             },
             teaching: {
-                text: '대학과 부트캠프에서 개발을 가르칩니다.',
+                text: '대학과 부트캠프에서 개발을 가르치기도 합니다.',
                 link: '강의 이력 보기',
             },
             end: {
-                eyebrow: 'Next Build',
-                title: [
-                    '다음 빌드를',
-                    '시작할까요?',
-                ],
-                desc: '만들고 싶은 것을 짧게 적어 보내주세요. 범위와 일정, 예상 비용을 정리해 답장드립니다.',
+                title: '새 프로젝트를 시작하려면',
+                desc: '만들고 싶은 것을 몇 줄로 보내주세요. 범위와 일정, 예상 비용을 정리해 답장드립니다.',
                 cta: '프로젝트 문의하기',
-                email_label: '이메일로 바로 보내기',
+                email_label: '이메일로 보내기',
             }
         },
         hero: {
@@ -1095,114 +1051,92 @@ export const translations = {
             contact: 'Kontakt',
         },
         home: {
-            eyebrow: 'David Han · Produktentwickler · Seoul',
             title: [
-                'Ideen, gebaut',
-                'zum Launch.',
+                'Web-, App- und KI-Produkte,',
+                'gebaut und',
+                'live gebracht.',
             ],
-            lead: 'Ich konzipiere und entwickle Web-, App- und KI-Produkte vom ersten Briefing bis zum Livegang. Seit 2015 habe ich {count} Projekte umgesetzt.',
+            lead: 'David Han ist freiberuflicher Entwickler und übernimmt Konzept, Design, Entwicklung und Launch selbst. Seit 2015 {count} Produkte, zwei Patente angemeldet.',
             cta_primary: 'Projekt anfragen',
-            cta_secondary: 'Arbeiten ansehen',
-            stats: [
-                {
-                    value: '2015',
-                    label: 'Erstes Produkt live',
+            email_label: 'E-Mail schreiben',
+            enter_hint: 'Die Enter-Taste führt ebenfalls zur Kontaktseite.',
+            statement: 'Sie brauchen kein Lastenheft. Erzählen Sie, was Sie bauen möchten: Wir legen den Umfang gemeinsam fest, Sie sehen jede Woche funktionierende Screens, und am Ende bekommen Sie alles für den Betrieb.',
+            work: {
+                title: 'Aktuelle Arbeiten',
+                note: 'Die meisten Kunden halten ihre Screens privat. Beschrieben ist, was gebaut wurde und was es verändert hat.',
+                cols: [
+                    'Jahr',
+                    'Projekt',
+                    'Bereich',
+                    'Ergebnis',
+                ],
+                areas: {
+                    1: 'Webplattform',
+                    3: 'Kassensystem',
+                    4: 'KI-Plattform',
+                    5: 'KI-Videoanalyse',
+                    6: 'Webplattform',
+                    7: 'Webplattform',
+                    9: 'Mobile App',
+                    10: 'Internes System',
                 },
-                {
-                    value: '{count}',
-                    label: 'Abgeschlossene Projekte',
-                },
-                {
-                    value: '2',
-                    label: 'Patentanmeldungen',
-                },
-                {
-                    value: '3+ J.',
-                    label: 'Lehre an Hochschulen & Bootcamps',
-                }
-            ],
-            build: {
-                eyebrow: 'The Build',
-                title: 'So entsteht Ihr Produkt',
-                phases: [
+                all: 'Alle {count} Projekte ansehen',
+            },
+            process: {
+                title: 'So läuft es ab',
+                steps: [
                     {
-                        title: 'Skizze',
-                        desc: 'Anforderungen in Screens zerlegen und Prioritäten setzen.',
+                        title: 'Klären',
+                        desc: 'Ich höre zu, was Sie bauen möchten und warum, und ordne, was zuerst kommt.',
                     },
                     {
-                        title: 'Entwurf',
-                        desc: 'Layout und Datenmodell festlegen, bevor Code entsteht.',
+                        title: 'Entwerfen',
+                        desc: 'Screen-Abläufe und Datenmodell werden gezeichnet und abgestimmt.',
                     },
                     {
-                        title: 'Entwicklung',
-                        desc: 'Jede Woche funktionierende Screens, damit Fortschritt sichtbar ist.',
+                        title: 'Entwickeln',
+                        desc: 'Sie sehen jede Woche funktionierende Screens.',
                     },
                     {
-                        title: 'Launch',
-                        desc: 'Deployment, Monitoring und eine saubere Übergabe für den Betrieb.',
+                        title: 'Launchen',
+                        desc: 'Es geht live, und Sie erhalten Dokumentation und Zugänge für den Betrieb.',
                     }
                 ],
-                app: {
-                    title: 'Dashboard',
-                    action: 'Export',
-                    kpis: [
-                        'Umsatz',
-                        'Bestellungen',
-                        'Konversion',
-                    ],
-                    chart: 'Wochentrend',
-                    list: 'Letzte Bestellungen',
-                    url: 'your-product.com',
-                    deployed: 'Live',
-                }
-            },
-            work: {
-                eyebrow: 'Selected Work',
-                title: 'Fertige Builds',
-                desc: 'Die meisten Projekte stehen unter NDA, daher bleiben Namen und Screens privat. Beschrieben sind Problem und Ergebnis.',
-                view: 'Mehr lesen',
-                all: 'Alle Projekte',
             },
             services: {
-                eyebrow: 'Services',
                 title: 'Was Sie mir übergeben können',
                 items: [
                     {
-                        title: 'Webprodukte & Plattformen',
+                        title: 'Webprodukte und Plattformen',
                         desc: 'Buchungs-, Marktplatz- und Backoffice-Produkte von Grund auf.',
-                        stack: 'Next.js · FastAPI · PostgreSQL',
+                        stack: 'Next.js, FastAPI, PostgreSQL',
                     },
                     {
                         title: 'Mobile Apps',
                         desc: 'iOS- und Android-Apps samt Admin für den Betrieb.',
-                        stack: 'Flutter · React Native · Firebase',
+                        stack: 'Flutter, React Native, Firebase',
                     },
                     {
-                        title: 'KI & Automatisierung',
-                        desc: 'Bildanalyse, Chatbots und Workflow-Automatisierung im echten Einsatz.',
-                        stack: 'OpenAI · MediaPipe · Python',
+                        title: 'KI und Automatisierung',
+                        desc: 'Videoanalyse, Support-Chatbots und Workflow-Automatisierung im echten Einsatz.',
+                        stack: 'OpenAI, MediaPipe, Python',
                     },
                     {
-                        title: 'Landing- & Markenseiten',
-                        desc: 'Websites, die mit Motion und 3D einen ersten Eindruck setzen.',
-                        stack: 'Next.js · GSAP · Three.js',
+                        title: 'Landing- und Markenseiten',
+                        desc: 'Websites, die mit Motion und 3D einen ersten Eindruck setzen. Wie diese hier.',
+                        stack: 'Next.js, GSAP, Three.js',
                     }
                 ],
-                cta: 'Kontakt aufnehmen',
             },
             teaching: {
                 text: 'Außerdem unterrichte ich Softwareentwicklung an Hochschulen und Bootcamps.',
                 link: 'Lehrtätigkeit',
             },
             end: {
-                eyebrow: 'Next Build',
-                title: [
-                    'Bereit für den',
-                    'nächsten Build?',
-                ],
-                desc: 'Schreiben Sie kurz, was Sie bauen möchten. Ich antworte mit Umfang, Zeitplan und einer Schätzung.',
+                title: 'Etwas Neues starten?',
+                desc: 'Schreiben Sie ein paar Zeilen, was Sie bauen möchten. Ich antworte mit Umfang, Zeitplan und einer Schätzung.',
                 cta: 'Projekt anfragen',
-                email_label: 'Oder direkt per E-Mail',
+                email_label: 'E-Mail schreiben',
             }
         },
         hero: {

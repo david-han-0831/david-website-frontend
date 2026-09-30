@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Poppins, JetBrains_Mono, Bricolage_Grotesque } from 'next/font/google'
+import { Inter, Poppins, JetBrains_Mono, Unbounded } from 'next/font/google'
 import './globals.css'
 import SmoothScroll from '@/components/dom/SmoothScroll'
 import Navigation from '@/components/dom/Navigation'
@@ -24,7 +24,7 @@ const poppins = Poppins({
   display: 'swap',
 })
 
-const bricolage = Bricolage_Grotesque({
+const unbounded = Unbounded({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
@@ -99,11 +99,15 @@ export default function RootLayout({
   const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST
 
   return (
-    <html lang="en" className={`${inter.variable} ${poppins.variable} ${jetbrainsMono.variable} ${bricolage.variable}`}>
+    <html lang="en" className={`${inter.variable} ${poppins.variable} ${jetbrainsMono.variable} ${unbounded.variable}`}>
       <head>
         <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+        />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css"
         />
         <StructuredData type="Person" />
         <StructuredData type="Organization" />

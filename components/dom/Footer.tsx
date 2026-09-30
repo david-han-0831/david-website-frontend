@@ -2,12 +2,15 @@
 
 import styles from './Footer.module.css'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import clsx from 'clsx'
 import { FaGithub, FaLinkedin, FaEnvelope, FaInstagram } from 'react-icons/fa'
 import { SiThreads } from 'react-icons/si'
 
 export default function Footer() {
+    const pathname = usePathname()
     return (
-        <footer className={styles.footer}>
+        <footer className={clsx(styles.footer, pathname === '/' && styles.light)}>
             <div className={styles.container}>
                 {/* 1. Brand / Bio */}
                 <div className={styles.column}>

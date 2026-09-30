@@ -1,5 +1,5 @@
 import { useId } from 'react'
-import s from './Work.module.css'
+import s from './WorkThumb.module.css'
 
 export type ThumbVariant = 'market' | 'pos' | 'exam' | 'vision' | 'coach' | 'gallery' | 'phones' | 'sheet'
 
