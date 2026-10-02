@@ -215,7 +215,7 @@
 }
 /* 홈(라이트 베이스)용 변형 — docs/renewal/DESIGN.md */
 .light {
-    background: rgba(238, 240, 243, 0.82);
+    background: rgba(255, 255, 255, 0.9);
     border-bottom-color: rgba(27, 28, 32, 0.08);
     --switch-bg: transparent;
     --switch-border: rgba(27, 28, 32, 0.14);

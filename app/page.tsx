@@ -1,5 +1,5 @@
 import HomeShell from '@/components/home/HomeShell'
-import Hero from '@/components/home/Hero'
+import HeroStudio from '@/components/home/HeroStudio'
 import WorkIndex from '@/components/home/WorkIndex'
 import Process from '@/components/home/Process'
 import Services from '@/components/home/Services'
@@ -9,7 +9,7 @@ import EndCard from '@/components/home/EndCard'
 export default function Home() {
   return (
     <HomeShell>
-      <Hero />
+      <HeroStudio />
       <WorkIndex />
       <Process />
       <Services />
