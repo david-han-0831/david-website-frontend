@@ -32,11 +32,11 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Han Dongyun | Interactive Portfolio',
+    default: '한동윤 David Han | 웹, 앱, AI 제품 개발과 강의',
     template: '%s | Han Dongyun',
   },
-  description: 'Interactive Portfolio Platform of Han Dongyun - Developer & Educator. Full-stack developer specializing in Next.js, React, Python, and modern web technologies.',
-  keywords: ['portfolio', 'developer', 'full-stack', 'Next.js', 'React', 'Python', 'FastAPI', 'education', 'teaching'],
+  description: '웹, 앱, AI 제품을 기획부터 출시까지 만드는 개발자 한동윤입니다. 외주 개발과 대학·기업 강의 문의를 받습니다.',
+  keywords: ['외주 개발', '앱 개발', '웹 개발', 'AI 개발', '프리랜서 개발자', '개발 강의', '파이썬 강의', '생성형 AI 강의', 'Next.js', 'FastAPI', 'SwiftUI'],
   authors: [{ name: 'Han Dongyun' }],
   creator: 'Han Dongyun',
   publisher: 'Han Dongyun',
@@ -46,24 +46,24 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website',
-    locale: 'en_US',
+    locale: 'ko_KR',
     url: SITE_URL,
-    siteName: 'Han Dongyun Portfolio',
-    title: 'Han Dongyun | Interactive Portfolio',
-    description: 'Interactive Portfolio Platform of Han Dongyun - Developer & Educator',
+    siteName: '한동윤 David Han',
+    title: '제 서비스도 만들고, 남의 서비스도 만듭니다',
+    description: '웹, 앱, AI 제품을 기획부터 출시까지 만드는 개발자 한동윤입니다. 외주 개발과 강의 문의를 받습니다.',
     images: [
       {
         url: `${SITE_URL}/og-image.jpg`,
         width: 1200,
         height: 630,
-        alt: 'Han Dongyun Portfolio',
+        alt: '미니어처 작업실과 한동윤 소개 문구',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Han Dongyun | Interactive Portfolio',
-    description: 'Interactive Portfolio Platform of Han Dongyun - Developer & Educator',
+    title: '제 서비스도 만들고, 남의 서비스도 만듭니다',
+    description: '웹, 앱, AI 제품을 기획부터 출시까지 만드는 개발자 한동윤입니다.',
     images: [`${SITE_URL}/og-image.jpg`],
   },
   robots: {
@@ -76,6 +76,13 @@ export const metadata: Metadata = {
       'max-image-preview': 'large',
       'max-snippet': -1,
     },
+  },
+  // 검색 등록 도구의 소유 확인 값. 값이 없으면 태그를 넣지 않는다
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    other: process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION
+      ? { 'naver-site-verification': process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION }
+      : undefined,
   },
 }
 
@@ -93,7 +100,7 @@ export default function RootLayout({
   const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST
 
   return (
-    <html lang="en" className={`${inter.variable} ${poppins.variable} ${jetbrainsMono.variable}`}>
+    <html lang="ko" className={`${inter.variable} ${poppins.variable} ${jetbrainsMono.variable}`}>
       <head>
         <link
           rel="stylesheet"

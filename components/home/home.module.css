@@ -1,11 +1,11 @@
 /* 홈 디자인 토큰 — docs/renewal/DESIGN.md */
 .home {
-    --alu: #eef0f3;
-    --graphite: #111318;
-    --slate: #5a5f6b;
-    --cobalt: #1e3cff;
-    --keywhite: #fafafb;
-    --rule: rgba(27, 28, 32, 0.14);
+    --alu: #f8efe8;
+    --graphite: #2b1a10;
+    --slate: #6b4a36;
+    --cobalt: #2b1a10;
+    --keywhite: #fffaf6;
+    --rule: rgba(43, 26, 16, 0.16);
 
     --gutter: clamp(16px, 4.4vw, 64px);
     --maxw: 1480px;
@@ -39,7 +39,7 @@
 }
 
 .section {
-    padding: clamp(88px, 14vh, 160px) 0 0;
+    padding: clamp(120px, 22vh, 260px) 0 0;
 }
 
 /* 버튼만 완전히 둥글게 — 키캡 윗면을 닮은 모양 */

@@ -42,7 +42,7 @@
 .title {
     font-family: var(--f-display);
     font-weight: 800;
-    font-size: clamp(2.3rem, 4.4vw, 4.2rem);
+    font-size: clamp(2.2rem, 4vw, 3.8rem);
     line-height: 1.14;
     letter-spacing: -0.045em;
 }
@@ -51,11 +51,20 @@
     display: block;
 }
 
+/* 넓은 화면에서는 제목을 정해 둔 두 줄 그대로 유지한다 */
+@media (min-width: 900px) {
+    .title span,
+    .lead span {
+        display: block;
+        white-space: nowrap;
+    }
+}
+
 .lead {
     margin-top: 22px;
-    max-width: 26em;
-    font-size: clamp(1rem, 1.25vw, 1.2rem);
+    font-size: clamp(1.1rem, 1.5vw, 1.45rem);
     color: var(--cocoa-2);
+    word-break: keep-all;
 }
 
 .actions {
@@ -63,13 +72,13 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 14px 22px;
-    margin-top: 30px;
-    font-size: 15px;
+    margin-top: 34px;
+    font-size: clamp(16px, 1.25vw, 20px);
     color: var(--cocoa-2);
 }
 
 .button {
-    padding: 15px 26px;
+    padding: 1.05em 1.9em;
     border-radius: 999px;
     background: var(--cocoa);
     color: #fff;

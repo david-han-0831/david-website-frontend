@@ -1,0 +1,36 @@
+.mark {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.i {
+    position: relative;
+    display: inline-block;
+}
+
+.roof {
+    position: absolute;
+    left: 50%;
+    bottom: 0.77em;
+    width: 0.46em;
+    color: var(--logo-accent, #e2702c);
+    translate: -50% 0;
+    overflow: visible;
+}
+
+.roof path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 4.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.dot {
+    display: inline-block;
+    width: 0.19em;
+    height: 0.19em;
+    margin-left: 0.05em;
+    border-radius: 50%;
+    background: var(--logo-accent, #e2702c);
+}

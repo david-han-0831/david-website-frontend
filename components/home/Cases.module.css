@@ -1,0 +1,82 @@
+.cases {
+    display: grid;
+    gap: clamp(40px, 8vh, 96px);
+    margin-top: clamp(48px, 8vh, 88px);
+}
+
+.case {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(24px, 5vw, 88px);
+}
+
+/* 사례마다 그림과 글의 자리를 바꿔 같은 모양이 반복되지 않게 한다 */
+.case:nth-child(even) .scene {
+    order: 2;
+}
+
+.scene {
+    border-radius: 28px;
+    overflow: hidden;
+    background: #ecbfa6;
+}
+
+.scene img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.body {
+    max-width: 34em;
+}
+
+.title {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(1.5rem, 2.6vw, 2.5rem);
+    line-height: 1.2;
+    letter-spacing: -0.035em;
+}
+
+.facts {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: 14px 22px;
+    margin: 26px 0 28px;
+    font-size: clamp(1rem, 1.2vw, 1.15rem);
+}
+
+.facts dt {
+    font-weight: 700;
+}
+
+.facts dd {
+    color: var(--slate);
+}
+
+.all {
+    display: inline-block;
+    margin-top: clamp(40px, 7vh, 72px);
+    font-size: 1.1rem;
+}
+
+@media (max-width: 899px) {
+    .case {
+        grid-template-columns: 1fr;
+    }
+
+    .case:nth-child(even) .scene {
+        order: 0;
+    }
+
+    .facts {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+
+    .facts dd {
+        margin-bottom: 12px;
+    }
+}

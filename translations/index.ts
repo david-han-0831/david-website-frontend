@@ -81,17 +81,17 @@ export const translations = {
                     {
                         title: 'Mobile apps',
                         desc: 'iOS and Android apps, together with the admin that runs them.',
-                        stack: 'Flutter, React Native, Firebase',
+                        stack: 'SwiftUI, Kotlin, Flutter',
                     },
                     {
                         title: 'AI and automation',
-                        desc: 'Video analysis, support chatbots and workflow automation wired into real work.',
-                        stack: 'OpenAI, MediaPipe, Python',
+                        desc: 'Speech recognition, document reading and video analysis wired into real work.',
+                        stack: 'Gemini, OpenAI, Whisper',
                     },
                     {
-                        title: 'Landing and brand sites',
-                        desc: 'Sites that make a first impression with motion and 3D. Like this one.',
-                        stack: 'Next.js, GSAP, Three.js',
+                        title: 'Web for connected devices',
+                        desc: 'Dashboards that receive and show data from robots, sensors and custom hardware.',
+                        stack: 'Next.js, Firebase, REST API',
                     }
                 ],
             },
@@ -608,17 +608,17 @@ export const translations = {
                     {
                         title: '모바일 앱',
                         desc: 'iOS와 안드로이드 앱을 운영용 관리자 화면과 함께 만듭니다.',
-                        stack: 'Flutter, React Native, Firebase',
+                        stack: 'SwiftUI, Kotlin, Flutter',
                     },
                     {
                         title: 'AI와 업무 자동화',
-                        desc: '영상 분석, 상담 챗봇, 반복 업무 자동화를 실제 업무에 붙입니다.',
-                        stack: 'OpenAI, MediaPipe, Python',
+                        desc: '음성 인식, 문서 읽기, 영상 분석을 실제 업무 흐름에 붙입니다.',
+                        stack: 'Gemini, OpenAI, Whisper',
                     },
                     {
-                        title: '랜딩과 브랜드 사이트',
-                        desc: '모션과 3D로 첫인상을 만드는 사이트를 만듭니다. 이 사이트처럼요.',
-                        stack: 'Next.js, GSAP, Three.js',
+                        title: '기계와 연결되는 웹',
+                        desc: '로봇, 센서, 전용 기기가 보내는 데이터를 받아 보여주는 대시보드를 만듭니다.',
+                        stack: 'Next.js, Firebase, REST API',
                     }
                 ],
             },
@@ -1135,17 +1135,17 @@ export const translations = {
                     {
                         title: 'Mobile Apps',
                         desc: 'iOS- und Android-Apps samt Admin für den Betrieb.',
-                        stack: 'Flutter, React Native, Firebase',
+                        stack: 'SwiftUI, Kotlin, Flutter',
                     },
                     {
                         title: 'KI und Automatisierung',
-                        desc: 'Videoanalyse, Support-Chatbots und Workflow-Automatisierung im echten Einsatz.',
-                        stack: 'OpenAI, MediaPipe, Python',
+                        desc: 'Spracherkennung, Dokumentenanalyse und Videoanalyse im echten Einsatz.',
+                        stack: 'Gemini, OpenAI, Whisper',
                     },
                     {
-                        title: 'Landing- und Markenseiten',
-                        desc: 'Websites, die mit Motion und 3D einen ersten Eindruck setzen. Wie diese hier.',
-                        stack: 'Next.js, GSAP, Three.js',
+                        title: 'Web für vernetzte Geräte',
+                        desc: 'Dashboards, die Daten von Robotern, Sensoren und Spezialgeräten empfangen und anzeigen.',
+                        stack: 'Next.js, Firebase, REST API',
                     }
                 ],
             },

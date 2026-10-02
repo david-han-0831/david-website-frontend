@@ -1,57 +1,106 @@
-.steps {
+.stack {
     list-style: none;
+    margin-top: clamp(48px, 8vh, 88px);
+}
+
+/* 카드마다 조금씩 아래에 붙어서, 쌓였을 때 앞 카드의 윗부분이 보인다 */
+.slot {
+    position: sticky;
+    top: calc(var(--header-height) + 20px + var(--i) * 22px);
+    padding-bottom: clamp(20px, 4vh, 40px);
+}
+
+.card {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 32px;
-    margin-top: 44px;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: stretch;
+    gap: 24px 48px;
+    min-height: min(66svh, 660px);
+    padding: clamp(28px, 4.5vw, 72px);
+    border-radius: 32px;
+    transform-origin: top center;
+    will-change: transform;
 }
 
-.step {
-    padding-top: 20px;
-    border-top: 1px solid var(--graphite);
+/* 피치에서 갈색으로 단계마다 진해진다 */
+.card[data-tone='0'] {
+    background: #f5dccd;
 }
 
-/* 번호는 키캡처럼: 작은 둥근 사각형 안의 숫자 */
+.card[data-tone='1'] {
+    background: #ecbfa6;
+}
+
+.card[data-tone='2'] {
+    background: #dc9f7e;
+}
+
+.card[data-tone='3'] {
+    background: #2b1a10;
+    color: #fff5ee;
+}
+
 .num {
-    display: inline-grid;
-    place-items: center;
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
-    background: var(--keywhite);
-    box-shadow:
-        inset 0 -3px 0 rgba(27, 28, 32, 0.12),
-        0 1px 0 rgba(27, 28, 32, 0.08);
+    align-self: start;
     font-family: var(--f-display);
-    font-size: 15px;
+    font-weight: 800;
+    font-size: clamp(5rem, 15vw, 15rem);
+    line-height: 0.82;
+    letter-spacing: -0.06em;
+}
+
+/* 위에는 단계 설명, 아래에는 그 단계에서 받는 것 */
+.body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: clamp(28px, 5vh, 56px);
+}
+
+.gets ul {
+    list-style: none;
+}
+
+.getsLabel {
+    margin-bottom: 10px;
+    font-weight: 700;
+    font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+    opacity: 0.7;
+}
+
+.gets li {
+    padding: clamp(10px, 1.6vh, 16px) 0;
+    border-top: 1px solid currentColor;
+    border-color: color-mix(in srgb, currentColor 22%, transparent);
+    font-size: clamp(1.05rem, 1.5vw, 1.5rem);
     font-weight: 600;
 }
 
 .title {
-    margin-top: 18px;
     font-family: var(--f-display);
-    font-size: 1.3rem;
-    font-weight: 600;
-    letter-spacing: -0.015em;
-}
-
-:global([data-locale='ko']) .title {
-    font-weight: 700;
+    font-weight: 800;
+    font-size: clamp(2rem, 4.2vw, 4.2rem);
+    line-height: 1.1;
+    letter-spacing: -0.04em;
 }
 
 .desc {
-    margin-top: 8px;
-    color: var(--slate);
+    max-width: 24em;
+    margin-top: 16px;
+    font-size: clamp(1.1rem, 1.7vw, 1.7rem);
+    line-height: 1.5;
+    opacity: 0.82;
 }
 
 @media (max-width: 899px) {
-    .steps {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+    .slot {
+        top: calc(var(--header-height) + 12px + var(--i) * 14px);
     }
-}
 
-@media (max-width: 520px) {
-    .steps {
+    .card {
         grid-template-columns: 1fr;
+        align-items: start;
+        min-height: 56svh;
+        border-radius: 24px;
     }
 }

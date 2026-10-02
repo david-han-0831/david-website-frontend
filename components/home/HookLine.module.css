@@ -1,0 +1,40 @@
+/* 히어로의 피치색을 그대로 이어받아 한 장면처럼 읽히게 한다 */
+.hook {
+    display: flex;
+    align-items: center;
+    min-height: 100svh;
+    padding: var(--header-height) var(--gutter) 0;
+    background: #ecbfa6;
+    color: #2b1a10;
+}
+
+.line {
+    max-width: 1280px;
+    margin: 0 auto;
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(2.1rem, 6.2vw, 6.4rem);
+    line-height: 1.16;
+    letter-spacing: -0.045em;
+}
+
+.phrase {
+    display: block;
+}
+
+.word {
+    display: inline-block;
+    white-space: pre;
+    will-change: opacity;
+}
+
+@media (max-width: 899px) {
+    .phrase {
+        display: inline;
+    }
+
+    .word {
+        display: inline;
+        white-space: normal;
+    }
+}

@@ -1,6 +1,9 @@
 import HomeShell from '@/components/home/HomeShell'
 import HeroStudio from '@/components/home/HeroStudio'
-import WorkIndex from '@/components/home/WorkIndex'
+import Answers from '@/components/home/Answers'
+import HookLine from '@/components/home/HookLine'
+import Cases from '@/components/home/Cases'
+import Teaching from '@/components/home/Teaching'
 import Process from '@/components/home/Process'
 import Services from '@/components/home/Services'
 import EndCard from '@/components/home/EndCard'
@@ -10,9 +13,12 @@ export default function Home() {
   return (
     <HomeShell>
       <HeroStudio />
-      <WorkIndex />
-      <Process />
+      <HookLine />
+      <Answers />
+      <Cases />
       <Services />
+      <Process />
+      <Teaching />
       <EndCard />
     </HomeShell>
   )

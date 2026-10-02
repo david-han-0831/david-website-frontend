@@ -39,7 +39,7 @@ html {
 /* 홈은 라이트 베이스: 오버스크롤·핀 전환 때 어두운 배경이 비치지 않게 */
 html:has(main[data-page='home']),
 html:has(main[data-page='home']) body {
-  background: #eef0f3 !important;
+  background: #f8efe8 !important;
 }
 
 html.lenis,
@@ -108,4 +108,21 @@ a {
   -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
+}
+/* 홈: 스크롤바를 히어로의 피치·코코아 톤에 맞춘다 */
+html:has(main[data-page='home']) {
+  scrollbar-color: #b98d72 #f7ebe3;
+}
+
+html:has(main[data-page='home'])::-webkit-scrollbar-track {
+  background: #f7ebe3;
+}
+
+html:has(main[data-page='home'])::-webkit-scrollbar-thumb {
+  background: #c9a089;
+  border-color: #f7ebe3;
+}
+
+html:has(main[data-page='home'])::-webkit-scrollbar-thumb:hover {
+  background: #6b4a36;
 }

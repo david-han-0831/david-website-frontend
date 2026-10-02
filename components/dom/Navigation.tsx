@@ -9,6 +9,8 @@ import LanguageSwitcher from './LanguageSwitcher'
 import { useState } from 'react'
 import { trackLinkClick } from '@/lib/utils/gtm'
 import { HiMenu, HiX } from 'react-icons/hi'
+import Wordmark from './Wordmark'
+import { useContactScroll } from '@/components/home/useContactScroll'
 
 export default function Navigation() {
     const pathname = usePathname()
@@ -23,11 +25,12 @@ export default function Navigation() {
     ]
 
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const toContact = useContactScroll()
 
     return (
         <nav className={clsx(styles.nav, pathname === '/' && styles.light)}>
-            <Link href="/" className={styles.logo} onClick={() => setIsMenuOpen(false)}>
-                David
+            <Link href="/" className={styles.logo} onClick={() => setIsMenuOpen(false)} aria-label="David">
+                <Wordmark />
             </Link>
 
             {/* Desktop Links */}
@@ -36,10 +39,19 @@ export default function Navigation() {
                     <Link
                         key={item.path}
                         href={item.path}
-                        className={clsx(styles.link, pathname === item.path && styles.active)}
-                        onClick={() => trackLinkClick(item.name, 'navigation', item.path, locale)}
+                        className={clsx(
+                            styles.link,
+                            pathname === item.path && styles.active,
+                            item.path === '/contact' && styles.cta
+                        )}
+                        onClick={(e) => {
+                            if (item.path === '/contact') toContact(e)
+                            trackLinkClick(item.name, 'navigation', item.path, locale)
+                        }}
                     >
-                        {item.name}
+                        <span className={styles.roll} data-text={item.name}>
+                            <span>{item.name}</span>
+                        </span>
                     </Link>
                 ))}
             </div>
@@ -57,8 +69,9 @@ export default function Navigation() {
                             key={item.path}
                             href={item.path}
                             className={clsx(styles.mobileLink, pathname === item.path && styles.active)}
-                            onClick={() => {
+                            onClick={(e) => {
                                 setIsMenuOpen(false)
+                                if (item.path === '/contact') toContact(e)
                                 trackLinkClick(item.name, 'navigation', item.path, locale)
                             }}
                         >

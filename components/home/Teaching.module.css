@@ -1,0 +1,152 @@
+/* 위쪽 진행 방식이 색 카드라 여기는 배경 없이 글자만으로 간다 */
+.card {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: start;
+    gap: clamp(32px, 6vw, 112px);
+}
+
+/* 긴 이력을 읽는 동안 제목과 문의 버튼이 옆에 머문다 */
+.head {
+    position: sticky;
+    top: calc(var(--header-height) + 40px);
+}
+
+.year:not(:first-child) {
+    margin-top: clamp(40px, 7vh, 80px);
+}
+
+.yearNum {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(3.4rem, 8vw, 8rem);
+    line-height: 0.9;
+    letter-spacing: -0.06em;
+}
+
+.year:not(:first-child) .yearNum {
+    color: #c9a089;
+}
+
+.items {
+    list-style: none;
+    margin-top: clamp(16px, 3vh, 28px);
+}
+
+.item {
+    padding: clamp(16px, 2.6vh, 26px) 0;
+    border-top: 1px solid var(--rule);
+}
+
+.item strong {
+    display: block;
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(1.25rem, 2vw, 1.9rem);
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+}
+
+.item span {
+    display: block;
+    margin-top: 6px;
+    font-size: clamp(1rem, 1.25vw, 1.2rem);
+    color: var(--slate);
+}
+
+.title {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(2rem, 3.9vw, 3.9rem);
+    line-height: 1.14;
+    letter-spacing: -0.04em;
+}
+
+.text {
+    max-width: 26em;
+    margin-top: 24px;
+    font-size: clamp(1.05rem, 1.4vw, 1.35rem);
+    color: var(--slate);
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 28px;
+    margin-top: clamp(28px, 5vh, 48px);
+}
+
+.label {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(1.15rem, 1.5vw, 1.45rem);
+    letter-spacing: -0.02em;
+}
+
+.label {
+    margin-top: clamp(48px, 8vh, 88px);
+}
+
+.rows {
+    margin-top: 12px;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: minmax(0, 7.5em) minmax(0, 1fr);
+    gap: 4px 24px;
+    padding: clamp(12px, 1.8vh, 18px) 0;
+    border-top: 1px solid var(--rule);
+    font-size: clamp(1rem, 1.25vw, 1.2rem);
+}
+
+.row dt {
+    font-weight: 700;
+}
+
+.row dd strong {
+    display: block;
+    font-weight: 700;
+}
+
+.row dd span {
+    color: var(--slate);
+}
+
+/* 대학 이름을 크게 나열한다 */
+.schools {
+    list-style: none;
+    margin-top: clamp(24px, 4vh, 40px);
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(1.3rem, 2.1vw, 2.1rem);
+    line-height: 1.35;
+    letter-spacing: -0.03em;
+}
+
+.format {
+    margin-top: 20px;
+    font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+    color: var(--slate);
+}
+
+@media (min-width: 900px) {
+    .title span {
+        display: block;
+    }
+}
+
+@media (max-width: 899px) {
+    .card {
+        grid-template-columns: 1fr;
+    }
+
+    .head {
+        position: static;
+    }
+
+    .row {
+        grid-template-columns: 1fr;
+    }
+}

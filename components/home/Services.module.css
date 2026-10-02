@@ -1,5 +1,5 @@
 .list {
-    margin-top: 40px;
+    margin-top: clamp(44px, 7vh, 80px);
     border-top: 1px solid var(--graphite);
 }
 
@@ -7,13 +7,13 @@
     display: grid;
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
     gap: 12px 48px;
-    padding: 28px 0;
+    padding: clamp(28px, 4.5vh, 44px) 0;
     border-bottom: 1px solid var(--rule);
 }
 
 .title {
     font-family: var(--f-display);
-    font-size: clamp(1.3rem, 2.1vw, 1.85rem);
+    font-size: clamp(1.5rem, 2.6vw, 2.4rem);
     font-weight: 600;
     line-height: 1.2;
     letter-spacing: -0.02em;
@@ -24,18 +24,48 @@
 }
 
 .desc {
-    max-width: 34em;
+    max-width: 32em;
+    font-size: clamp(1.05rem, 1.4vw, 1.35rem);
 }
 
 .stack {
     display: block;
-    margin-top: 6px;
-    font-size: 14px;
+    margin-top: 8px;
+    font-size: clamp(0.95rem, 1.05vw, 1.05rem);
     color: var(--slate);
 }
 
-.teaching {
-    margin-top: 32px;
+/* 실제로 만든 것: 눌러서 해당 프로젝트로 간다 */
+.built {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 12px;
+    margin-top: 20px;
+    font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+}
+
+.builtLabel {
+    margin-right: 4px;
+    font-weight: 700;
+}
+
+.example {
+    padding: 0.45em 0.95em;
+    border-radius: 999px;
+    background: rgba(43, 26, 16, 0.07);
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.example:hover,
+.example:focus-visible {
+    background: var(--graphite);
+    color: #fff;
+}
+
+.other {
+    margin-top: 36px;
+    font-size: clamp(1.05rem, 1.3vw, 1.25rem);
     color: var(--slate);
 }
 

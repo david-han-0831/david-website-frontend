@@ -1,5 +1,5 @@
 .end {
-    padding: clamp(120px, 20vh, 220px) 0 clamp(96px, 14vh, 160px);
+    padding: clamp(220px, 40vh, 460px) 0 clamp(140px, 24vh, 280px);
 }
 
 .title {
@@ -30,4 +30,145 @@
     align-items: center;
     gap: 16px 28px;
     margin-top: 36px;
+}
+
+/* 왼쪽에서 고르면 오른쪽 문서가 채워진다 */
+.builder {
+    display: grid;
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    align-items: start;
+    gap: clamp(32px, 5vw, 88px);
+    margin-top: clamp(48px, 8vh, 96px);
+}
+
+.questions {
+    display: grid;
+    gap: clamp(28px, 4.5vh, 44px);
+}
+
+.group {
+    border: 0;
+}
+
+.group legend,
+.group label {
+    display: block;
+    margin-bottom: 14px;
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(1.15rem, 1.6vw, 1.55rem);
+    letter-spacing: -0.025em;
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.chip {
+    padding: 0.7em 1.2em;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: clamp(1rem, 1.2vw, 1.15rem);
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.chip:hover {
+    border-color: var(--graphite);
+}
+
+.chip[aria-pressed='true'] {
+    border-color: var(--graphite);
+    background: var(--graphite);
+    color: #fff;
+}
+
+.input {
+    width: 100%;
+    max-width: 34em;
+    padding: 0.85em 1.1em;
+    border: 1px solid var(--rule);
+    border-radius: 16px;
+    background: var(--keywhite);
+    color: inherit;
+    font: inherit;
+    font-size: clamp(1rem, 1.2vw, 1.15rem);
+}
+
+.input::placeholder {
+    color: #b39a8b;
+}
+
+.chip:focus-visible,
+.input:focus-visible {
+    outline: 2px solid var(--graphite);
+    outline-offset: 3px;
+}
+
+/* 종이 한 장처럼 보이는 초안 */
+.doc {
+    position: sticky;
+    top: calc(var(--header-height) + 32px);
+    padding: clamp(28px, 3.5vw, 52px);
+    border-radius: 28px;
+    background: var(--keywhite);
+    box-shadow: 0 30px 60px -40px rgba(43, 26, 16, 0.45);
+}
+
+.docTitle {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(1.3rem, 1.9vw, 1.8rem);
+    letter-spacing: -0.03em;
+}
+
+.docRows {
+    margin-top: 18px;
+}
+
+.docRow {
+    padding: 16px 0;
+    border-top: 1px solid var(--rule);
+}
+
+.docRow dt {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--slate);
+}
+
+.docRow dd {
+    margin-top: 4px;
+    font-size: clamp(1.05rem, 1.3vw, 1.25rem);
+    color: #c2ab9d;
+    transition: color 0.3s ease;
+}
+
+.docRow[data-filled] dd {
+    color: var(--graphite);
+}
+
+.doc .actions {
+    margin-top: 28px;
+}
+
+.hint {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: var(--slate);
+}
+
+@media (max-width: 899px) {
+    .builder {
+        grid-template-columns: 1fr;
+    }
+
+    .doc {
+        position: static;
+    }
 }
