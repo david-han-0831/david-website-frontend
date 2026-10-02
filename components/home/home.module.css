@@ -79,3 +79,10 @@
     outline: 2px solid var(--cobalt);
     outline-offset: 4px;
 }
+
+/* 한 문장을 한 줄에 (Sentences 컴포넌트) */
+@media (min-width: 900px) {
+    .sentence {
+        display: block;
+    }
+}

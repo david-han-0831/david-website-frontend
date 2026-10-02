@@ -1,0 +1,216 @@
+.intro {
+    padding: calc(var(--header-height) + clamp(64px, 14vh, 160px)) 0 clamp(64px, 12vh, 140px);
+    background: #ecbfa6;
+}
+
+.title {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(2.4rem, 6.4vw, 6.6rem);
+    line-height: 1.1;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+}
+
+.lead {
+    max-width: 46em;
+    margin-top: clamp(24px, 4vh, 44px);
+    font-size: clamp(1.15rem, 1.6vw, 1.6rem);
+    line-height: 1.6;
+    color: var(--slate);
+}
+
+.introAction {
+    margin-top: clamp(28px, 5vh, 48px);
+}
+
+/* 왼쪽에 섹션 제목, 오른쪽에 내용 */
+.split {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    align-items: start;
+    gap: clamp(24px, 5vw, 96px);
+}
+
+.sticky {
+    position: sticky;
+    top: calc(var(--header-height) + 40px);
+}
+
+/* 연도를 크게 세우고 그 해의 강의를 묶는다 (홈 강의 영역과 같은 방식) */
+.year:not(:first-child) {
+    margin-top: clamp(48px, 9vh, 104px);
+}
+
+.yearNum {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(3.4rem, 8vw, 8rem);
+    line-height: 0.9;
+    letter-spacing: -0.06em;
+}
+
+.year:not(:first-child) .yearNum {
+    color: #c9a089;
+}
+
+.items {
+    list-style: none;
+    margin-top: clamp(16px, 3vh, 28px);
+}
+
+.item {
+    display: grid;
+    grid-template-columns: minmax(0, 5.5em) minmax(0, 1fr);
+    gap: 4px 24px;
+    padding: clamp(18px, 3vh, 30px) 0;
+    border-top: 1px solid var(--rule);
+}
+
+.when {
+    font-weight: 700;
+    font-size: clamp(1rem, 1.25vw, 1.2rem);
+    color: var(--slate);
+}
+
+.item strong {
+    display: block;
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(1.25rem, 2vw, 1.9rem);
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+}
+
+.note {
+    max-width: 34em;
+    margin-top: 8px;
+    font-size: clamp(1rem, 1.25vw, 1.2rem);
+    line-height: 1.6;
+    color: var(--slate);
+}
+
+/* 문장이나 쉼표로 나뉜 구절 하나가 한 덩어리. 줄에 다 안 들어가면 덩어리째
+   다음 줄로 넘기고, 덩어리 하나가 줄보다 길 때만 그 안에서 길이를 맞춰 나눈다 */
+.chunk {
+    display: inline-block;
+    max-width: 100%;
+    text-wrap: balance;
+}
+
+/* 덩어리를 담은 글도 줄 길이를 맞춰, 짧은 덩어리 하나만 마지막 줄에 남지 않게 한다 */
+.note,
+.topic p,
+.row dd,
+.endText {
+    text-wrap: balance;
+}
+
+.topics {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(16px, 2vw, 28px);
+    margin-top: clamp(48px, 8vh, 88px);
+}
+
+.topic {
+    padding: clamp(24px, 2.6vw, 40px);
+    border-radius: 28px;
+    background: #f5dccd;
+    font-size: clamp(1rem, 1.2vw, 1.15rem);
+    line-height: 1.6;
+    color: var(--slate);
+}
+
+.topic h3 {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(1.3rem, 1.9vw, 1.8rem);
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: var(--graphite);
+}
+
+.who {
+    margin: 8px 0 clamp(20px, 4vh, 44px);
+    font-weight: 700;
+    color: var(--graphite);
+}
+
+.rows {
+    border-top: 1px solid var(--graphite);
+}
+
+.row {
+    display: grid;
+    grid-template-columns: minmax(0, 10em) minmax(0, 1fr);
+    gap: 6px 32px;
+    padding: clamp(18px, 3vh, 30px) 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: clamp(1.05rem, 1.35vw, 1.3rem);
+}
+
+.row dt {
+    font-family: var(--f-display);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.row dd {
+    max-width: 34em;
+    color: var(--slate);
+}
+
+.end {
+    padding: clamp(140px, 26vh, 300px) 0 clamp(120px, 20vh, 240px);
+}
+
+.endTitle {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(2.2rem, 5vw, 4.8rem);
+    line-height: 1.12;
+    letter-spacing: -0.04em;
+}
+
+.endText {
+    max-width: 30em;
+    margin: 24px 0 36px;
+    font-size: clamp(1.05rem, 1.3vw, 1.25rem);
+    color: var(--slate);
+}
+
+@media (min-width: 900px) {
+    .title span {
+        display: block;
+    }
+}
+
+@media (max-width: 1100px) {
+    .topics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 899px) {
+    .split {
+        grid-template-columns: 1fr;
+    }
+
+    .sticky {
+        position: static;
+    }
+
+    .item,
+    .row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .topics {
+        grid-template-columns: 1fr;
+    }
+}

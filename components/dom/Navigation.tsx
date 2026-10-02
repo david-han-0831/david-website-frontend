@@ -10,6 +10,7 @@ import { useState } from 'react'
 import { trackLinkClick } from '@/lib/utils/gtm'
 import { HiMenu, HiX } from 'react-icons/hi'
 import Wordmark from './Wordmark'
+import { isLightPage } from '@/lib/lightPages'
 import { useContactScroll } from '@/components/home/useContactScroll'
 
 export default function Navigation() {
@@ -28,7 +29,7 @@ export default function Navigation() {
     const toContact = useContactScroll()
 
     return (
-        <nav className={clsx(styles.nav, pathname === '/' && styles.light)}>
+        <nav className={clsx(styles.nav, isLightPage(pathname) && styles.light)}>
             <Link href="/" className={styles.logo} onClick={() => setIsMenuOpen(false)} aria-label="David">
                 <Wordmark />
             </Link>

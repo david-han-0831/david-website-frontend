@@ -8,8 +8,9 @@ import { EMAIL } from './Hero'
 import { BRIEF_STORAGE_KEY } from './briefs'
 import { BRIEF_PRESET_EVENT } from './useContactScroll'
 import { useLanguage } from '@/contexts/LanguageContext'
-import { trackButtonClick, trackGTMEvent } from '@/lib/utils/gtm'
+import { trackGTMEvent } from '@/lib/utils/gtm'
 import type { Locale } from '@/translations'
+import TypedText from './TypedText'
 
 // 버튼 몇 개를 고르면 문의 초안이 써진다. 서버나 AI 호출 없이 미리 써 둔 문장을 조합한다
 // (문구는 확정되면 translations 로 옮긴다)
@@ -140,10 +141,11 @@ export default function EndCard() {
         setKinds((prev) => (prev.includes(i) ? prev.filter((k) => k !== i) : [...prev, i].sort()))
 
     const rows = [
-        { label: copy.fields.kind, value: kinds.map((i) => copy.kinds[i]).join(copy.join) },
-        { label: copy.fields.note, value: note.trim() },
-        { label: copy.fields.stage, value: stage === null ? '' : copy.stages[stage].line },
-        { label: copy.fields.when, value: when === null ? '' : copy.whens[when].line },
+        { label: copy.fields.kind, value: kinds.map((i) => copy.kinds[i]).join(copy.join), live: false },
+        // 직접 치고 있는 글은 타이핑 효과 없이 그대로 따라간다
+        { label: copy.fields.note, value: note.trim(), live: true },
+        { label: copy.fields.stage, value: stage === null ? '' : copy.stages[stage].line, live: false },
+        { label: copy.fields.when, value: when === null ? '' : copy.whens[when].line, live: false },
     ]
     const filled = rows.filter((row) => row.value)
 
@@ -251,7 +253,15 @@ export default function EndCard() {
                             {rows.map((row) => (
                                 <div key={row.label} className={s.docRow} data-filled={row.value ? '' : undefined}>
                                     <dt>{row.label}</dt>
-                                    <dd>{row.value || copy.empty}</dd>
+                                    <dd>
+                                        {!row.value ? (
+                                            copy.empty
+                                        ) : row.live ? (
+                                            row.value
+                                        ) : (
+                                            <TypedText key={row.value} text={row.value} />
+                                        )}
+                                    </dd>
                                 </div>
                             ))}
                         </dl>

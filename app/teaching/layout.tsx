@@ -4,31 +4,31 @@ import { SITE_URL } from '@/lib/site'
 const baseUrl = SITE_URL
 
 export const metadata: Metadata = {
-    title: 'Teaching | Han Dongyun',
-    description: '강의 전문성과 실적을 증명하는 교육 포트폴리오. 실무·자동화·AI 중심의 결과물 기반 강의.',
-    keywords: ['teaching', 'education', '강의', '교육', '프로그래밍', 'full-stack', 'AI', 'automation', 'curriculum'],
+    title: '강의',
+    description: '대학, 공공 교육사업, 기업에서 파이썬과 생성형 AI를 가르칩니다. 서울과학기술대학교, 구미대학교, 동아대학교 강의 이력과 강의 주제.',
+    keywords: ['개발 강의', '파이썬 강의', '생성형 AI 강의', 'ChatGPT 특강', '데이터 라벨링 교육', '출강', '대학 특강', '기업 교육'],
     authors: [{ name: 'Han Dongyun' }],
     openGraph: {
         type: 'website',
         locale: 'ko_KR',
         url: `${baseUrl}/teaching`,
-        siteName: 'Han Dongyun Portfolio',
-        title: 'Teaching | Han Dongyun - 강의 전문성과 실적',
-        description: '강의 전문성과 실적을 증명하는 교육 포트폴리오. 실무·자동화·AI 중심의 결과물 기반 강의.',
+        siteName: '한동윤 David Han',
+        title: '지금 만들고 있는 사람이 가르칩니다',
+        description: '대학, 공공 교육사업, 기업에서 파이썬과 생성형 AI를 가르칩니다. 서울과학기술대학교, 구미대학교, 동아대학교 강의 이력과 강의 주제.',
         images: [
             {
-                url: `${baseUrl}/og-teaching.jpg`,
+                url: `${baseUrl}/og-image.jpg`,
                 width: 1200,
                 height: 630,
-                alt: 'Han Dongyun Teaching Portfolio',
+                alt: '한동윤 강의 소개',
             },
         ],
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Teaching | Han Dongyun',
-        description: '강의 전문성과 실적을 증명하는 교육 포트폴리오. 실무·자동화·AI 중심의 결과물 기반 강의.',
-        images: [`${baseUrl}/og-teaching.jpg`],
+        title: '지금 만들고 있는 사람이 가르칩니다',
+        description: '대학, 공공 교육사업, 기업에서 파이썬과 생성형 AI를 가르칩니다. 서울과학기술대학교, 구미대학교, 동아대학교 강의 이력과 강의 주제.',
+        images: [`${baseUrl}/og-image.jpg`],
     },
     alternates: {
         canonical: '/teaching',

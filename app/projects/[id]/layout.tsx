@@ -91,8 +91,8 @@ export default async function ProjectLayout({
 
   return (
     <>
-      <StructuredData type="Article" projectId={projectId} />
       {children}
+      <StructuredData type="Article" projectId={projectId} inBody />
     </>
   )
 }

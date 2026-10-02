@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import clsx from 'clsx'
 import Wordmark from './Wordmark'
+import { isLightPage } from '@/lib/lightPages'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useContactScroll } from '@/components/home/useContactScroll'
 import type { Locale } from '@/translations'
@@ -50,7 +51,7 @@ export default function Footer() {
     ]
 
     return (
-        <footer className={clsx(styles.footer, pathname === '/' && styles.home)}>
+        <footer className={clsx(styles.footer, isLightPage(pathname) && styles.home)}>
             <div className={styles.container}>
                 <div className={styles.brand}>
                     <Link href="/" className={styles.logo} aria-label="David">

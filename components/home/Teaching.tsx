@@ -6,10 +6,12 @@ import s from './Teaching.module.css'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { trackButtonClick } from '@/lib/utils/gtm'
 import type { Locale } from '@/translations'
+import Sentences from './Sentences'
+import { TEACHING_RECORD } from '@/data/teaching'
 import { useContactScroll, KIND_LECTURE } from './useContactScroll'
 
 // 강의를 요청하려는 방문자를 위한 구역 (문구는 확정되면 translations 로 옮긴다).
-// 이력은 외부 공유용 강의 경력서(노션, 2026-08 기준)와 강의 준비 기록에 있는 내용만 쓴다
+// 강의 이력은 data/teaching.ts 에 있고 강의 페이지와 같이 쓴다
 type Copy = {
     title: string[]
     text: string
@@ -18,8 +20,6 @@ type Copy = {
     schools: string[]
     offersLabel: string
     offers: { who: string; what: string }[]
-    recordLabel: string
-    record: { year: string; name: string; note: string }[]
     format: string
 }
 
@@ -37,15 +37,6 @@ const COPY: Record<Locale, Copy> = {
             { who: '기업', what: 'GPT 업무 자동화 특강' },
             { who: '개인', what: '1:1 맞춤 수업과 프로젝트 코칭' },
         ],
-        recordLabel: '최근 강의',
-        record: [
-            { year: '2026.09', name: '동아대학교 STEP-UP 프로그램', note: '외국인 유학생 대상 생성형 AI 취업 준비, 8시간' },
-            { year: '2026.08', name: '구미대학교 G-AI Training', note: '외국인 유학생 40명, 한국어와 영어 두 반, 8시간' },
-            { year: '2026.08', name: '서울과학기술대학교 파이썬 비교과 특강', note: 'ITM 전공 13명, 40시간. 2년 연속' },
-            { year: '2026.08', name: '대구테크노파크 데이터 라벨링 실무 교육', note: '의료 데이터 실습, 15시간. 2년 연속' },
-            { year: '2025', name: '동남권, 충청권 ICT 취·창업 역량강화교육', note: 'ChatGPT 활용과 포트폴리오 특강 4회' },
-            { year: '2025.06', name: '서울도시가스 GPT 업무 자동화 특강', note: '본사 재직자 대상' },
-        ],
         format: '온라인, 오프라인 출강, 둘을 섞은 방식 모두 가능합니다.',
     },
     en: {
@@ -60,15 +51,6 @@ const COPY: Record<Locale, Copy> = {
             { who: 'Public training programs', what: 'Data labeling practice, ChatGPT at work, portfolios and proposals' },
             { who: 'Companies', what: 'GPT work-automation sessions' },
             { who: 'Individuals', what: 'One-to-one lessons and project coaching' },
-        ],
-        recordLabel: 'Recent teaching',
-        record: [
-            { year: '2026.09', name: 'Dong-A University STEP-UP program', note: 'Job preparation with generative AI for international students, 8 hours' },
-            { year: '2026.08', name: 'Gumi University G-AI Training', note: '40 international students in Korean and English tracks, 8 hours' },
-            { year: '2026.08', name: 'SeoulTech Python course', note: '13 ITM majors, 40 hours. Second year running' },
-            { year: '2026.08', name: 'Daegu Technopark data labeling training', note: 'Medical data practice, 15 hours. Second year running' },
-            { year: '2025', name: 'Regional ICT career programs (southeast, central)', note: 'Four sessions on ChatGPT and portfolios' },
-            { year: '2025.06', name: 'Seoul City Gas GPT automation session', note: 'For head-office staff' },
         ],
         format: 'Online, on site, or a mix of both.',
     },
@@ -85,15 +67,6 @@ const COPY: Record<Locale, Copy> = {
             { who: 'Unternehmen', what: 'GPT-Schulungen zur Arbeitsautomatisierung' },
             { who: 'Einzelpersonen', what: 'Einzelunterricht und Projekt-Coaching' },
         ],
-        recordLabel: 'Letzte Lehrtätigkeit',
-        record: [
-            { year: '2026.09', name: 'Dong-A University, STEP-UP-Programm', note: 'Bewerbungsvorbereitung mit generativer KI für internationale Studierende, 8 Stunden' },
-            { year: '2026.08', name: 'Gumi University, G-AI Training', note: '40 internationale Studierende, koreanische und englische Gruppe, 8 Stunden' },
-            { year: '2026.08', name: 'SeoulTech, Python-Kurs', note: '13 ITM-Studierende, 40 Stunden. Zweites Jahr in Folge' },
-            { year: '2026.08', name: 'Daegu Technopark, Datenannotation', note: 'Praxis mit medizinischen Daten, 15 Stunden. Zweites Jahr in Folge' },
-            { year: '2025', name: 'Regionale ICT-Karriereprogramme (Südost, Zentral)', note: 'Vier Vorträge zu ChatGPT und Portfolio' },
-            { year: '2025.06', name: 'Seoul City Gas, GPT-Automatisierung', note: 'Für Mitarbeitende der Zentrale' },
-        ],
         format: 'Online, vor Ort oder gemischt.',
     },
 }
@@ -102,8 +75,6 @@ export default function Teaching() {
     const { locale } = useLanguage()
     const copy = COPY[locale]
     const toContact = useContactScroll()
-    // 연도를 크게 세우고 그 해의 강의를 묶는다
-    const years = [...new Set(copy.record.map((item) => item.year.slice(0, 4)))]
     return (
         <section className={h.section}>
             <div className={h.container}>
@@ -114,7 +85,9 @@ export default function Teaching() {
                                 <span key={line}>{line} </span>
                             ))}
                         </h2>
-                        <p className={s.text}>{copy.text}</p>
+                        <p className={s.text}>
+                            <Sentences text={copy.text} />
+                        </p>
                         <ul className={s.schools}>
                             {copy.schools.map((school) => (
                                 <li key={school}>{school}</li>
@@ -139,18 +112,19 @@ export default function Teaching() {
                     </div>
 
                     <div className={s.detail}>
-                        {years.map((year) => (
-                            <div key={year} className={s.year}>
-                                <h3 className={s.yearNum}>{year}</h3>
+                        {TEACHING_RECORD[locale].map((group) => (
+                            <div key={group.year} className={s.year}>
+                                <h3 className={s.yearNum}>{group.year}</h3>
                                 <ul className={s.items}>
-                                    {copy.record
-                                        .filter((item) => item.year.startsWith(year))
-                                        .map((item) => (
-                                            <li key={item.name} className={s.item}>
+                                    {group.items.map((item) => (
+                                        <li key={item.name} className={s.item}>
+                                            <span className={s.when}>{item.when}</span>
+                                            <div>
                                                 <strong>{item.name}</strong>
-                                                <span>{item.note}</span>
-                                            </li>
-                                        ))}
+                                                <span className={s.note}>{item.note}</span>
+                                            </div>
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
                         ))}

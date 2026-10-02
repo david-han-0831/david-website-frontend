@@ -7,6 +7,7 @@ import { useLanguage } from '@/contexts/LanguageContext'
 import { PROJECTS } from '@/data/projects'
 import { trackButtonClick } from '@/lib/utils/gtm'
 import { useContactScroll } from './useContactScroll'
+import CountUp from './CountUp'
 import type { Locale } from '@/translations'
 
 // 미니어처 작업실 영상 히어로 (시안 확인용 — 문구는 확정되면 translations 로 옮긴다)
@@ -89,7 +90,11 @@ export default function HeroStudio() {
                     >
                         {copy.cta}
                     </Link>
-                    <span>{copy.count.replace('{count}', String(PROJECTS.length))}</span>
+                    <span>
+                        {copy.count.split('{count}')[0]}
+                        <CountUp value={PROJECTS.length} />
+                        {copy.count.split('{count}')[1]}
+                    </span>
                 </div>
             </div>
         </section>

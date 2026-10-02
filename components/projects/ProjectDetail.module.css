@@ -1,0 +1,177 @@
+.intro {
+    padding: calc(var(--header-height) + clamp(40px, 8vh, 96px)) 0 clamp(56px, 10vh, 120px);
+    background: #ecbfa6;
+}
+
+.back {
+    display: inline-block;
+    font-size: clamp(1rem, 1.15vw, 1.1rem);
+}
+
+.kind {
+    margin-top: clamp(32px, 6vh, 64px);
+    font-size: clamp(1rem, 1.25vw, 1.2rem);
+    font-weight: 700;
+    color: var(--slate);
+}
+
+.title {
+    max-width: 16em;
+    margin-top: 12px;
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(2.1rem, 5vw, 5rem);
+    line-height: 1.14;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+}
+
+.lead {
+    max-width: 32em;
+    margin-top: clamp(20px, 3.5vh, 36px);
+    font-size: clamp(1.15rem, 1.6vw, 1.6rem);
+    line-height: 1.6;
+    color: var(--slate);
+    text-wrap: pretty;
+}
+
+.body {
+    padding: clamp(48px, 8vh, 96px) 0 0;
+}
+
+/* 역할과 기술을 본문 앞에 한 줄씩 */
+.meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px clamp(24px, 5vw, 96px);
+    padding-bottom: clamp(32px, 5vh, 56px);
+    border-bottom: 1px solid var(--graphite);
+}
+
+.meta dt {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--slate);
+}
+
+.meta dd {
+    margin-top: 6px;
+    font-size: clamp(1.1rem, 1.5vw, 1.45rem);
+    line-height: 1.5;
+}
+
+/* 왼쪽에 단락 제목, 오른쪽에 글 */
+.block {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    align-items: start;
+    gap: clamp(20px, 5vw, 96px);
+    padding: clamp(48px, 9vh, 104px) 0;
+    border-bottom: 1px solid var(--rule);
+}
+
+.prose {
+    max-width: 38em;
+    font-size: clamp(1.1rem, 1.45vw, 1.4rem);
+    line-height: 1.75;
+    text-wrap: pretty;
+}
+
+.prose h3 {
+    margin: clamp(28px, 4.5vh, 44px) 0 10px;
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(1.05rem, 1.3vw, 1.25rem);
+    letter-spacing: -0.02em;
+    color: var(--slate);
+}
+
+.prose p + p {
+    margin-top: 1em;
+}
+
+.needs {
+    list-style: none;
+}
+
+.needs li {
+    padding: 12px 0;
+    border-top: 1px solid var(--rule);
+}
+
+.nda {
+    margin-top: clamp(28px, 4vh, 40px);
+    font-size: 1rem;
+    color: var(--slate);
+}
+
+.pager {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px clamp(16px, 3vw, 40px);
+    margin-top: clamp(56px, 10vh, 120px);
+}
+
+.page {
+    padding: clamp(20px, 2.6vw, 36px);
+    border-radius: 24px;
+    background: #f5dccd;
+    transition: background 0.2s ease;
+}
+
+.page:hover,
+.page:focus-visible {
+    background: #ecbfa6;
+}
+
+.page span {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--slate);
+}
+
+.page strong {
+    display: block;
+    margin-top: 8px;
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+    line-height: 1.3;
+    letter-spacing: -0.03em;
+}
+
+.pageNext {
+    text-align: right;
+}
+
+.end {
+    padding: clamp(120px, 22vh, 260px) 0 clamp(120px, 20vh, 240px);
+}
+
+.endTitle {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(2.2rem, 5vw, 4.8rem);
+    line-height: 1.12;
+    letter-spacing: -0.04em;
+}
+
+.endText {
+    max-width: 30em;
+    margin: 24px 0 36px;
+    font-size: clamp(1.05rem, 1.3vw, 1.25rem);
+    color: var(--slate);
+}
+
+@media (max-width: 899px) {
+    .meta,
+    .block,
+    .pager {
+        grid-template-columns: 1fr;
+    }
+
+    .pageNext {
+        text-align: left;
+    }
+}
