@@ -19,8 +19,12 @@
     top: 50%;
     width: min(70vw, 1280px);
     translate: 0 -46%;
-    /* 가장자리를 바탕색으로 녹인다 */
-    mask-image: radial-gradient(ellipse 62% 66% at 50% 50%, #000 62%, transparent 100%);
+    /* 네 변 모두 끝에서 완전히 투명해지도록 가로·세로 그라데이션을 겹친다
+       (타원 마스크는 변의 가운데에서 덜 투명해 경계선이 보였다) */
+    mask-image:
+        linear-gradient(to right, transparent 0%, #000 26%, #000 88%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%);
+    mask-composite: intersect;
 }
 
 .video {
