@@ -4,8 +4,7 @@ import { useLenis } from 'lenis/react'
 
 // 문의 초안 영역이 미리 고를 항목을 전달받는 이벤트 이름
 export const BRIEF_PRESET_EVENT = 'brief:preset'
-// EndCard 의 "무엇을 만드나요" 선택지에서 강의 요청의 순번
-export const KIND_LECTURE = 4
+export { KIND_LECTURE } from './inquiryCopy'
 
 /**
  * 홈 맨 아래 문의 초안 영역으로 내려가는 클릭 핸들러를 돌려준다.

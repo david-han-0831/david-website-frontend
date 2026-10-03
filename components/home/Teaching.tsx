@@ -95,7 +95,7 @@ export default function Teaching() {
                         </ul>
                         <div className={s.actions}>
                             <Link
-                                href="/contact"
+                                href="/contact?kind=lecture"
                                 className={h.button}
                                 onClick={(e) => {
                                     // 내려가면서 "강의 요청"을 미리 골라 둔다

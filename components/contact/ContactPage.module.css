@@ -1,0 +1,25 @@
+.intro {
+    padding: calc(var(--header-height) + clamp(56px, 11vh, 128px)) 0 clamp(48px, 9vh, 104px);
+    background: #ecbfa6;
+}
+
+.title {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: clamp(2.4rem, 6.4vw, 6.6rem);
+    line-height: 1.1;
+    letter-spacing: -0.045em;
+}
+
+.lead {
+    max-width: 46em;
+    margin-top: clamp(20px, 3.5vh, 36px);
+    font-size: clamp(1.15rem, 1.6vw, 1.6rem);
+    line-height: 1.6;
+    color: var(--slate);
+}
+
+/* 작성기 자체에 위 여백이 있어 여기서는 아래만 준다 */
+.body {
+    padding-bottom: clamp(120px, 20vh, 240px);
+}

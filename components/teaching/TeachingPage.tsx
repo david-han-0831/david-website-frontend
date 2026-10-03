@@ -116,7 +116,7 @@ export default function TeachingPage() {
     const copy = COPY[locale]
     const ask = (place: string) => (
         <Link
-            href="/contact"
+            href="/contact?kind=lecture"
             className={h.button}
             onClick={() => trackButtonClick(`contact_teaching_${place}`, 'cta', '/contact', locale)}
         >
