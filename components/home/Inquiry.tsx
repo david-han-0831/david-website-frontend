@@ -8,7 +8,7 @@ import { INQUIRY_COPY, KIND_LECTURE } from './inquiryCopy'
 import { BRIEF_PRESET_EVENT } from './useContactScroll'
 import TypedText from './TypedText'
 import { useLanguage } from '@/contexts/LanguageContext'
-import { trackGTMEvent } from '@/lib/utils/gtm'
+import { trackButtonClick, trackGTMEvent } from '@/lib/utils/gtm'
 
 type Status = 'idle' | 'sending' | 'sent' | 'error'
 
@@ -121,6 +121,8 @@ export default function Inquiry() {
                 brief_when: when ?? -1,
                 value: filled.length,
             })
+            // GTM 에 이미 있는 button_click → GA4 태그로도 보내 GA4 보고서에서 바로 보이게 한다
+            trackButtonClick('inquiry_submit', 'contact_form', lecture ? 'teaching' : 'project', locale)
             setStatus('sent')
         } catch {
             setStatus('error')
