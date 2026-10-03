@@ -267,15 +267,20 @@
 }
 
 .light .mobileOverlay {
-    background: rgba(233, 235, 239, 0.98);
+    background: rgba(248, 239, 232, 0.98);
 }
 
 .light .mobileLink {
-    color: #5d6270;
+    color: #6b4a36;
+    font-family: 'Wanted Sans Variable', sans-serif;
 }
 
-.light .mobileLink:hover {
-    color: #1b1c20;
+.light .mobileLink:hover,
+.light .mobileLink.active {
+    color: #2b1a10;
+    background: rgba(43, 26, 16, 0.06);
+    text-shadow: none;
+    box-shadow: none;
 }
 
 /* 메뉴 글자가 위로 밀려 나가고 같은 글자가 아래에서 올라온다 */

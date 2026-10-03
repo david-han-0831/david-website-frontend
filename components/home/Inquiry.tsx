@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import h from './home.module.css'
 import s from './EndCard.module.css'
-import { EMAIL } from './Hero'
+import { EMAIL } from '@/lib/site'
 import { INQUIRY_COPY, KIND_LECTURE } from './inquiryCopy'
 import { BRIEF_PRESET_EVENT } from './useContactScroll'
 import TypedText from './TypedText'

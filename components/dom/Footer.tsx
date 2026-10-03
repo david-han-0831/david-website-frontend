@@ -10,7 +10,7 @@ import { useLanguage } from '@/contexts/LanguageContext'
 import { useContactScroll } from '@/components/home/useContactScroll'
 import type { Locale } from '@/translations'
 
-const EMAIL = 'hdy20201004@gmail.com'
+import { EMAIL } from '@/lib/site'
 
 const COPY: Record<Locale, { desc: string; menu: string; contact: string; place: string; name: string }> = {
     ko: {

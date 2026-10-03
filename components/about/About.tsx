@@ -51,7 +51,7 @@ const COPY: Record<Locale, Copy> = {
         record: [
             { label: '학력', items: ['연세대학교 공학대학원 인공지능 전공 (석사 재학)'] },
             { label: '자격', items: ['TensorFlow Developer Certificate (Google, 2023)', 'Goethe-Zertifikat B2 (독일어)'] },
-            { label: '특허', items: ['특허 2건', '맞춤형 AI 챗봇 배포를 위한 B2B 채팅 솔루션 (2023년 출원)'] },
+            { label: '특허', items: ['맞춤형 AI 챗봇 배포를 위한 B2B 채팅 솔루션 (2023년 출원)', '건조 김 등급 결정 장치 (2025년 출원, 공동 발명)'] },
         ],
         endTitle: '함께 만들 것이 있다면',
         endText: '만들고 싶은 것이나 강의 주제를 알려 주세요. 범위와 일정을 정리해 답장드립니다.',
@@ -79,7 +79,7 @@ const COPY: Record<Locale, Copy> = {
         record: [
             { label: 'Education', items: ['Yonsei University Graduate School of Engineering, Artificial Intelligence (M.S. in progress)'] },
             { label: 'Certificates', items: ['TensorFlow Developer Certificate (Google, 2023)', 'Goethe-Zertifikat B2 (German)'] },
-            { label: 'Patents', items: ['Two patents', 'B2B chat solution for deploying custom AI chatbots (filed 2023)'] },
+            { label: 'Patents', items: ['B2B chat solution for deploying custom AI chatbots (filed 2023)', 'Grading device for dried laver (filed 2025, co-inventor)'] },
         ],
         endTitle: 'If there is something to build together',
         endText: 'Tell me what you want to make or what you want taught. I will reply with scope and schedule.',
@@ -107,7 +107,7 @@ const COPY: Record<Locale, Copy> = {
         record: [
             { label: 'Ausbildung', items: ['Yonsei University Graduate School of Engineering, Künstliche Intelligenz (Master, laufend)'] },
             { label: 'Zertifikate', items: ['TensorFlow Developer Certificate (Google, 2023)', 'Goethe-Zertifikat B2'] },
-            { label: 'Patente', items: ['Zwei Patente', 'B2B-Chatlösung für individuelle KI-Chatbots (Anmeldung 2023)'] },
+            { label: 'Patente', items: ['B2B-Chatlösung für individuelle KI-Chatbots (Anmeldung 2023)', 'Vorrichtung zur Qualitätsbestimmung von getrocknetem Seetang (Anmeldung 2025, Miterfinder)'] },
         ],
         endTitle: 'Wenn es etwas gemeinsam zu bauen gibt',
         endText: 'Schreiben Sie mir, was Sie bauen oder unterrichtet haben möchten. Ich antworte mit Umfang und Zeitplan.',

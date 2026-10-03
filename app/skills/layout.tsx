@@ -4,20 +4,20 @@ import { SITE_URL } from '@/lib/site'
 const baseUrl = SITE_URL
 
 export const metadata: Metadata = {
-  title: 'Skills | Han Dongyun',
-  description: 'Technical skills and expertise of Han Dongyun - Full-stack development, AI/ML, automation, and modern web technologies.',
+  title: '기술 스택',
+  description: '59개 프로젝트에서 실제로 쓴 기술과 특허, 자격. Next.js, FastAPI, Spring Boot, SwiftUI, Kotlin, Firebase, PostgreSQL 등.',
   keywords: ['skills', 'technical skills', 'full-stack', 'programming', 'Next.js', 'React', 'Python', 'AI', 'ML'],
   authors: [{ name: 'Han Dongyun' }],
   openGraph: {
     type: 'website',
-    locale: 'en_US',
+    locale: 'ko_KR',
     url: `${baseUrl}/skills`,
-    siteName: 'Han Dongyun Portfolio',
-    title: 'Skills | Han Dongyun',
-    description: 'Technical skills and expertise of Han Dongyun - Full-stack development, AI/ML, automation, and modern web technologies.',
+    siteName: '한동윤 David Han',
+    title: '기술 스택',
+    description: '59개 프로젝트에서 실제로 쓴 기술과 특허, 자격. Next.js, FastAPI, Spring Boot, SwiftUI, Kotlin, Firebase, PostgreSQL 등.',
     images: [
       {
-        url: `${baseUrl}/og-skills.jpg`,
+        url: `${baseUrl}/og-image.jpg`,
         width: 1200,
         height: 630,
         alt: 'Han Dongyun Skills',
@@ -26,9 +26,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Skills | Han Dongyun',
-    description: 'Technical skills and expertise of Han Dongyun - Full-stack development, AI/ML, and automation.',
-    images: [`${baseUrl}/og-skills.jpg`],
+    title: '기술 스택',
+    description: '59개 프로젝트에서 실제로 쓴 기술과 특허, 자격. Next.js, FastAPI, Spring Boot, SwiftUI, Kotlin, Firebase, PostgreSQL 등.',
+    images: [`${baseUrl}/og-image.jpg`],
   },
   alternates: {
     canonical: '/skills',
